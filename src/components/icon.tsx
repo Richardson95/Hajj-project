@@ -1,0 +1,98 @@
+import type { LucideProps } from "lucide-react";
+import {
+  Ambulance,
+  BadgeCheck,
+  Bandage,
+  BatteryCharging,
+  Beef,
+  BedDouble,
+  BookOpen,
+  Bus,
+  Camera,
+  Compass,
+  CircleDot,
+  Droplets,
+  Gift,
+  HandCoins,
+  Headset,
+  HeartPulse,
+  Landmark,
+  MapPin,
+  MessageCircle,
+  Milestone,
+  Mountain,
+  Package,
+  Pill,
+  Plug,
+  QrCode,
+  Shirt,
+  ShieldAlert,
+  ScanLine,
+  Signal,
+  SprayCan,
+  Sun,
+  Tent,
+  ThermometerSun,
+  Toilet,
+  UtensilsCrossed,
+  Users,
+  Video,
+  Wind,
+} from "lucide-react";
+import { Kaaba, Lantern, Mosque, PrayerBeads, PrayerMat } from "./brand-icons";
+
+/**
+ * Data records store an icon *key* rather than a component, so seed data stays
+ * serialisable and free of JSX.
+ */
+export const ICONS = {
+  ambulance: Ambulance,
+  "badge-check": BadgeCheck,
+  bandage: Bandage,
+  battery: BatteryCharging,
+  beads: PrayerBeads,
+  bed: BedDouble,
+  beef: Beef,
+  book: BookOpen,
+  bus: Bus,
+  camera: Camera,
+  compass: Compass,
+  droplets: Droplets,
+  gift: Gift,
+  "hand-coins": HandCoins,
+  headset: Headset,
+  "heart-pulse": HeartPulse,
+  kaaba: Kaaba,
+  landmark: Landmark,
+  lantern: Lantern,
+  message: MessageCircle,
+  milestone: Milestone,
+  mosque: Mosque,
+  mountain: Mountain,
+  package: Package,
+  pill: Pill,
+  pin: MapPin,
+  plug: Plug,
+  "prayer-mat": PrayerMat,
+  qr: QrCode,
+  scan: ScanLine,
+  shield: ShieldAlert,
+  shirt: Shirt,
+  signal: Signal,
+  spray: SprayCan,
+  sun: Sun,
+  tent: Tent,
+  thermometer: ThermometerSun,
+  toilet: Toilet,
+  users: Users,
+  utensils: UtensilsCrossed,
+  video: Video,
+  wind: Wind,
+} as const;
+
+export type IconName = keyof typeof ICONS;
+
+export function Icon({ name, ...props }: { name: IconName } & LucideProps) {
+  const Component = ICONS[name] ?? CircleDot;
+  return <Component aria-hidden {...props} />;
+}
