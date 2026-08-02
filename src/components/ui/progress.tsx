@@ -15,11 +15,11 @@ export function ProgressBar({
 }) {
   const pct = Math.max(0, Math.min(100, value));
   const fill = {
-    brand: "bg-gradient-to-r from-forest-700 to-forest-500",
-    gold: "bg-gradient-to-r from-gold-600 to-gold-400",
-    positive: "bg-gradient-to-r from-emerald-700 to-emerald-500",
-    warning: "bg-gradient-to-r from-amber-600 to-amber-400",
-    danger: "bg-gradient-to-r from-rose-700 to-rose-500",
+    brand: "bg-linear-to-r from-forest-700 to-forest-500",
+    gold: "bg-linear-to-r from-gold-600 to-gold-400",
+    positive: "bg-linear-to-r from-emerald-700 to-emerald-500",
+    warning: "bg-linear-to-r from-amber-600 to-amber-400",
+    danger: "bg-linear-to-r from-rose-700 to-rose-500",
   }[tone];
 
   return (

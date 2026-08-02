@@ -270,8 +270,8 @@ export default function HomePage() {
       {/* ============================ HERO ============================ */}
       <section className="relative overflow-hidden bg-forest-950 text-white">
         <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-        <div className="pointer-events-none absolute -top-32 -left-24 size-[34rem] rounded-full bg-forest-700/30 blur-[110px]" />
-        <div className="pointer-events-none absolute top-1/3 -right-24 size-[30rem] rounded-full bg-gold-600/15 blur-[110px]" />
+        <div className="pointer-events-none absolute -top-32 -left-24 size-136 rounded-full bg-forest-700/30 blur-[110px]" />
+        <div className="pointer-events-none absolute top-1/3 -right-24 size-120 rounded-full bg-gold-600/15 blur-[110px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24 lg:pb-28">
           <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
@@ -398,7 +398,7 @@ export default function HomePage() {
               className="group relative overflow-hidden rounded-3xl border border-line bg-surface p-7 transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-40px_rgba(1,68,33,0.6)]"
             >
               <div
-                className={`grid size-13 place-items-center rounded-2xl bg-gradient-to-br ${pillar.tone} text-white shadow-lg`}
+                className={`grid size-13 place-items-center rounded-2xl bg-linear-to-br ${pillar.tone} text-white shadow-lg`}
               >
                 <pillar.icon className="size-6" />
               </div>
@@ -478,7 +478,7 @@ export default function HomePage() {
       {/* ===================== IN MAKKAH SECTION ===================== */}
       <section className="relative overflow-hidden bg-forest-950 text-white">
         <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-40" />
-        <div className="pointer-events-none absolute top-0 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-gold-600/10 blur-[120px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 size-144 -translate-x-1/2 rounded-full bg-gold-600/10 blur-[120px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="max-w-3xl">
@@ -580,7 +580,7 @@ export default function HomePage() {
             />
             <div className="mt-8 rounded-2xl border border-gold-500/25 bg-gold-50/60 p-5 dark:bg-gold-950/30">
               <div className="flex items-center gap-3">
-                <span className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-white shadow-lg">
+                <span className="grid size-12 place-items-center rounded-xl bg-linear-to-br from-gold-400 to-gold-600 text-white shadow-lg">
                   <Mosque className="size-6" />
                 </span>
                 <div>
@@ -780,9 +780,9 @@ export default function HomePage() {
 
       {/* ============================ CTA =========================== */}
       <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-[2rem] bg-forest-900 px-6 py-16 text-center text-white sm:px-12 sm:py-20">
+        <div className="relative overflow-hidden rounded-4xl bg-forest-900 px-6 py-16 text-center text-white sm:px-12 sm:py-20">
           <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-          <div className="pointer-events-none absolute -bottom-24 left-1/2 size-[28rem] -translate-x-1/2 rounded-full bg-gold-500/20 blur-[100px]" />
+          <div className="pointer-events-none absolute -bottom-24 left-1/2 size-112 -translate-x-1/2 rounded-full bg-gold-500/20 blur-[100px]" />
 
           <div className="relative mx-auto max-w-2xl">
             <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-gold-400/15 text-gold-300">

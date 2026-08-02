@@ -60,7 +60,7 @@ export function DashboardPreview() {
                   <Bell className="size-3.5 text-muted" />
                   <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-rose-500" />
                 </span>
-                <span className="grid size-7 place-items-center rounded-full bg-gradient-to-br from-forest-700 to-forest-900 text-[0.625rem] font-bold text-white">
+                <span className="grid size-7 place-items-center rounded-full bg-linear-to-br from-forest-700 to-forest-900 text-[0.625rem] font-bold text-white">
                   IA
                 </span>
               </div>

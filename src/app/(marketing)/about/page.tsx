@@ -118,7 +118,7 @@ export default function AboutPage() {
     <>
       <section className="relative overflow-hidden border-b border-line bg-forest-950 text-white">
         <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-        <div className="pointer-events-none absolute top-0 left-1/2 size-[34rem] -translate-x-1/2 rounded-full bg-forest-700/25 blur-[110px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 size-136 -translate-x-1/2 rounded-full bg-forest-700/25 blur-[110px]" />
 
         <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
           <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-gold-400/15 text-gold-300">

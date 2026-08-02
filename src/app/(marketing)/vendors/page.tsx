@@ -88,7 +88,7 @@ export default function VendorsPage() {
     <>
       <section className="relative overflow-hidden border-b border-line bg-forest-950 text-white">
         <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-        <div className="pointer-events-none absolute -top-24 left-1/4 size-[30rem] rounded-full bg-gold-600/15 blur-[110px]" />
+        <div className="pointer-events-none absolute -top-24 left-1/4 size-120 rounded-full bg-gold-600/15 blur-[110px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">

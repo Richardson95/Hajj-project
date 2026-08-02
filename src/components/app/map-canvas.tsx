@@ -33,7 +33,7 @@ export function MapCanvas({
   return (
     <div
       className={cn(
-        "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line bg-sand-100 dark:bg-forest-950",
+        "relative aspect-16/10 w-full overflow-hidden rounded-2xl border border-line bg-sand-100 dark:bg-forest-950",
         className,
       )}
     >

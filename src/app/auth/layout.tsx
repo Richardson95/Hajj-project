@@ -27,8 +27,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Brand panel */}
       <aside className="relative hidden overflow-hidden bg-forest-950 text-white lg:flex lg:flex-col">
         <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-        <div className="pointer-events-none absolute -top-32 -left-20 size-[30rem] rounded-full bg-forest-700/30 blur-[110px]" />
-        <div className="pointer-events-none absolute -right-20 -bottom-32 size-[26rem] rounded-full bg-gold-600/15 blur-[100px]" />
+        <div className="pointer-events-none absolute -top-32 -left-20 size-120 rounded-full bg-forest-700/30 blur-[110px]" />
+        <div className="pointer-events-none absolute -right-20 -bottom-32 size-104 rounded-full bg-gold-600/15 blur-[100px]" />
 
         <div className="relative flex flex-1 flex-col p-10 xl:p-14">
           <Logo invert size={40} href="/" />

@@ -216,7 +216,7 @@ export function ChapterView({
                 <p
                   lang="ar"
                   dir="rtl"
-                  className="font-serif rounded-2xl bg-surface-muted p-5 text-2xl leading-[2] text-ink sm:text-[1.75rem]"
+                  className="font-serif rounded-2xl bg-surface-muted p-5 text-2xl leading-loose text-ink sm:text-[1.75rem]"
                 >
                   {d.arabic}
                 </p>

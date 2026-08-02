@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-forest-950 text-white">
       <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-      <div className="pointer-events-none absolute top-1/4 left-1/2 size-[32rem] -translate-x-1/2 rounded-full bg-forest-700/25 blur-[110px]" />
+      <div className="pointer-events-none absolute top-1/4 left-1/2 size-128 -translate-x-1/2 rounded-full bg-forest-700/25 blur-[110px]" />
 
       <header className="relative px-4 py-6 sm:px-8">
         <Logo invert href="/" />

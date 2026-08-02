@@ -25,7 +25,7 @@ export function Avatar({
     <span
       aria-hidden
       className={cn(
-        "grid shrink-0 place-items-center rounded-full bg-gradient-to-br font-semibold tracking-wide text-white",
+        "grid shrink-0 place-items-center rounded-full bg-linear-to-br font-semibold tracking-wide text-white",
         tone,
         sizes,
         ring && "ring-2 ring-surface",
