@@ -49,10 +49,10 @@ export function SiteHeader() {
           : "border-b border-transparent",
       )}
     >
-      <div className="mx-auto flex h-17 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-        <Logo />
+      <div className="mx-auto flex h-17 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:gap-2 lg:px-8 xl:gap-4">
+        <Logo className="shrink-0" />
 
-        <nav className="ml-6 hidden items-center gap-1 lg:flex">
+        <nav className="ml-1 hidden min-w-0 items-center gap-0.5 lg:flex xl:ml-5 xl:gap-1">
           {NAV.map((item) => {
             const active = pathname === item.href;
             return (
@@ -60,7 +60,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition",
+                  "rounded-lg px-2.5 py-2 text-sm font-medium whitespace-nowrap transition xl:px-3",
                   active
                     ? "text-forest-800 dark:text-gold-300"
                     : "text-muted hover:bg-surface-muted hover:text-ink",
@@ -72,7 +72,7 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-1.5 xl:gap-2">
           <IconButton
             label={resolved === "dark" ? "Switch to light theme" : "Switch to dark theme"}
             onClick={toggle}
@@ -86,7 +86,11 @@ export function SiteHeader() {
           </IconButton>
 
           {hydrated && authenticated ? (
-            <ButtonLink href="/app" size="sm" className="hidden sm:inline-flex">
+            <ButtonLink
+              href="/app"
+              size="sm"
+              className="hidden whitespace-nowrap sm:inline-flex"
+            >
               Open dashboard
             </ButtonLink>
           ) : (
@@ -95,11 +99,15 @@ export function SiteHeader() {
                 href="/auth/login"
                 variant="ghost"
                 size="sm"
-                className="hidden sm:inline-flex"
+                className="hidden px-2.5 whitespace-nowrap sm:inline-flex xl:px-3.5"
               >
                 Sign in
               </ButtonLink>
-              <ButtonLink href="/auth/register" size="sm" className="hidden sm:inline-flex">
+              <ButtonLink
+                href="/auth/register"
+                size="sm"
+                className="hidden whitespace-nowrap sm:inline-flex"
+              >
                 Start saving
               </ButtonLink>
             </>
@@ -123,7 +131,7 @@ export function SiteHeader() {
             onClick={() => setOpen(false)}
             aria-hidden
           />
-          <div className="safe-bottom relative max-h-[calc(100vh-4.25rem)] overflow-y-auto border-b border-line bg-surface px-4 pt-3 pb-6 shadow-xl">
+          <div className="safe-bottom relative max-h-[calc(100dvh-4.25rem)] overflow-y-auto border-b border-line bg-surface px-4 pt-3 pb-6 shadow-xl">
             <nav className="flex flex-col gap-1">
               {NAV.map((item) => (
                 <Link
