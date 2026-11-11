@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Field, RadioCard, Select, Switch, TextInput } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
 import { useApp } from "@/lib/store";
-import { HAJJ_PACKAGES } from "@/lib/data/packages";
-import { BANKS } from "@/lib/data/account";
+import { usePackages } from "@/lib/catalog";
 import {
   DEPARTURE_DATES,
   FREQUENCY_LABEL,
@@ -50,6 +49,7 @@ function PlanEditorForm({
   onClose: () => void;
   plan?: SavingsPlan;
 }) {
+  const { packages: HAJJ_PACKAGES } = usePackages();
   const { addPlan, updatePlan } = useApp();
   const { toast } = useToast();
 
@@ -61,7 +61,6 @@ function PlanEditorForm({
   const [travelYear, setTravelYear] = useState<TravelYear>(plan?.travelYear ?? 2027);
   const [frequency, setFrequency] = useState<PlanFrequency>(plan?.frequency ?? "monthly");
   const [amount, setAmount] = useState<number | null>(plan?.amountPerCycle ?? null);
-  const [bankName, setBankName] = useState(plan?.bankName ?? BANKS[0]);
   const [autoDebit, setAutoDebit] = useState(plan?.autoDebit ?? true);
   const [openingDeposit, setOpeningDeposit] = useState<number | null>(null);
   const [errors, setErrors] = useState<{ beneficiaryName?: string; amount?: string }>({});
@@ -89,7 +88,6 @@ function PlanEditorForm({
         travelYear,
         frequency,
         amountPerCycle: value,
-        bankName,
         autoDebit,
       });
       toast({
@@ -104,7 +102,6 @@ function PlanEditorForm({
         travelYear,
         frequency,
         amountPerCycle: value,
-        bankName,
         autoDebit,
         openingDeposit: openingDeposit ?? 0,
       });
@@ -281,24 +278,12 @@ function PlanEditorForm({
           />
         </Field>
 
-        <Field label="Funding bank" htmlFor="pe-bank">
-          <Select
-            id="pe-bank"
-            value={bankName}
-            onChange={(e) => setBankName(e.target.value)}
-          >
-            {BANKS.map((b) => (
-              <option key={b}>{b}</option>
-            ))}
-          </Select>
-        </Field>
-
         <div className="rounded-2xl border border-line bg-surface p-4">
           <Switch
             checked={autoDebit}
             onChange={setAutoDebit}
-            label="Standing order"
-            description="Collect automatically on the 28th of each month from the funding bank."
+            label="Automatic Paystack payment"
+            description="Paystack charges your saved card on the 28th of each cycle. You are told before and after every attempt."
           />
         </div>
       </div>

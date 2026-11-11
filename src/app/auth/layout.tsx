@@ -7,7 +7,7 @@ const ASSURANCES = [
   {
     icon: ShieldCheck,
     title: "Verified once, trusted throughout",
-    body: "BVN and NIN checked through a licensed provider so the person saving is the person on the manifest.",
+    body: "NIN and passport checked through a licensed provider so the person saving is the person on the manifest.",
   },
   {
     icon: Lock,

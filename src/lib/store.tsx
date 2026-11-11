@@ -9,23 +9,21 @@ import {
   useState,
 } from "react";
 import { useHydrated } from "./client-hooks";
-import { DEMO_ORDERS, productById } from "./data/marketplace";
+import { DEMO_ORDERS } from "./data/marketplace";
+import { useOps } from "./ops/store";
 import {
   DEMO_PLANS,
   DEMO_TRANSACTIONS,
   DEMO_USER,
   EMERGENCY_CONTACTS,
 } from "./data/account";
-import { GALLERY, JOURNAL_ENTRIES } from "./data/journey";
 import { NOTIFICATIONS, SOS_HISTORY } from "./data/comms";
-import { packageById } from "./data/packages";
 import type {
   AppNotification,
   CartLine,
   EmergencyContact,
-  GalleryItem,
-  JournalEntry,
   Order,
+  Product,
   SavingsPlan,
   SosEvent,
   Transaction,
@@ -47,8 +45,6 @@ export interface AppState {
   savedProducts: string[];
   checklistDone: string[];
   activityDone: string[];
-  journal: JournalEntry[];
-  gallery: GalleryItem[];
   notifications: AppNotification[];
   sosEvents: SosEvent[];
   emergencyContacts: EmergencyContact[];
@@ -65,8 +61,6 @@ const INITIAL_STATE: AppState = {
   savedProducts: ["prd-061"],
   checklistDone: ["cl-1", "cl-2", "cl-5", "cl-6", "cl-18", "cl-23"],
   activityDone: [],
-  journal: JOURNAL_ENTRIES,
-  gallery: GALLERY,
   notifications: NOTIFICATIONS,
   sosEvents: SOS_HISTORY,
   emergencyContacts: EMERGENCY_CONTACTS,
@@ -79,7 +73,6 @@ export interface NewPlanInput {
   travelYear: SavingsPlan["travelYear"];
   frequency: SavingsPlan["frequency"];
   amountPerCycle: number;
-  bankName: string;
   autoDebit: boolean;
   openingDeposit?: number;
 }
@@ -106,14 +99,12 @@ interface AppActions {
   placeOrder: (deliverTo: string) => Order | null;
   toggleChecklist: (id: string) => void;
   toggleActivity: (id: string) => void;
-  addJournalEntry: (entry: Omit<JournalEntry, "id">) => void;
-  removeJournalEntry: (id: string) => void;
-  addGalleryItem: (item: Omit<GalleryItem, "id">) => void;
-  removeGalleryItem: (id: string) => void;
   markNotificationRead: (id: string) => void;
   markAllNotificationsRead: () => void;
   raiseSos: (category: SosEvent["category"], note: string, location: string) => SosEvent;
   resolveSos: (id: string) => void;
+  /** Used by the operations desk to acknowledge or close a pilgrim's alert. */
+  respondToSos: (id: string, status: SosEvent["status"], respondent: string) => void;
   addEmergencyContact: (contact: Omit<EmergencyContact, "id">) => void;
   removeEmergencyContact: (id: string) => void;
   resetDemo: () => void;
@@ -144,9 +135,15 @@ function readPersisted(): AppState {
   if (persistedCache) return persistedCache;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    persistedCache = raw
-      ? { ...INITIAL_STATE, ...(JSON.parse(raw) as Partial<AppState>) }
-      : INITIAL_STATE;
+    if (raw) {
+      /* Drop keys saved by features that have since been removed. */
+      const saved = JSON.parse(raw) as Partial<AppState> & Record<string, unknown>;
+      delete saved.journal;
+      delete saved.gallery;
+      persistedCache = { ...INITIAL_STATE, ...saved };
+    } else {
+      persistedCache = INITIAL_STATE;
+    }
   } catch {
     /* corrupted payload — fall back to the seeded demo state */
     persistedCache = INITIAL_STATE;
@@ -159,6 +156,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [edited, setEdited] = useState<AppState | null>(null);
 
   const state = edited ?? (hydrated ? readPersisted() : INITIAL_STATE);
+
+  /* Products and package fares are managed in the operations console. */
+  const { products, packages } = useOps();
+  const productById = useCallback(
+    (id: string) => products.find((p) => p.id === id),
+    [products],
+  );
+  const packageById = useCallback(
+    (id: string) => packages.find((p) => p.id === id) ?? packages[0],
+    [packages],
+  );
 
   /* Persist every change. Writing to storage is a side effect with no setState. */
   useEffect(() => {
@@ -219,7 +227,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         startDate: new Date().toISOString(),
         autoDebit: input.autoDebit,
         status: "active",
-        bankName: input.bankName,
         isPrimary: false,
       };
       patch((prev) => {
@@ -233,7 +240,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
                 amount: opening,
                 status: "successful",
                 reference: reference(),
-                channel: "Virtual Account",
+                channel: "Paystack",
                 date: new Date().toISOString(),
                 narration: `Opening deposit — ${plan.beneficiaryName}`,
               },
@@ -314,7 +321,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         };
       });
     },
-    [patch],
+    [patch, packageById],
   );
 
   const addToCart = useCallback<AppActions["addToCart"]>(
@@ -403,7 +410,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }));
       return order;
     },
-    [patch, state.cart],
+    [patch, state.cart, productById],
   );
 
   const toggleChecklist = useCallback<AppActions["toggleChecklist"]>(
@@ -425,36 +432,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           ? prev.activityDone.filter((x) => x !== id)
           : [...prev.activityDone, id],
       })),
-    [patch],
-  );
-
-  const addJournalEntry = useCallback<AppActions["addJournalEntry"]>(
-    (entry) =>
-      patch((prev) => ({
-        ...prev,
-        journal: [{ ...entry, id: uid("jrn") }, ...prev.journal],
-      })),
-    [patch],
-  );
-
-  const removeJournalEntry = useCallback<AppActions["removeJournalEntry"]>(
-    (id) =>
-      patch((prev) => ({ ...prev, journal: prev.journal.filter((j) => j.id !== id) })),
-    [patch],
-  );
-
-  const addGalleryItem = useCallback<AppActions["addGalleryItem"]>(
-    (item) =>
-      patch((prev) => ({
-        ...prev,
-        gallery: [{ ...item, id: uid("gal") }, ...prev.gallery],
-      })),
-    [patch],
-  );
-
-  const removeGalleryItem = useCallback<AppActions["removeGalleryItem"]>(
-    (id) =>
-      patch((prev) => ({ ...prev, gallery: prev.gallery.filter((g) => g.id !== id) })),
     [patch],
   );
 
@@ -523,6 +500,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [patch],
   );
 
+  const respondToSos = useCallback<AppActions["respondToSos"]>(
+    (id, status, respondent) =>
+      patch((prev) => ({
+        ...prev,
+        sosEvents: prev.sosEvents.map((e): SosEvent =>
+          e.id === id ? { ...e, status, respondent } : e,
+        ),
+      })),
+    [patch],
+  );
+
   const addEmergencyContact = useCallback<AppActions["addEmergencyContact"]>(
     (contact) =>
       patch((prev) => ({
@@ -570,14 +558,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       placeOrder,
       toggleChecklist,
       toggleActivity,
-      addJournalEntry,
-      removeJournalEntry,
-      addGalleryItem,
-      removeGalleryItem,
       markNotificationRead,
       markAllNotificationsRead,
       raiseSos,
       resolveSos,
+      respondToSos,
       addEmergencyContact,
       removeEmergencyContact,
       resetDemo,
@@ -600,14 +585,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       placeOrder,
       toggleChecklist,
       toggleActivity,
-      addJournalEntry,
-      removeJournalEntry,
-      addGalleryItem,
-      removeGalleryItem,
       markNotificationRead,
       markAllNotificationsRead,
       raiseSos,
       resolveSos,
+      respondToSos,
       addEmergencyContact,
       removeEmergencyContact,
       resetDemo,
@@ -626,13 +608,14 @@ export function useApp(): Store {
 /** Cart totals, derived rather than stored so they can never drift. */
 export function useCartSummary() {
   const { cart } = useApp();
+  const { products } = useOps();
   return useMemo(() => {
     const lines = cart
       .map((line) => {
-        const product = productById(line.productId);
+        const product = products.find((p) => p.id === line.productId);
         return product ? { product, qty: line.qty } : null;
       })
-      .filter((l): l is { product: NonNullable<ReturnType<typeof productById>>; qty: number } => l !== null);
+      .filter((l): l is { product: Product; qty: number } => l !== null);
     const itemCount = lines.reduce((n, l) => n + l.qty, 0);
     const subtotalSAR = lines.reduce((n, l) => n + l.product.priceSAR * l.qty, 0);
     const deliverySAR = subtotalSAR === 0 || subtotalSAR >= 200 ? 0 : 15;
@@ -643,5 +626,5 @@ export function useCartSummary() {
       deliverySAR,
       totalSAR: subtotalSAR + deliverySAR,
     };
-  }, [cart]);
+  }, [cart, products]);
 }

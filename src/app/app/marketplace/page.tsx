@@ -23,7 +23,8 @@ import { SegmentedControl } from "@/components/ui/tabs";
 import { Icon } from "@/components/icon";
 import { ProductCard } from "@/components/app/product-card";
 import { useApp, useCartSummary } from "@/lib/store";
-import { CATEGORY_META, PRODUCTS, VENDORS } from "@/lib/data/marketplace";
+import { CATEGORY_META } from "@/lib/data/marketplace";
+import { useCatalog } from "@/lib/catalog";
 import { riyal } from "@/lib/format";
 import type { ProductCategory } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -46,6 +47,7 @@ export default function MarketplacePage() {
   const [category, setCategory] = useState<ProductCategory | "all" | "saved">("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<Sort>("popular");
+  const { products: PRODUCTS, vendors: VENDORS } = useCatalog();
 
   const products = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -66,7 +68,7 @@ export default function MarketplacePage() {
       if (sort === "fastest") return a.deliveryHours - b.deliveryHours;
       return b.reviews - a.reviews;
     });
-  }, [category, query, sort, savedProducts]);
+  }, [PRODUCTS, category, query, sort, savedProducts]);
 
   return (
     <>

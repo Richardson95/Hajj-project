@@ -24,7 +24,8 @@ import { useToast } from "@/components/ui/toast";
 import { Icon } from "@/components/icon";
 import { ProductCard } from "./product-card";
 import { useApp } from "@/lib/store";
-import { CATEGORY_META, vendorById } from "@/lib/data/marketplace";
+import { CATEGORY_META } from "@/lib/data/marketplace";
+import { useCatalog } from "@/lib/catalog";
 import { naira, riyal } from "@/lib/format";
 import type { Product } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -40,6 +41,7 @@ export function ProductDetail({
   const { toast } = useToast();
   const [qty, setQty] = useState(1);
 
+  const { vendorById } = useCatalog();
   const vendor = vendorById(product.vendorId);
   const meta = CATEGORY_META[product.category];
   const saved = savedProducts.includes(product.id);

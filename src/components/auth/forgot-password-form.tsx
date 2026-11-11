@@ -43,8 +43,8 @@ export function ForgotPasswordForm() {
           reset link is on its way. It expires in thirty minutes.
         </p>
         <p className="mx-auto mt-4 max-w-sm text-xs leading-relaxed text-muted">
-          For your security, resetting a password does not change the bank account tied to
-          your BVN. Withdrawals still require an OTP to that number.
+          For your security, signing in on a new device after a reset still requires a
+          one-time code sent to your registered phone number.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <ButtonLink href="/auth/login">Back to sign in</ButtonLink>

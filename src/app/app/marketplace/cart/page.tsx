@@ -21,7 +21,8 @@ import { RadioCard, TextInput, Field } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
 import { Icon } from "@/components/icon";
 import { useApp, useCartSummary } from "@/lib/store";
-import { NGN_PER_SAR, vendorById } from "@/lib/data/marketplace";
+import { NGN_PER_SAR } from "@/lib/data/marketplace";
+import { useCatalog } from "@/lib/catalog";
 import { naira, riyal } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
@@ -44,6 +45,7 @@ const DROP_OFFS = [
 ];
 
 export default function CartPage() {
+  const { vendorById } = useCatalog();
   const router = useRouter();
   const { setCartQty, removeFromCart, clearCart, placeOrder } = useApp();
   const { lines, itemCount, subtotalSAR, deliverySAR, totalSAR } = useCartSummary();

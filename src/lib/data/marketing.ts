@@ -19,9 +19,9 @@ export const FAQS: Faq[] = [
   },
   {
     group: "Savings",
-    question: "Can I withdraw my money if my plans change?",
+    question: "What if my plans change?",
     answer:
-      "Yes. Your savings belong to you. Withdrawal requests are processed within two business days to the bank account tied to your BVN. Only the fees already earned on completed quarters are retained.",
+      "You can pause contributions for up to three months, or move your plan to a later travel year without losing a single naira. If you can no longer go for Hajj at all, send a message to our support team and they will guide you on your plan.",
   },
   {
     group: "Savings",
@@ -37,9 +37,9 @@ export const FAQS: Faq[] = [
   },
   {
     group: "Compliance",
-    question: "Why do you need my BVN and NIN?",
+    question: "Why do you need my NIN and passport?",
     answer:
-      "Nigerian financial regulations require verified identity before an account can hold funds. Your BVN and NIN are checked once through a licensed KYC provider, encrypted at rest, and never shared with vendors, travel operators or other pilgrims.",
+      "Nigerian financial regulations require verified identity before an account can hold funds. Your NIN and passport are checked once through a licensed KYC provider, encrypted at rest, and never shared with vendors, travel operators or other pilgrims.",
   },
   {
     group: "Compliance",
@@ -75,7 +75,7 @@ export const FAQS: Faq[] = [
     group: "Account",
     question: "How is my account secured?",
     answer:
-      "Two-factor authentication, biometric unlock, device binding and end-to-end encryption on chats and location sharing. Withdrawals additionally require an OTP sent to the phone number registered against your BVN.",
+      "Two-factor authentication, biometric unlock, device binding and end-to-end encryption on chats and location sharing. Signing in on a new device additionally requires an OTP sent to your registered phone number.",
   },
 ];
 
@@ -156,7 +156,7 @@ export const COMPLIANCE_POINTS = [
   },
   {
     title: "Verified identity on every account",
-    body: "BVN and NIN validation through a licensed KYC provider means the person saving, the person travelling and the person on the manifest are the same person.",
+    body: "NIN and passport validation through a licensed KYC provider means the person saving, the person travelling and the person on the manifest are the same person.",
   },
   {
     title: "Encrypted location and messaging",

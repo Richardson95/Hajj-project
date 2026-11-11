@@ -19,7 +19,8 @@ import { SegmentedControl } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { Icon } from "@/components/icon";
 import { useApp } from "@/lib/store";
-import { ORDER_STATUS_META, productById, vendorById } from "@/lib/data/marketplace";
+import { ORDER_STATUS_META } from "@/lib/data/marketplace";
+import { useCatalog } from "@/lib/catalog";
 import { formatDateTime, riyal } from "@/lib/format";
 import type { OrderStatus } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -34,6 +35,7 @@ const TRACK_STEPS: OrderStatus[] = [
 ];
 
 export default function OrdersPage() {
+  const { productById, vendorById } = useCatalog();
   const { orders } = useApp();
   const { toast } = useToast();
   const [filter, setFilter] = useState<Filter>("all");

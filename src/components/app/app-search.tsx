@@ -6,9 +6,8 @@ import { createPortal } from "react-dom";
 import { CornerDownLeft, Search, X } from "lucide-react";
 import { ALL_NAV_ITEMS } from "./nav-config";
 import { GUIDE_CHAPTERS } from "@/lib/data/guide";
-import { PRODUCTS } from "@/lib/data/marketplace";
 import { POIS } from "@/lib/data/map";
-import { ITINERARY } from "@/lib/data/itinerary";
+import { useCatalog, useItinerary } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 
 interface Result {
@@ -19,7 +18,8 @@ interface Result {
   href: string;
 }
 
-const INDEX: Result[] = [
+/** Static entries; itinerary and products are added live from the console data. */
+const STATIC_INDEX: Result[] = [
   ...ALL_NAV_ITEMS.map((i) => ({
     id: `nav-${i.href}`,
     label: i.label,
@@ -43,20 +43,6 @@ const INDEX: Result[] = [
       href: `/app/guide/${c.slug}#duas`,
     })),
   ),
-  ...ITINERARY.map((d) => ({
-    id: `day-${d.id}`,
-    label: d.title,
-    detail: `${d.hijri} · ${d.subtitle}`,
-    group: "Itinerary",
-    href: `/app/planner#${d.id}`,
-  })),
-  ...PRODUCTS.map((p) => ({
-    id: `prd-${p.id}`,
-    label: p.name,
-    detail: p.description,
-    group: "Marketplace",
-    href: `/app/marketplace/${p.id}`,
-  })),
   ...POIS.map((p) => ({
     id: `poi-${p.id}`,
     label: p.name,
@@ -84,6 +70,29 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
     setCursor(0);
   }
 
+  const ITINERARY = useItinerary();
+  const { products: PRODUCTS } = useCatalog();
+  const INDEX = useMemo<Result[]>(
+    () => [
+      ...STATIC_INDEX,
+      ...ITINERARY.map((d) => ({
+        id: `day-${d.id}`,
+        label: d.title,
+        detail: `${d.hijri} · ${d.subtitle}`,
+        group: "Itinerary",
+        href: `/app/planner#${d.id}`,
+      })),
+      ...PRODUCTS.map((p) => ({
+        id: `prd-${p.id}`,
+        label: p.name,
+        detail: p.description,
+        group: "Marketplace",
+        href: `/app/marketplace/${p.id}`,
+      })),
+    ],
+    [ITINERARY, PRODUCTS],
+  );
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
@@ -95,7 +104,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
         r.detail.toLowerCase().includes(q) ||
         r.group.toLowerCase().includes(q),
     ).slice(0, 12);
-  }, [query]);
+  }, [INDEX, query]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => inputRef.current?.focus(), 40);

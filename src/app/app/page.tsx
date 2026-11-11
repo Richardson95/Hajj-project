@@ -3,35 +3,29 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  ArrowRight,
   ArrowUpRight,
   BadgeCheck,
   CalendarDays,
   ChevronRight,
   CircleCheck,
-  Compass,
   ListChecks,
   Megaphone,
   Plus,
-  Store,
   TriangleAlert,
-  Users,
   Wallet,
 } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge, Pill } from "@/components/ui/badge";
 import { Button, ButtonLink } from "@/components/ui/button";
-import { Avatar, Stat } from "@/components/ui/misc";
+import { Stat } from "@/components/ui/misc";
 import { ProgressBar, ProgressRing } from "@/components/ui/progress";
 import { DepositModal } from "@/components/app/deposit-modal";
 import { SavingsChart } from "@/components/app/savings-chart";
 import { Kaaba } from "@/components/brand-icons";
 import { useApp } from "@/lib/store";
-import { packageById } from "@/lib/data/packages";
-import { ITINERARY } from "@/lib/data/itinerary";
-import { ANNOUNCEMENTS } from "@/lib/data/comms";
-import { CHECKLIST } from "@/lib/data/guide";
-import { GROUP_MEMBERS, PILGRIM_GROUP } from "@/lib/data/map";
+import { useChecklist, useItinerary, usePackages } from "@/lib/catalog";
+import { useAllAnnouncements } from "@/lib/ops/published";
+import { GROUP_MEMBERS } from "@/lib/data/map";
 import {
   ARAFAH_DATES,
   DEPARTURE_DATES,
@@ -54,8 +48,12 @@ const TXN_TONE: Record<string, string> = {
 };
 
 export default function DashboardPage() {
+  const { packageById } = usePackages();
+  const ITINERARY = useItinerary();
+  const CHECKLIST = useChecklist();
   const { user, plans, transactions, checklistDone } = useApp();
   const [depositOpen, setDepositOpen] = useState(false);
+  const announcements = useAllAnnouncements();
 
   const primary = plans.find((p) => p.isPrimary) ?? plans[0];
   const target = primary ? packageById(primary.packageId).priceNGN : 0;
@@ -71,19 +69,13 @@ export default function DashboardPage() {
 
   const curve = primary ? buildSavingsCurve(primary, 12) : [];
 
-  const portfolio = plans.reduce((sum, p) => sum + p.balance, 0);
-  const portfolioTarget = plans.reduce(
-    (sum, p) => sum + packageById(p.packageId).priceNGN,
-    0,
-  );
-
   const thisMonth = useMemo(() => {
     const now = new Date();
     return transactions
       .filter(
         (t) =>
           t.status === "successful" &&
-          !["withdrawal", "fee"].includes(t.type) &&
+          t.type !== "fee" &&
           new Date(t.date).getUTCMonth() === now.getUTCMonth() &&
           new Date(t.date).getUTCFullYear() === now.getUTCFullYear(),
       )
@@ -91,16 +83,9 @@ export default function DashboardPage() {
   }, [transactions]);
 
   const nextDay = ITINERARY.find((d) => d.stage === "Mina") ?? ITINERARY[0];
-  const pinned = ANNOUNCEMENTS.filter((a) => a.pinned).slice(0, 2);
+  const pinned = announcements.filter((a) => a.pinned).slice(0, 2);
   const checklistPct = Math.round((checklistDone.length / CHECKLIST.length) * 100);
   const needsAttention = GROUP_MEMBERS.filter((m) => m.status === "assistance");
-
-  const QUICK_ACTIONS = [
-    { href: "/app/savings", label: "Savings", icon: Wallet, tone: "from-forest-700 to-forest-900" },
-    { href: "/app/planner", label: "Planner", icon: CalendarDays, tone: "from-gold-500 to-gold-700" },
-    { href: "/app/find-me", label: "Find Me", icon: Compass, tone: "from-sky-600 to-sky-800" },
-    { href: "/app/marketplace", label: "Market", icon: Store, tone: "from-violet-600 to-violet-800" },
-  ];
 
   return (
     <>
@@ -122,8 +107,6 @@ export default function DashboardPage() {
             ) : (
               <Badge tone="danger">KYC required</Badge>
             )}
-            <Badge tone="brand">{PILGRIM_GROUP.name}</Badge>
-            <Badge tone="neutral">Tag {user.tagCode}</Badge>
           </div>
         </div>
         <div className="flex gap-2">
@@ -150,7 +133,7 @@ export default function DashboardPage() {
               </p>
               <p className="mt-0.5 text-xs leading-relaxed text-muted">
                 Verification usually completes within one working day. You can fund your
-                plan in the meantime — withdrawals unlock once verification passes.
+                plan in the meantime.
               </p>
             </div>
             <ButtonLink href="/app/profile" variant="outline" size="sm">
@@ -292,32 +275,7 @@ export default function DashboardPage() {
             detail={`${transactions.filter((t) => t.status === "successful").length} successful transactions on record`}
             icon={<Wallet className="size-4" />}
           />
-          <Stat
-            label="All plans combined"
-            value={naira(portfolio)}
-            detail={`${plans.length} plans · ${progressPct(portfolio, portfolioTarget).toFixed(0)}% of ${naira(portfolioTarget)}`}
-            icon={<Users className="size-4" />}
-            tone="info"
-          />
         </div>
-      </div>
-
-      {/* Quick actions */}
-      <div className="mt-5 grid grid-cols-4 gap-3">
-        {QUICK_ACTIONS.map((a) => (
-          <Link
-            key={a.href}
-            href={a.href}
-            className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface p-4 transition hover:-translate-y-0.5 hover:border-forest-800/25 hover:shadow-[0_16px_36px_-28px_rgba(1,68,33,0.6)]"
-          >
-            <span
-              className={`grid size-10 place-items-center rounded-xl bg-linear-to-br ${a.tone} text-white`}
-            >
-              <a.icon className="size-5" />
-            </span>
-            <span className="text-xs font-semibold text-ink">{a.label}</span>
-          </Link>
-        ))}
       </div>
 
       {/* Chart */}
@@ -360,7 +318,7 @@ export default function DashboardPage() {
             }
           />
           <CardBody className="space-y-3.5">
-            {nextDay.activities.slice(0, 4).map((a) => (
+            {nextDay.activities.slice(0, 3).map((a) => (
               <div key={a.id} className="flex gap-3.5">
                 <span className="tabular w-12 shrink-0 pt-0.5 text-xs font-bold text-forest-800 dark:text-gold-400">
                   {a.time}
@@ -406,7 +364,7 @@ export default function DashboardPage() {
             }
           />
           <ul className="divide-y divide-line">
-            {transactions.slice(0, 6).map((t) => (
+            {transactions.slice(0, 4).map((t) => (
               <li key={t.id} className="flex items-center gap-3 px-5 py-3">
                 <span
                   className={cn(
@@ -433,7 +391,7 @@ export default function DashboardPage() {
                       TXN_TONE[t.status],
                     )}
                   >
-                    {["withdrawal", "fee"].includes(t.type) ? "−" : "+"}
+                    {t.type === "fee" ? "−" : "+"}
                     {naira(t.amount)}
                   </p>
                   <p className="text-[0.6875rem] text-muted capitalize">{t.status}</p>
@@ -445,7 +403,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Bottom row */}
-      <div className="mt-5 grid gap-5 lg:grid-cols-3">
+      <div className="mt-5 grid gap-5 lg:grid-cols-2">
         <Card>
           <CardHeader
             title="Group broadcasts"
@@ -507,42 +465,6 @@ export default function DashboardPage() {
           </CardBody>
         </Card>
 
-        <Card>
-          <CardHeader
-            title="Your group"
-            description={PILGRIM_GROUP.campZone}
-            icon={<Users className="size-4" />}
-            action={
-              <ButtonLink href="/app/find-me" variant="ghost" size="sm">
-                Locate
-              </ButtonLink>
-            }
-          />
-          <CardBody>
-            <div className="flex -space-x-2">
-              {GROUP_MEMBERS.slice(0, 7).map((m) => (
-                <Avatar
-                  key={m.id}
-                  initials={m.initials}
-                  tone={m.avatarTone}
-                  size="sm"
-                  ring
-                />
-              ))}
-              <span className="tabular grid size-9 place-items-center rounded-full bg-surface-muted text-xs font-bold text-muted ring-2 ring-surface">
-                +{PILGRIM_GROUP.memberCount - 7}
-              </span>
-            </div>
-            <p className="mt-4 text-xs leading-relaxed text-muted">
-              {PILGRIM_GROUP.memberCount} pilgrims led by {PILGRIM_GROUP.adminName}.
-              Emergency line {PILGRIM_GROUP.emergencyLine}.
-            </p>
-            <ButtonLink href="/app/find-me" variant="outline" size="sm" className="mt-4" block>
-              Open group map
-              <ArrowRight className="size-3.5" />
-            </ButtonLink>
-          </CardBody>
-        </Card>
       </div>
 
       <DepositModal open={depositOpen} onClose={() => setDepositOpen(false)} />

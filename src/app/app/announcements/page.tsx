@@ -17,11 +17,11 @@ import { Avatar, EmptyState, PageHeader, Stat } from "@/components/ui/misc";
 import { TextInput } from "@/components/ui/field";
 import { SegmentedControl } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
-import { ANNOUNCEMENTS } from "@/lib/data/comms";
-import { PILGRIM_GROUP } from "@/lib/data/map";
+import { useAllAnnouncements } from "@/lib/ops/published";
 import { formatDateTime, initialsOf, relativeTime } from "@/lib/format";
 import type { AnnouncementPriority } from "@/lib/types";
 import { cn } from "@/lib/cn";
+import { useGroup } from "@/lib/catalog";
 
 type Filter = "all" | AnnouncementPriority;
 
@@ -43,9 +43,11 @@ const PRIORITY_META: Record<
 };
 
 export default function AnnouncementsPage() {
+  const PILGRIM_GROUP = useGroup();
   const { toast } = useToast();
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
+  const ANNOUNCEMENTS = useAllAnnouncements();
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -60,7 +62,7 @@ export default function AnnouncementsPage() {
       if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
-  }, [filter, query]);
+  }, [ANNOUNCEMENTS, filter, query]);
 
   const critical = ANNOUNCEMENTS.filter((a) => a.priority === "critical").length;
   const pinned = ANNOUNCEMENTS.filter((a) => a.pinned).length;

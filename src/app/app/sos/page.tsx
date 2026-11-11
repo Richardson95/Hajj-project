@@ -24,10 +24,10 @@ import { Icon } from "@/components/icon";
 import { useToast } from "@/components/ui/toast";
 import { useApp } from "@/lib/store";
 import { SOS_CATEGORY_META } from "@/lib/data/comms";
-import { PILGRIM_GROUP } from "@/lib/data/map";
 import { formatDateTime, relativeTime } from "@/lib/format";
 import type { SosCategory } from "@/lib/types";
 import { cn } from "@/lib/cn";
+import { useGroup } from "@/lib/catalog";
 
 const EMERGENCY_NUMBERS = [
   { label: "Saudi Red Crescent", number: "997", detail: "Ambulance and medical rescue" },
@@ -37,6 +37,7 @@ const EMERGENCY_NUMBERS = [
 ];
 
 export default function SosPage() {
+  const PILGRIM_GROUP = useGroup();
   const {
     sosEvents,
     raiseSos,

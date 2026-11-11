@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { Plus } from "lucide-react";
-import { FAQS, type Faq } from "@/lib/data/marketing";
+import type { Faq } from "@/lib/data/marketing";
+import { useOps } from "@/lib/ops/store";
 import { SegmentedControl } from "@/components/ui/tabs";
 import { cn } from "@/lib/cn";
 
@@ -16,12 +17,13 @@ const GROUPS: (Faq["group"] | "All")[] = [
 
 export function FaqAccordion({ limit }: { limit?: number }) {
   const [group, setGroup] = useState<(typeof GROUPS)[number]>("All");
-  const [open, setOpen] = useState<string | null>(FAQS[0].question);
+  const { faqs: FAQS } = useOps();
+  const [open, setOpen] = useState<string | null>(FAQS[0]?.question ?? null);
 
   const visible = useMemo(() => {
     const filtered = group === "All" ? FAQS : FAQS.filter((f) => f.group === group);
     return limit ? filtered.slice(0, limit) : filtered;
-  }, [group, limit]);
+  }, [FAQS, group, limit]);
 
   return (
     <div className="space-y-6">

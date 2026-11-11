@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { PRODUCTS, productById } from "@/lib/data/marketplace";
-import { ProductDetail } from "@/components/app/product-detail";
+import { ProductRoute } from "@/components/app/product-route";
 
+/* Seeded products are prebuilt; products an admin posts later render on demand. */
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ id: p.id }));
 }
@@ -14,8 +14,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const product = productById(id);
-  if (!product) return { title: "Product not found" };
-  return { title: product.name, description: product.description };
+  return product
+    ? { title: product.name, description: product.description }
+    : { title: "Makkah market" };
 }
 
 export default async function ProductPage({
@@ -24,12 +25,5 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = productById(id);
-  if (!product) notFound();
-
-  const related = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id,
-  ).slice(0, 4);
-
-  return <ProductDetail product={product} related={related} />;
+  return <ProductRoute id={id} />;
 }

@@ -3,12 +3,12 @@
 import { useMemo, useState } from "react";
 import {
   ArrowDownToLine,
-  Banknote,
-  Copy,
   Download,
   Funnel,
+  Headset,
   Info,
   Landmark,
+  Lock,
   Plus,
   Search,
   ShieldCheck,
@@ -16,19 +16,17 @@ import {
 } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge, Pill } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { EmptyState, PageHeader, Stat } from "@/components/ui/misc";
 import { SegmentedControl } from "@/components/ui/tabs";
 import { TextInput } from "@/components/ui/field";
-import { Modal } from "@/components/ui/modal";
 import { useToast } from "@/components/ui/toast";
 import { DepositModal } from "@/components/app/deposit-modal";
 import { PlanCard } from "@/components/app/plan-card";
 import { PlanEditorModal } from "@/components/app/plan-editor-modal";
 import { SavingsChart } from "@/components/app/savings-chart";
 import { useApp } from "@/lib/store";
-import { VIRTUAL_ACCOUNT } from "@/lib/data/account";
-import { packageById } from "@/lib/data/packages";
+import { usePackages } from "@/lib/catalog";
 import { buildSavingsCurve, progressPct } from "@/lib/savings";
 import { formatDateTime, naira } from "@/lib/format";
 import type { SavingsPlan, TransactionType } from "@/lib/types";
@@ -46,14 +44,14 @@ const FILTERS: { id: Filter; label: string }[] = [
 
 const TYPE_LABEL: Record<TransactionType, string> = {
   deposit: "Deposit",
-  "auto-debit": "Standing order",
+  "auto-debit": "Automatic payment",
   "referral-bonus": "Referral bonus",
   "profit-share": "Profit share",
-  withdrawal: "Withdrawal",
   fee: "Fee",
 };
 
 export default function SavingsPage() {
+  const { packageById } = usePackages();
   const { plans, transactions } = useApp();
   const { toast } = useToast();
 
@@ -61,7 +59,6 @@ export default function SavingsPage() {
   const [depositPlan, setDepositPlan] = useState<string | undefined>();
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState<SavingsPlan | undefined>();
-  const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
 
@@ -90,7 +87,7 @@ export default function SavingsPage() {
       if (filter === "deposits" && !["deposit", "auto-debit"].includes(t.type)) return false;
       if (filter === "credits" && !["referral-bonus", "profit-share"].includes(t.type))
         return false;
-      if (filter === "debits" && !["withdrawal", "fee"].includes(t.type)) return false;
+      if (filter === "debits" && t.type !== "fee") return false;
       if (filter === "failed" && t.status !== "failed") return false;
       if (!q) return true;
       return (
@@ -100,11 +97,6 @@ export default function SavingsPage() {
       );
     });
   }, [transactions, filter, query]);
-
-  function copyAccount() {
-    navigator.clipboard?.writeText(VIRTUAL_ACCOUNT.accountNumber);
-    toast({ title: "Account number copied", tone: "info" });
-  }
 
   function exportCsv() {
     const header = "Date,Reference,Narration,Type,Channel,Status,Amount (NGN)\n";
@@ -191,7 +183,7 @@ export default function SavingsPage() {
         />
       </div>
 
-      {/* Virtual account */}
+      {/* Paying in */}
       <Card className="mt-5 overflow-hidden">
         <div className="grid lg:grid-cols-[1.2fr_1fr]">
           <div className="relative bg-forest-900 p-6 text-white sm:p-7">
@@ -199,32 +191,30 @@ export default function SavingsPage() {
             <div className="relative">
               <div className="flex items-center justify-between gap-3">
                 <p className="text-xs font-bold tracking-[0.16em] text-gold-400 uppercase">
-                  Your dedicated account
+                  Paying into your plan
                 </p>
-                <Badge tone="gold">{VIRTUAL_ACCOUNT.provider}</Badge>
+                <Badge tone="gold">Paystack</Badge>
               </div>
 
-              <p className="tabular mt-5 text-3xl font-extrabold tracking-[0.08em] sm:text-4xl">
-                {VIRTUAL_ACCOUNT.accountNumber}
+              <p className="mt-5 text-2xl font-extrabold sm:text-3xl">
+                Every payment goes through Paystack
               </p>
-              <p className="mt-2 text-sm text-white/65">{VIRTUAL_ACCOUNT.accountName}</p>
-              <p className="text-sm text-white/50">{VIRTUAL_ACCOUNT.bankName}</p>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-white/65">
+                Pay by card, bank transfer or USSD on Paystack&apos;s secure checkout, or
+                let Paystack charge your card automatically each cycle.
+              </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                <Button variant="gold" size="sm" onClick={copyAccount}>
-                  <Copy className="size-3.5" />
-                  Copy number
-                </Button>
                 <Button
+                  variant="gold"
                   size="sm"
-                  className="border border-white/20 bg-white/10 text-white hover:bg-white/20"
                   onClick={() => {
                     setDepositPlan(undefined);
                     setDepositOpen(true);
                   }}
                 >
-                  <Banknote className="size-3.5" />
-                  Fund now
+                  <Lock className="size-3.5" />
+                  Pay with Paystack
                 </Button>
               </div>
             </div>
@@ -234,9 +224,8 @@ export default function SavingsPage() {
             <div className="flex items-start gap-3 rounded-xl bg-surface-muted p-3.5">
               <Info className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                Transfers to this number are matched to your plans automatically within ten
-                minutes. It accepts payments from any Nigerian bank, and from abroad
-                through your sponsor&apos;s remittance provider.
+                Payments show on your plan as soon as Paystack confirms them. Sponsors abroad
+                can pay with an international card on the same checkout.
               </p>
             </div>
             <div className="flex items-start gap-3 rounded-xl bg-surface-muted p-3.5">
@@ -246,10 +235,17 @@ export default function SavingsPage() {
                 money and reconciled daily against the ledger below.
               </p>
             </div>
-            <Button variant="outline" size="sm" block onClick={() => setWithdrawOpen(true)}>
-              <ArrowDownToLine className="size-3.5" />
-              Request a withdrawal
-            </Button>
+            <div className="rounded-xl border border-line p-3.5">
+              <p className="text-xs font-semibold text-ink">Can no longer travel?</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted">
+                If you cannot complete your savings or go for Hajj anymore, message our
+                support team and they will guide you on your plan.
+              </p>
+              <ButtonLink href="/contact" variant="outline" size="sm" block className="mt-3">
+                <Headset className="size-3.5" />
+                Contact support
+              </ButtonLink>
+            </div>
           </CardBody>
         </div>
       </Card>
@@ -427,12 +423,12 @@ export default function SavingsPage() {
                             "tabular px-3 py-3 text-right text-[0.8125rem] font-bold whitespace-nowrap",
                             t.status === "failed"
                               ? "text-muted line-through"
-                              : ["withdrawal", "fee"].includes(t.type)
+                              : t.type === "fee"
                                 ? "text-rose-700 dark:text-rose-400"
                                 : "text-emerald-700 dark:text-emerald-400",
                           )}
                         >
-                          {["withdrawal", "fee"].includes(t.type) ? "−" : "+"}
+                          {t.type === "fee" ? "−" : "+"}
                           {naira(t.amount)}
                         </td>
                       </tr>
@@ -471,12 +467,12 @@ export default function SavingsPage() {
                         "tabular shrink-0 text-[0.8125rem] font-bold",
                         t.status === "failed"
                           ? "text-muted line-through"
-                          : ["withdrawal", "fee"].includes(t.type)
+                          : t.type === "fee"
                             ? "text-rose-700 dark:text-rose-400"
                             : "text-emerald-700 dark:text-emerald-400",
                       )}
                     >
-                      {["withdrawal", "fee"].includes(t.type) ? "−" : "+"}
+                      {t.type === "fee" ? "−" : "+"}
                       {naira(t.amount)}
                     </p>
                   </li>
@@ -498,52 +494,6 @@ export default function SavingsPage() {
         plan={editing}
       />
 
-      <Modal
-        open={withdrawOpen}
-        onClose={() => setWithdrawOpen(false)}
-        title="Request a withdrawal"
-        description="Your savings belong to you and can be released at any time."
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => setWithdrawOpen(false)}>
-              Close
-            </Button>
-            <Button
-              onClick={() => {
-                setWithdrawOpen(false);
-                toast({
-                  title: "Withdrawal request received",
-                  description:
-                    "An OTP has been sent to the phone number registered against your BVN.",
-                  tone: "info",
-                });
-              }}
-            >
-              Continue to OTP
-            </Button>
-          </>
-        }
-      >
-        <div className="space-y-4 text-sm leading-relaxed text-muted">
-          <p>
-            Withdrawals are paid only to the bank account tied to your BVN, normally within
-            two business days. For your protection, every request is confirmed with a
-            one-time code sent to your registered phone number.
-          </p>
-          <ul className="space-y-2">
-            {[
-              "Fees already earned on completed quarters are retained",
-              "Partial withdrawals are allowed — your plan simply recalculates",
-              "Withdrawing does not close your plan or lose your travel year",
-            ].map((line) => (
-              <li key={line} className="flex items-start gap-2.5">
-                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
-                <span className="text-[0.8125rem]">{line}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Modal>
     </>
   );
 }

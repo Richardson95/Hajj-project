@@ -2,14 +2,12 @@ import {
   Bell,
   BookOpen,
   CalendarDays,
-  Camera,
   Compass,
   HandCoins,
   LayoutDashboard,
   ListChecks,
   Map,
   Megaphone,
-  NotebookPen,
   Package,
   Siren,
   Store,
@@ -27,22 +25,14 @@ export interface NavItem {
 }
 
 export interface NavGroup {
-  title: string;
+  /** Omit for a group that needs no heading (e.g. the lone Dashboard link). */
+  title?: string;
   items: NavItem[];
 }
 
 export const NAV_GROUPS: NavGroup[] = [
   {
-    title: "Overview",
-    items: [
-      { href: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
-      {
-        href: "/app/notifications",
-        label: "Notifications",
-        icon: Bell,
-        badge: "notifications",
-      },
-    ],
+    items: [{ href: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true }],
   },
   {
     title: "Savings",
@@ -66,15 +56,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: "Marketplace",
     items: [
-      { href: "/app/marketplace", label: "Makkah market", icon: Store },
-      { href: "/app/marketplace/orders", label: "My orders", icon: Package, badge: "orders" },
-    ],
-  },
-  {
-    title: "Memories",
-    items: [
-      { href: "/app/gallery", label: "Gallery", icon: Camera },
-      { href: "/app/journal", label: "Journal", icon: NotebookPen },
+      { href: "/app/marketplace", label: "Makkah market", icon: Store, badge: "orders" },
     ],
   },
   {
@@ -98,8 +80,18 @@ export const MOBILE_NAV: NavItem[] = [
   { href: "/app/marketplace", label: "Market", icon: Store },
 ];
 
+/**
+ * Pages reached from the topbar or from inside another page rather than the
+ * sidebar. Listed here so they still get a page title and appear in search.
+ */
+const SECONDARY_ITEMS: NavItem[] = [
+  { href: "/app/notifications", label: "Notifications", icon: Bell },
+  { href: "/app/marketplace/orders", label: "My orders", icon: Package },
+];
+
 /** Flat lookup used by the topbar to title the current page. */
 export const ALL_NAV_ITEMS: NavItem[] = [
   ...NAV_GROUPS.flatMap((g) => g.items),
+  ...SECONDARY_ITEMS,
   ...PORTAL_LINKS,
 ];

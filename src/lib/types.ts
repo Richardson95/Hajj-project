@@ -21,7 +21,6 @@ export type KycStatus = "not-started" | "in-review" | "verified" | "rejected";
 export type TravelYear = 2026 | 2027 | 2028;
 
 export interface KycRecord {
-  bvn: string;
   nin: string;
   passportNumber: string;
   passportPhotoUploaded: boolean;
@@ -89,7 +88,6 @@ export interface SavingsPlan {
   startDate: string;
   autoDebit: boolean;
   status: PlanStatus;
-  bankName: string;
   isPrimary: boolean;
 }
 
@@ -98,7 +96,6 @@ export type TransactionType =
   | "auto-debit"
   | "referral-bonus"
   | "profit-share"
-  | "withdrawal"
   | "fee";
 
 export type TransactionStatus = "successful" | "pending" | "failed";
@@ -110,16 +107,10 @@ export interface Transaction {
   amount: number;
   status: TransactionStatus;
   reference: string;
-  channel: "Virtual Account" | "Card" | "Transfer" | "USSD" | "Wallet";
+  /** Every incoming payment is processed by Paystack; Wallet is internal credit. */
+  channel: "Paystack" | "Wallet";
   date: string;
   narration: string;
-}
-
-export interface VirtualAccount {
-  bankName: string;
-  accountNumber: string;
-  accountName: string;
-  provider: "Paystack" | "Flutterwave" | "Moniepoint";
 }
 
 /* -------------------------------- Pilgrimage ------------------------------- */
@@ -377,27 +368,6 @@ export interface SosEvent {
 }
 
 /* ------------------------------- Post-pilgrimage --------------------------- */
-
-export interface GalleryItem {
-  id: string;
-  type: "photo" | "video";
-  caption: string;
-  location: string;
-  date: string;
-  tone: string;
-  icon: IconName;
-  durationSec?: number;
-}
-
-export interface JournalEntry {
-  id: string;
-  title: string;
-  body: string;
-  date: string;
-  stage: RitualStage;
-  mood: "grateful" | "reflective" | "joyful" | "humbled";
-  shared: boolean;
-}
 
 export interface Referral {
   id: string;

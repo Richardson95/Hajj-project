@@ -24,7 +24,8 @@ import { ProgressBar } from "@/components/ui/progress";
 import { SegmentedControl } from "@/components/ui/tabs";
 import { Kaaba, Mosque } from "@/components/brand-icons";
 import { useApp } from "@/lib/store";
-import { ITINERARY, STAGE_ORDER } from "@/lib/data/itinerary";
+import { STAGE_ORDER } from "@/lib/data/itinerary";
+import { useItinerary } from "@/lib/catalog";
 import { DEPARTURE_DATES, countdownTo } from "@/lib/savings";
 import { formatLongDate } from "@/lib/format";
 import type { ActivityCategory, RitualStage } from "@/lib/types";
@@ -77,6 +78,7 @@ const STAGE_ICON: Record<RitualStage, React.ComponentType<{ className?: string }
 };
 
 export default function PlannerPage() {
+  const ITINERARY = useItinerary();
   const { activityDone, toggleActivity, plans } = useApp();
   const [stage, setStage] = useState<RitualStage | "All">("All");
 
@@ -89,7 +91,7 @@ export default function PlannerPage() {
 
   const days = useMemo(
     () => (stage === "All" ? ITINERARY : ITINERARY.filter((d) => d.stage === stage)),
-    [stage],
+    [ITINERARY, stage],
   );
 
   const stages = useMemo(() => {
@@ -102,7 +104,7 @@ export default function PlannerPage() {
         count: ITINERARY.filter((d) => d.stage === s).length,
       })),
     ];
-  }, []);
+  }, [ITINERARY]);
 
   const ritualCount = ITINERARY.reduce(
     (n, d) => n + d.activities.filter((a) => a.category === "ritual").length,

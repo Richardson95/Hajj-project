@@ -8,7 +8,6 @@ import {
   Clock,
   HandCoins,
   Package,
-  Plus,
   Star,
   Store,
   Truck,
@@ -25,23 +24,23 @@ import { Icon } from "@/components/icon";
 import {
   CATEGORY_META,
   ORDER_STATUS_META,
-  PRODUCTS,
   VENDOR_ORDERS,
-  VENDORS,
 } from "@/lib/data/marketplace";
+import { useCatalog } from "@/lib/catalog";
 import { formatDateTime, naira, riyal } from "@/lib/format";
 import type { OrderStatus } from "@/lib/types";
 import { cn } from "@/lib/cn";
 
 type Filter = "all" | "open" | "delivered" | "cancelled";
 
-const VENDOR = VENDORS[0];
-
 export default function VendorPortalPage() {
   const { toast } = useToast();
   const [filter, setFilter] = useState<Filter>("all");
 
-  const catalogue = PRODUCTS.filter((p) => p.vendorId === VENDOR.id);
+  const { allProducts, vendors } = useCatalog();
+  /* Demo: the portal shows the first active vendor's storefront. */
+  const VENDOR = vendors[0];
+  const catalogue = allProducts.filter((p) => p.vendorId === VENDOR?.id);
 
   const orders = useMemo(
     () =>
@@ -70,20 +69,6 @@ export default function VendorPortalPage() {
       <PageHeader
         title="Vendor portal"
         description="Orders, catalogue and settlement for your Makkah storefront."
-        action={
-          <Button
-            onClick={() =>
-              toast({
-                title: "Product listing opened",
-                description: "Add a name, Riyal price, stock level and delivery zones.",
-                tone: "info",
-              })
-            }
-          >
-            <Plus className="size-4" />
-            List a product
-          </Button>
-        }
       />
 
       {/* Vendor header */}
@@ -315,7 +300,7 @@ export default function VendorPortalPage() {
       <Card className="mt-5">
         <CardHeader
           title="Your catalogue"
-          description={`${catalogue.length} products live in the marketplace`}
+          description={`${catalogue.length} products listed for you by HajjPath. To add or change an item, contact your HajjPath account manager.`}
           icon={<Store className="size-4" />}
         />
         <CardBody className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -41,9 +41,9 @@ const STAGES: {
     icon: UserPlus,
     title: "Open your account",
     duration: "About 8 minutes",
-    body: "Register with your name, phone number and email. You will be asked for your BVN, NIN, passport data page and a passport photograph — the same documents your State Pilgrims Board will eventually request.",
+    body: "Register with your name, phone number and email. You will be asked for your NIN, passport data page and a passport photograph — the same documents your State Pilgrims Board will eventually request.",
     detail: [
-      { label: "You provide", value: "Name · Phone · Email · BVN · NIN · Passport" },
+      { label: "You provide", value: "Name · Phone · Email · NIN · Passport" },
       { label: "We check", value: "Identity via a licensed KYC provider" },
       { label: "Outcome", value: "A verified HajjPath account" },
     ],
@@ -53,7 +53,7 @@ const STAGES: {
     icon: IdCard,
     title: "Pass verification",
     duration: "Usually within 1 working day",
-    body: "Your BVN and NIN are validated and matched against your passport details. If anything does not line up, we tell you exactly which field to correct rather than rejecting you outright.",
+    body: "Your NIN is validated and matched against your passport details. If anything does not line up, we tell you exactly which field to correct rather than rejecting you outright.",
     detail: [
       { label: "Provider", value: "VerifyMe / SmileID" },
       { label: "Data handling", value: "Encrypted at rest, never shared with vendors" },
@@ -75,11 +75,11 @@ const STAGES: {
   {
     phase: "Step 04",
     icon: Landmark,
-    title: "Fund your virtual account",
-    duration: "Reconciled in under 10 minutes",
-    body: "You receive a dedicated account number in your own name. Transfer from any Nigerian bank, pay by card or USSD, or set a standing order and let it run in the background.",
+    title: "Pay through Paystack",
+    duration: "Confirmed instantly by Paystack",
+    body: "Every payment goes through Paystack's secure checkout. Pay by card, bank transfer or USSD, or let Paystack charge your card automatically each cycle.",
     detail: [
-      { label: "Channels", value: "Transfer · Card · USSD · Standing order" },
+      { label: "Payments", value: "Paystack only: card · bank transfer · USSD · automatic" },
       { label: "Custody", value: "Ring-fenced trust account, reconciled daily" },
       { label: "Outcome", value: "Balance visible instantly in your ledger" },
     ],
@@ -89,7 +89,7 @@ const STAGES: {
     icon: BellRing,
     title: "Stay consistent",
     duration: "Ongoing until departure",
-    body: "Reminders arrive before each cycle and immediately if a standing order fails. Miss one and the tracker simply recalculates — no penalties, no shame, just a new number.",
+    body: "Reminders arrive before each cycle and immediately if an automatic payment fails. Miss one and the tracker simply recalculates — no penalties, no shame, just a new number.",
     detail: [
       { label: "Nudges", value: "Push and email, timed to your payday" },
       { label: "Flexibility", value: "Pause up to 3 months · change travel year free" },
@@ -128,18 +128,16 @@ const STAGES: {
     body: "Once your group manifest is confirmed landed in Nigeria, the Al-Hajji or Al-Hajja badge is added to your profile — verified by the system, not self-declared.",
     detail: [
       { label: "Awarded", value: "Al-Hajji / Al-Hajja honorific badge" },
-      { label: "Preserved", value: "Journal · Gallery · Souvenir wall" },
       { label: "Onward", value: "₦15,000 referral credit per activated invite" },
     ],
   },
 ];
 
 const REQUIREMENTS = [
-  { icon: IdCard, label: "Bank Verification Number (BVN)" },
-  { icon: FileText, label: "National Identity Number (NIN)" },
+  { icon: IdCard, label: "National Identity Number (NIN)" },
   { icon: FileText, label: "International passport, valid 6+ months" },
   { icon: CreditCard, label: "A Nigerian bank account in your own name" },
-  { icon: ShieldCheck, label: "A phone number registered against your BVN" },
+  { icon: ShieldCheck, label: "An active phone number and email address" },
   { icon: BadgeCheck, label: "Meningitis ACWY & yellow fever certificates before travel" },
 ];
 
@@ -268,8 +266,8 @@ export default function HowItWorksPage() {
               body: "Start with whatever you have this month, even if it is nothing at all.",
             },
             {
-              title: "Withdraw at any time",
-              body: "Your savings are yours. Requests are paid to your BVN-linked account within two business days.",
+              title: "Pause when life happens",
+              body: "Pause contributions for up to three months. Your plan and travel year stay exactly where they are.",
             },
             {
               title: "Change your travel year free",

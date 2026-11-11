@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ArrowRight, Info } from "lucide-react";
-import { HAJJ_PACKAGES } from "@/lib/data/packages";
+import { usePackages } from "@/lib/catalog";
 import {
   CYCLES_PER_YEAR,
   DEPARTURE_DATES,
@@ -21,6 +21,7 @@ const YEARS: TravelYear[] = [2026, 2027, 2028];
 const FREQUENCIES: PlanFrequency[] = ["weekly", "monthly", "quarterly"];
 
 export function SavingsCalculator() {
+  const { packages: HAJJ_PACKAGES } = usePackages();
   const [packageId, setPackageId] = useState(HAJJ_PACKAGES[0].id);
   const [year, setYear] = useState<TravelYear>(2027);
   const [frequency, setFrequency] = useState<PlanFrequency>("monthly");

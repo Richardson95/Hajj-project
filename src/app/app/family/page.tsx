@@ -12,7 +12,7 @@ import { DepositModal } from "@/components/app/deposit-modal";
 import { PlanCard } from "@/components/app/plan-card";
 import { PlanEditorModal } from "@/components/app/plan-editor-modal";
 import { useApp } from "@/lib/store";
-import { packageById } from "@/lib/data/packages";
+import { usePackages } from "@/lib/catalog";
 import { progressPct } from "@/lib/savings";
 import { initialsOf, naira } from "@/lib/format";
 import type { SavingsPlan } from "@/lib/types";
@@ -26,6 +26,7 @@ const TONES = [
 ];
 
 export default function FamilyPage() {
+  const { packageById } = usePackages();
   const { plans, user } = useApp();
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState<SavingsPlan | undefined>();
@@ -141,9 +142,9 @@ export default function FamilyPage() {
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-ink">Sponsoring from abroad</p>
             <p className="mt-0.5 text-xs leading-relaxed text-muted">
-              Fund a beneficiary&apos;s plan from any country using your usual remittance
-              provider — the transfer lands in your HajjPath virtual account and reconciles
-              automatically. The beneficiary can watch their own tracker fill on their own
+              Fund a beneficiary&apos;s plan from any country with an international card on
+              Paystack&apos;s checkout — the payment lands on their plan as soon as Paystack
+              confirms it. The beneficiary can watch their own tracker fill on their own
               phone, without ever seeing your other plans.
             </p>
           </div>

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   BadgeCheck,
-  Bell,
   FingerprintPattern,
   Globe,
   IdCard,
@@ -30,12 +29,13 @@ import { Modal } from "@/components/ui/modal";
 import { SegmentedControl } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { useTheme } from "@/components/theme-provider";
+import { Mosque } from "@/components/brand-icons";
 import { useApp } from "@/lib/store";
 import { NIGERIAN_STATES } from "@/lib/data/account";
 import { LANGUAGES } from "@/lib/data/guide";
-import { PILGRIM_GROUP } from "@/lib/data/map";
 import { formatDate, formatPhone, maskId } from "@/lib/format";
 import type { LanguageCode } from "@/lib/types";
+import { useGroup } from "@/lib/catalog";
 
 const KYC_META = {
   verified: { label: "Verified", tone: "positive" as const },
@@ -45,6 +45,7 @@ const KYC_META = {
 };
 
 export default function ProfilePage() {
+  const PILGRIM_GROUP = useGroup();
   const router = useRouter();
   const { user, updateUser, logout, resetDemo, plans } = useApp();
   const { theme, setTheme } = useTheme();
@@ -58,13 +59,6 @@ export default function ProfilePage() {
     phone: user.phone,
     state: user.state,
     city: user.city,
-  });
-  const [notifications, setNotifications] = useState({
-    contributions: true,
-    reminders: true,
-    group: true,
-    orders: true,
-    marketing: false,
   });
 
   const kyc = KYC_META[user.kyc.status];
@@ -137,6 +131,36 @@ export default function ProfilePage() {
         </div>
       </Card>
 
+      {/* Pilgrimage completion badge */}
+      <Card className="mt-5 overflow-hidden">
+        <div className="relative bg-linear-to-br from-gold-500 via-gold-600 to-forest-900 p-6 text-white sm:p-7">
+          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-35" />
+          <div className="relative flex flex-wrap items-center gap-5">
+            <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 backdrop-blur-sm">
+              <Mosque className="size-8" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold tracking-[0.16em] text-white/70 uppercase">
+                Pilgrimage completion badge
+              </p>
+              <p className="mt-1.5 text-2xl font-extrabold">
+                {user.hajjCompleted
+                  ? `${user.honorific ?? "Al-Hajji"} ${user.firstName} ${user.lastName}`
+                  : "Awaiting your return"}
+              </p>
+              <p className="mt-1 text-sm text-white/75">
+                {user.hajjCompleted
+                  ? `Verified · 1448 AH · ${PILGRIM_GROUP.name}`
+                  : "Your Al-Hajji badge unlocks automatically once your group manifest is confirmed landed in Nigeria."}
+              </p>
+            </div>
+            <Badge tone="gold" className="bg-white/20 text-white ring-white/30">
+              {user.hajjCompleted ? "Verified" : "Locked"}
+            </Badge>
+          </div>
+        </div>
+      </Card>
+
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
         {/* KYC */}
         <Card>
@@ -158,7 +182,6 @@ export default function ProfilePage() {
             ) : null}
 
             <dl>
-              <DataRow label="BVN" value={maskId(user.kyc.bvn)} />
               <DataRow label="NIN" value={maskId(user.kyc.nin)} />
               <DataRow label="Passport number" value={user.kyc.passportNumber} />
               <DataRow
@@ -226,7 +249,7 @@ export default function ProfilePage() {
                 });
               }}
               label="Two-factor authentication"
-              description="An OTP is required to sign in on a new device and for every withdrawal."
+              description="An OTP is required to sign in on a new device."
             />
             <Switch
               checked={user.biometricEnabled}
@@ -273,19 +296,18 @@ export default function ProfilePage() {
             <div className="flex items-start gap-3 rounded-xl bg-surface-muted p-3.5">
               <FingerprintPattern className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                Withdrawals are always paid to the bank account tied to your BVN and always
-                require an OTP to your registered number — even if someone has your
-                password.
+                Signing in on a new device always requires an OTP to your registered
+                number — even if someone has your password.
               </p>
             </div>
           </CardBody>
         </Card>
 
         {/* Preferences */}
-        <Card>
+        <Card className="lg:col-span-2">
           <CardHeader
             title="Preferences"
-            description="Language, appearance and how HajjPath reaches you."
+            description="Language and appearance."
             icon={<Languages className="size-4" />}
           />
           <CardBody className="space-y-5">
@@ -337,33 +359,6 @@ export default function ProfilePage() {
           </CardBody>
         </Card>
 
-        {/* Notifications */}
-        <Card>
-          <CardHeader
-            title="Notifications"
-            description="Choose what HajjPath tells you about."
-            icon={<Bell className="size-4" />}
-          />
-          <CardBody className="space-y-5">
-            {(
-              [
-                ["contributions", "Contribution receipts", "Every deposit, standing order and profit share."],
-                ["reminders", "Contribution reminders", "A nudge before each cycle, timed to your payday."],
-                ["group", "Group and safety alerts", "Broadcasts, Find Me alerts and SOS updates."],
-                ["orders", "Marketplace orders", "Dispatch, delivery and escrow release."],
-                ["marketing", "News and offers", "Occasional product updates. Off by default."],
-              ] as const
-            ).map(([key, label, description]) => (
-              <Switch
-                key={key}
-                checked={notifications[key]}
-                onChange={(v) => setNotifications((n) => ({ ...n, [key]: v }))}
-                label={label}
-                description={description}
-              />
-            ))}
-          </CardBody>
-        </Card>
       </div>
 
       {/* Account summary */}
@@ -410,7 +405,7 @@ export default function ProfilePage() {
               resetDemo();
               toast({
                 title: "Demo data reset",
-                description: "Plans, orders and journal entries are back to their originals.",
+                description: "Plans, orders and checklists are back to their originals.",
                 tone: "info",
               });
             }}
@@ -473,7 +468,7 @@ export default function ProfilePage() {
           </Field>
           <Field
             label="Phone number"
-            hint="Changing this requires re-verification against your BVN."
+            hint="Changing this requires re-verification by OTP."
             htmlFor="pf-phone"
           >
             <TextInput

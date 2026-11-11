@@ -2,50 +2,35 @@ import type { Metadata } from "next";
 import {
   ArrowRight,
   BadgeCheck,
-  BellRing,
   BookOpen,
   Building2,
   CalendarDays,
-  Camera,
   ChevronRight,
-  Coins,
   Compass,
   CreditCard,
   Globe,
-  HandCoins,
   Headset,
-  Landmark,
-  Languages,
   LayoutDashboard,
   Lock,
   MapPin,
-  Megaphone,
   MonitorSmartphone,
-  NotebookPen,
-  Repeat,
-  ScanQrCode,
   ShieldCheck,
   Siren,
   Sparkles,
   Store,
-  Target,
   Trophy,
-  UserPlus,
-  Users,
   Wallet,
 } from "lucide-react";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "@/components/ui/misc";
-import { Kaaba, Mosque } from "@/components/brand-icons";
+import { Kaaba } from "@/components/brand-icons";
 import { DashboardPreview } from "@/components/marketing/dashboard-preview";
 import { SavingsCalculator } from "@/components/marketing/savings-calculator";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { Testimonials } from "@/components/marketing/testimonials";
 import {
   COMPLIANCE_POINTS,
-  IMPACT_STATS,
   PARTNER_LOGOS,
 } from "@/lib/data/marketing";
 
@@ -58,39 +43,6 @@ export const metadata: Metadata = {
 /* ------------------------------------------------------------------ */
 
 type IconType = React.ComponentType<{ className?: string }>;
-
-const SAVINGS_FEATURES: { icon: IconType; title: string; body: string }[] = [
-  {
-    icon: UserPlus,
-    title: "Verified onboarding",
-    body: "BVN, NIN, passport data page and photograph checked once through a licensed KYC provider. The person saving is the person on the manifest.",
-  },
-  {
-    icon: Repeat,
-    title: "Plans that fit your income",
-    body: "Weekly, monthly or quarterly contributions against a 2026, 2027 or 2028 departure. Change frequency or travel year whenever life changes.",
-  },
-  {
-    icon: Target,
-    title: "A goal tracker that does the maths",
-    body: "See exactly how much is left, how many cycles remain, and whether you are on track — recalculated every time you deposit or miss one.",
-  },
-  {
-    icon: Landmark,
-    title: "Your own virtual account",
-    body: "A dedicated account number in your name. Transfer from any Nigerian bank, or authorise a standing order and forget about it.",
-  },
-  {
-    icon: BellRing,
-    title: "Reminders that actually help",
-    body: "Contribution nudges by push and email, tuned to your payday — plus an alert the moment a standing order fails so nothing slips.",
-  },
-  {
-    icon: Users,
-    title: "Family and diaspora plans",
-    body: "Run several plans from one account: yourself, your spouse, your parents. Sponsors abroad fund; beneficiaries at home watch the tracker fill.",
-  },
-];
 
 const COMPANION_FEATURES: {
   icon: IconType;
@@ -133,132 +85,6 @@ const COMPANION_FEATURES: {
     title: "Guide library",
     body: "Step-by-step rituals, authentic du'ās with transliteration, an interactive checklist and audio guidance in Hausa, Yoruba, Arabic and English.",
     href: "/app/guide",
-  },
-  {
-    icon: Megaphone,
-    title: "Group broadcasts",
-    body: "NAHCON, your operator and your group admin reach every registered pilgrim at once — pinned, prioritised and readable offline.",
-    href: "/app/announcements",
-  },
-  {
-    icon: Camera,
-    title: "Gallery",
-    body: "Keep photographs and video from each stage of the journey, tagged by location and rite, in one place you will still have in twenty years.",
-    href: "/app/gallery",
-  },
-];
-
-const POST_HAJJ: { icon: IconType; title: string; body: string }[] = [
-  {
-    icon: Trophy,
-    title: "Al-Hajji / Al-Hajja badge",
-    body: "Awarded once your group manifest is confirmed landed — a verified honorific on your HajjPath profile, not a self-declared one.",
-  },
-  {
-    icon: NotebookPen,
-    title: "Testimonial journal",
-    body: "Write reflections at each stage while the memory is fresh, keep them private, or share them to the community wall.",
-  },
-  {
-    icon: HandCoins,
-    title: "Referral rewards",
-    body: "₦15,000 in wallet credit each time someone you invited activates a plan — applied straight to your own Hajj balance.",
-  },
-  {
-    icon: Sparkles,
-    title: "Digital souvenir wall",
-    body: "Photographs, du'ā requests and favourite memories, shared with the pilgrims who walked the same days with you.",
-  },
-];
-
-const PERSONAS: {
-  icon: IconType;
-  role: string;
-  headline: string;
-  points: string[];
-  href: string;
-  cta: string;
-}[] = [
-  {
-    icon: Kaaba,
-    role: "Pilgrim",
-    headline: "Save, prepare, and never walk alone in Makkah",
-    points: [
-      "A plan matched to your income and travel year",
-      "Every rite explained in your own language",
-      "Live map, group locator and one-press SOS",
-    ],
-    href: "/auth/register",
-    cta: "Start a plan",
-  },
-  {
-    icon: Users,
-    role: "Family sponsor",
-    headline: "Fund a parent's pilgrimage from anywhere in the world",
-    points: [
-      "Several beneficiaries under one verified account",
-      "Beneficiaries track their own progress",
-      "Transparent ledger, withdrawable at any time",
-    ],
-    href: "/auth/register",
-    cta: "Sponsor someone",
-  },
-  {
-    icon: Store,
-    role: "Makkah vendor",
-    headline: "Reach paying pilgrims before they reach the souq",
-    points: [
-      "Verified storefront with delivery logistics",
-      "Escrow settlement — you always get paid",
-      "Order dashboard, ratings and demand insight",
-    ],
-    href: "/vendors",
-    cta: "Sell on HajjPath",
-  },
-  {
-    icon: Megaphone,
-    role: "Group admin & operator",
-    headline: "See all your pilgrims on one screen",
-    points: [
-      "Live group positions and welfare status",
-      "Broadcast to the whole manifest instantly",
-      "Compliance and savings status per pilgrim",
-    ],
-    href: "/app/admin",
-    cta: "See the admin view",
-  },
-];
-
-const STEPS = [
-  {
-    n: "01",
-    title: "Create your account",
-    body: "Name, phone, email, BVN, NIN, passport photograph and data page. Verification usually completes within one working day.",
-  },
-  {
-    n: "02",
-    title: "Choose year and plan",
-    body: "Pick a package and a departure year, then set weekly, monthly or quarterly contributions. HajjPath calculates the figure for you.",
-  },
-  {
-    n: "03",
-    title: "Fund your virtual account",
-    body: "Transfer from any bank, pay by card or USSD, or authorise a standing order. Every deposit reconciles within ten minutes.",
-  },
-  {
-    n: "04",
-    title: "Watch the tracker fill",
-    body: "Reminders keep you consistent. When the goal is met, your status changes to Eligible for Hajj Application with a compliance pack ready.",
-  },
-  {
-    n: "05",
-    title: "Travel with your companion",
-    body: "Itinerary, offline maps, ritual guides, group locator, marketplace and SOS — from the moment you enter Ihram to the farewell Tawaf.",
-  },
-  {
-    n: "06",
-    title: "Come home a Hajji",
-    body: "Your badge unlocks, your journal and gallery are preserved, and your referrals keep earning towards the next pilgrimage in your family.",
   },
 ];
 
@@ -372,7 +198,7 @@ export default function HomePage() {
               tag: "Before",
               icon: Wallet,
               title: "Save with discipline and clarity",
-              body: "Verified onboarding, a plan that matches your income, a dedicated virtual account and a goal tracker that never lets the target drift out of sight.",
+              body: "Verified onboarding, a plan that matches your income, secure payments through Paystack and a goal tracker that never lets the target drift out of sight.",
               points: ["KYC in one working day", "Weekly · monthly · quarterly", "Family & diaspora plans"],
               tone: "from-forest-800 to-forest-950",
             },
@@ -388,8 +214,8 @@ export default function HomePage() {
               tag: "After",
               icon: Trophy,
               title: "Keep what the journey gave you",
-              body: "A verified Al-Hajji badge, a journal of reflections written while they were still fresh, a gallery of every stage, and rewards for guiding others.",
-              points: ["Verified honorific badge", "Journal & souvenir wall", "₦15,000 referral credit"],
+              body: "A verified Al-Hajji badge on your profile, earned rather than claimed, and rewards for every relative and friend you guide onto the path.",
+              points: ["Verified honorific badge", "Confirmed on landing", "₦15,000 referral credit"],
               tone: "from-forest-700 to-forest-900",
             },
           ].map((pillar) => (
@@ -417,48 +243,6 @@ export default function HomePage() {
               </ul>
             </article>
           ))}
-        </div>
-      </section>
-
-      {/* ===================== SAVINGS FEATURES ====================== */}
-      <section className="relative overflow-hidden border-y border-line bg-surface-muted/50">
-        <div className="pattern-islamic-ink pointer-events-none absolute inset-0 opacity-70" />
-        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
-            <div className="lg:sticky lg:top-28 lg:self-start">
-              <SectionHeading
-                eyebrow="Before the journey"
-                title="Saving for Hajj, made ordinary"
-                description="Twenty years of intention undone by one unstructured account. HajjPath turns a distant dream into a number you can hit this month."
-              />
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href="/packages">
-                  Compare packages
-                  <ArrowRight className="size-4" />
-                </ButtonLink>
-                <ButtonLink href="/how-it-works" variant="outline">
-                  How it works
-                </ButtonLink>
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              {SAVINGS_FEATURES.map((f) => (
-                <div
-                  key={f.title}
-                  className="rounded-2xl border border-line bg-surface p-5 transition hover:border-forest-800/25 hover:shadow-[0_16px_40px_-28px_rgba(1,68,33,0.55)]"
-                >
-                  <span className="grid size-10 place-items-center rounded-xl bg-forest-50 text-forest-800 dark:bg-forest-950 dark:text-gold-300">
-                    <f.icon className="size-5" />
-                  </span>
-                  <h3 className="mt-4 text-[0.9375rem] font-bold text-ink">{f.title}</h3>
-                  <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">
-                    {f.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -497,7 +281,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {COMPANION_FEATURES.map((f) => (
               <Link
                 key={f.title}
@@ -518,155 +302,14 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="mt-12 grid gap-4 rounded-3xl border border-white/12 bg-white/5 p-6 sm:grid-cols-3 sm:p-8">
-            {[
-              {
-                icon: ScanQrCode,
-                title: "Scan-to-reunite tags",
-                body: "A waterproof lanyard tag carrying a QR code and a Bluetooth beacon. Any phone that scans it reaches your group admin, even without the app installed.",
-              },
-              {
-                icon: Languages,
-                title: "Four languages, with audio",
-                body: "Every ritual chapter is narrated in Hausa, Yoruba, Arabic and English — for the elderly pilgrim who was never going to read the booklet.",
-              },
-              {
-                icon: Headset,
-                title: "A desk that never sleeps",
-                body: "HajjPath support agents in Lagos and Makkah, on shift through the whole season, routing SOS alerts to whoever can get there fastest.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-4">
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-gold-400/15 text-gold-300">
-                  <item.icon className="size-5" />
-                </span>
-                <div>
-                  <h3 className="text-sm font-bold">{item.title}</h3>
-                  <p className="mt-1 text-[0.8125rem] leading-relaxed text-white/60">
-                    {item.body}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Link
+            href="/companion"
+            className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300 hover:text-gold-200"
+          >
+            Everything the companion does
+            <ArrowRight className="size-4" />
+          </Link>
         </div>
-      </section>
-
-      {/* ========================= POST HAJJ ========================= */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-        <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
-          <div className="grid gap-4 sm:grid-cols-2">
-            {POST_HAJJ.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-2xl border border-line bg-surface p-5 transition hover:border-gold-500/40"
-              >
-                <span className="grid size-10 place-items-center rounded-xl bg-gold-50 text-gold-700 dark:bg-gold-950 dark:text-gold-300">
-                  <f.icon className="size-5" />
-                </span>
-                <h3 className="mt-4 text-[0.9375rem] font-bold text-ink">{f.title}</h3>
-                <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">
-                  {f.body}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="lg:pl-6">
-            <SectionHeading
-              eyebrow="After the journey"
-              title="You come home changed. Your account should show it."
-              description="The badge is earned, not claimed — it unlocks only when your group manifest is confirmed landed in Nigeria. Everything else is yours to keep: the reflections, the photographs, the people you met."
-            />
-            <div className="mt-8 rounded-2xl border border-gold-500/25 bg-gold-50/60 p-5 dark:bg-gold-950/30">
-              <div className="flex items-center gap-3">
-                <span className="grid size-12 place-items-center rounded-xl bg-linear-to-br from-gold-400 to-gold-600 text-white shadow-lg">
-                  <Mosque className="size-6" />
-                </span>
-                <div>
-                  <p className="text-sm font-bold text-ink">Al-Hajji Ibrahim Adetunji</p>
-                  <p className="text-xs text-muted">
-                    Verified · 1448 AH · Al-Amanah Hajj Group
-                  </p>
-                </div>
-                <Badge tone="gold" className="ml-auto">
-                  Verified
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================== PERSONAS ========================= */}
-      <section className="relative border-y border-line bg-surface-muted/50">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <SectionHeading
-            align="center"
-            eyebrow="Who it's for"
-            title="Five roles, one ecosystem"
-            description="Pilgrims, the families who fund them, the vendors who supply them and the operators who lead them — each gets the view they actually need."
-          />
-
-          <div className="mt-14 grid gap-5 md:grid-cols-2">
-            {PERSONAS.map((p) => (
-              <article
-                key={p.role}
-                className="flex flex-col rounded-3xl border border-line bg-surface p-7 transition hover:border-forest-800/25 hover:shadow-[0_24px_60px_-40px_rgba(1,68,33,0.6)]"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-xl bg-forest-800 text-white">
-                    <p.icon className="size-5" />
-                  </span>
-                  <p className="text-xs font-bold tracking-[0.16em] text-gold-600 uppercase dark:text-gold-400">
-                    {p.role}
-                  </p>
-                </div>
-                <h3 className="mt-5 text-xl font-bold text-ink">{p.headline}</h3>
-                <ul className="mt-4 flex-1 space-y-2.5">
-                  {p.points.map((pt) => (
-                    <li key={pt} className="flex items-start gap-2.5 text-sm text-muted">
-                      <BadgeCheck className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
-                <ButtonLink href={p.href} variant="outline" size="sm" className="mt-6 self-start">
-                  {p.cta}
-                  <ArrowRight className="size-3.5" />
-                </ButtonLink>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================== JOURNEY ========================== */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-        <SectionHeading
-          align="center"
-          eyebrow="The journey in six steps"
-          title="From download-free sign-up to Al-Hajji"
-          description="No branch visits, no agents, no paperwork queues. Everything happens in your browser and finishes at the Ka'bah."
-        />
-
-        <ol className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {STEPS.map((step) => (
-            <li
-              key={step.n}
-              className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6"
-            >
-              <span className="absolute -top-3 -right-1 text-6xl font-extrabold text-forest-800/6 dark:text-white/5">
-                {step.n}
-              </span>
-              <span className="tabular inline-grid size-9 place-items-center rounded-xl bg-forest-800 text-sm font-bold text-white">
-                {step.n}
-              </span>
-              <h3 className="mt-4 text-base font-bold text-ink">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{step.body}</p>
-            </li>
-          ))}
-        </ol>
       </section>
 
       {/* ========================= COMPLIANCE ======================== */}
@@ -730,30 +373,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========================== IMPACT ========================== */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <dl className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {IMPACT_STATS.map((s, i) => {
-            const StatIcon = [Users, Coins, Target, Siren][i] ?? Users;
-            return (
-              <div
-                key={s.label}
-                className="rounded-2xl border border-line bg-surface p-6 text-center"
-              >
-                <span className="mx-auto grid size-11 place-items-center rounded-xl bg-forest-50 text-forest-800 dark:bg-forest-950 dark:text-gold-300">
-                  <StatIcon className="size-5" />
-                </span>
-                <dt className="tabular mt-4 text-3xl font-extrabold tracking-tight text-ink">
-                  {s.value}
-                </dt>
-                <dd className="mt-1 text-sm font-semibold text-ink/80">{s.label}</dd>
-                <p className="mt-1.5 text-xs leading-relaxed text-muted">{s.detail}</p>
-              </div>
-            );
-          })}
-        </dl>
-      </section>
-
       {/* ======================== TESTIMONIALS ======================= */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <SectionHeading
@@ -774,8 +393,17 @@ export default function HomePage() {
           title="Everything people ask before they start"
         />
         <div className="mt-10">
-          <FaqAccordion />
+          <FaqAccordion limit={5} />
         </div>
+        <p className="mt-6 text-center">
+          <Link
+            href="/faq"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-forest-800 hover:underline dark:text-gold-300"
+          >
+            See all questions
+            <ArrowRight className="size-4" />
+          </Link>
+        </p>
       </section>
 
       {/* ============================ CTA =========================== */}
@@ -816,7 +444,7 @@ export default function HomePage() {
                 <CreditCard className="size-3.5" /> No opening deposit
               </span>
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="size-3.5" /> Withdraw any time
+                <ShieldCheck className="size-3.5" /> Funds held in trust
               </span>
               <span className="flex items-center gap-1.5">
                 <Headset className="size-3.5" /> Support in four languages

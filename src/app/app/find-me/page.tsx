@@ -26,9 +26,10 @@ import { SegmentedControl } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { MapCanvas } from "@/components/app/map-canvas";
 import { useApp } from "@/lib/store";
-import { GROUP_MEMBERS, PILGRIM_GROUP, POIS } from "@/lib/data/map";
+import { GROUP_MEMBERS, POIS } from "@/lib/data/map";
 import type { MemberStatus } from "@/lib/types";
 import { cn } from "@/lib/cn";
+import { useGroup } from "@/lib/catalog";
 
 const STATUS_META: Record<
   MemberStatus,
@@ -43,6 +44,7 @@ const STATUS_META: Record<
 type Filter = "all" | MemberStatus;
 
 export default function FindMePage() {
+  const PILGRIM_GROUP = useGroup();
   const { user } = useApp();
   const { toast } = useToast();
 
@@ -369,7 +371,7 @@ export default function FindMePage() {
           </div>
           <p className="text-xs leading-relaxed text-muted">
             Scanning this code opens a page with your group admin&apos;s contact details
-            and your preferred language. It never reveals your BVN, savings or home
+            and your preferred language. It never reveals your NIN, savings or home
             address.
           </p>
         </div>

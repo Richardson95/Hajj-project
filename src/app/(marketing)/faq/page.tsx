@@ -6,7 +6,7 @@ import { FaqAccordion } from "@/components/marketing/faq-accordion";
 export const metadata: Metadata = {
   title: "Frequently asked questions",
   description:
-    "Answers on Hajj savings, Shariah compliance, KYC, withdrawals, offline use in Makkah, marketplace escrow and how HajjPath works with NAHCON.",
+    "Answers on Hajj savings, Shariah compliance, KYC, offline use in Makkah, marketplace escrow and how HajjPath works with NAHCON.",
 };
 
 export default function FaqPage() {

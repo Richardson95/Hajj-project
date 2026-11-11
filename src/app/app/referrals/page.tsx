@@ -256,7 +256,7 @@ export default function ReferralsPage() {
           <p className="min-w-0 flex-1 text-xs leading-relaxed text-muted">
             Rewards are credited once the referred pilgrim passes KYC and their first
             contribution clears. Self-referrals and duplicate accounts are reversed. Wallet
-            credit can be applied to any plan on your account but cannot be withdrawn as
+            credit can be applied to any plan on your account but cannot be converted to
             cash.
           </p>
         </CardBody>

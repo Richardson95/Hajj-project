@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Amiri, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { AppProvider } from "@/lib/store";
+import { OpsProvider } from "@/lib/ops/store";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/components/theme-provider";
 import { ToastProvider } from "@/components/ui/toast";
 import "./globals.css";
@@ -98,7 +99,10 @@ export default function RootLayout({
         </a>
         <ThemeProvider>
           <ToastProvider>
-            <AppProvider>{children}</AppProvider>
+            {/* Ops wraps App: the pilgrim store reads the admin-managed catalogue. */}
+            <OpsProvider>
+              <AppProvider>{children}</AppProvider>
+            </OpsProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>

@@ -3,7 +3,6 @@ import type {
   SavingsPlan,
   Transaction,
   User,
-  VirtualAccount,
 } from "../types";
 
 export const DEMO_USER: User = {
@@ -20,7 +19,6 @@ export const DEMO_USER: User = {
   initials: "IA",
   avatarTone: "from-forest-700 to-forest-900",
   kyc: {
-    bvn: "22137458190",
     nin: "70154829336",
     passportNumber: "B10428765",
     passportPhotoUploaded: true,
@@ -40,13 +38,6 @@ export const DEMO_USER: User = {
   tagCode: "HP-27-0416",
 };
 
-export const VIRTUAL_ACCOUNT: VirtualAccount = {
-  bankName: "Wema Bank (HajjPath Trust)",
-  accountNumber: "8901447203",
-  accountName: "HAJJPATH / IBRAHIM ADETUNJI",
-  provider: "Paystack",
-};
-
 export const DEMO_PLANS: SavingsPlan[] = [
   {
     id: "pln-001",
@@ -61,7 +52,6 @@ export const DEMO_PLANS: SavingsPlan[] = [
     startDate: "2025-09-20T00:00:00.000Z",
     autoDebit: true,
     status: "active",
-    bankName: "Guaranty Trust Bank",
     isPrimary: true,
   },
   {
@@ -77,7 +67,6 @@ export const DEMO_PLANS: SavingsPlan[] = [
     startDate: "2025-11-01T00:00:00.000Z",
     autoDebit: true,
     status: "active",
-    bankName: "Guaranty Trust Bank",
     isPrimary: false,
   },
   {
@@ -93,7 +82,6 @@ export const DEMO_PLANS: SavingsPlan[] = [
     startDate: "2025-09-20T00:00:00.000Z",
     autoDebit: false,
     status: "active",
-    bankName: "Jaiz Bank",
     isPrimary: false,
   },
 ];
@@ -107,9 +95,9 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 385_000,
     status: "successful",
     reference: "HP-AD-90412",
-    channel: "Virtual Account",
+    channel: "Paystack",
     date: "2026-07-28T07:02:00.000Z",
-    narration: "Monthly standing order — July",
+    narration: "Automatic Paystack payment — July",
   },
   {
     id: "txn-238",
@@ -118,7 +106,7 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 95_000,
     status: "successful",
     reference: "HP-TR-90388",
-    channel: "Transfer",
+    channel: "Paystack",
     date: "2026-07-26T18:41:00.000Z",
     narration: "Weekly contribution — Halimah",
   },
@@ -140,9 +128,9 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 260_000,
     status: "successful",
     reference: "HP-AD-90201",
-    channel: "Virtual Account",
+    channel: "Paystack",
     date: "2026-06-28T07:02:00.000Z",
-    narration: "Monthly standing order — Sekinat",
+    narration: "Automatic Paystack payment — Sekinat",
   },
   {
     id: "txn-229",
@@ -162,9 +150,9 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 385_000,
     status: "successful",
     reference: "HP-AD-89944",
-    channel: "Virtual Account",
+    channel: "Paystack",
     date: "2026-05-28T07:02:00.000Z",
-    narration: "Monthly standing order — May",
+    narration: "Automatic Paystack payment — May",
   },
   {
     id: "txn-221",
@@ -173,7 +161,7 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 200_000,
     status: "successful",
     reference: "HP-TR-89610",
-    channel: "USSD",
+    channel: "Paystack",
     date: "2026-05-11T20:12:00.000Z",
     narration: "Voluntary top-up ahead of Ramadan",
   },
@@ -184,9 +172,9 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 385_000,
     status: "failed",
     reference: "HP-AD-89401",
-    channel: "Card",
+    channel: "Paystack",
     date: "2026-04-28T07:02:00.000Z",
-    narration: "Standing order declined — insufficient funds",
+    narration: "Automatic Paystack payment declined — insufficient funds",
   },
   {
     id: "txn-216",
@@ -195,7 +183,7 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 385_000,
     status: "successful",
     reference: "HP-TR-89422",
-    channel: "Transfer",
+    channel: "Paystack",
     date: "2026-04-29T10:37:00.000Z",
     narration: "Manual retry of April contribution",
   },
@@ -206,7 +194,7 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 95_000,
     status: "successful",
     reference: "HP-TR-89044",
-    channel: "Transfer",
+    channel: "Paystack",
     date: "2026-04-05T16:58:00.000Z",
     narration: "Weekly contribution — Halimah",
   },
@@ -228,9 +216,9 @@ export const DEMO_TRANSACTIONS: Transaction[] = [
     amount: 385_000,
     status: "successful",
     reference: "HP-AD-88512",
-    channel: "Virtual Account",
+    channel: "Paystack",
     date: "2026-03-28T07:02:00.000Z",
-    narration: "Monthly standing order — March",
+    narration: "Automatic Paystack payment — March",
   },
 ];
 
@@ -256,22 +244,6 @@ export const EMERGENCY_CONTACTS: EmergencyContact[] = [
     phone: "07061180092",
     isPrimary: false,
   },
-];
-
-export const BANKS = [
-  "Jaiz Bank",
-  "Lotus Bank",
-  "TAJBank",
-  "Guaranty Trust Bank",
-  "Access Bank",
-  "Zenith Bank",
-  "First Bank of Nigeria",
-  "United Bank for Africa",
-  "Wema Bank (ALAT)",
-  "Sterling Bank (Alternative)",
-  "Kuda Microfinance Bank",
-  "Moniepoint MFB",
-  "Opay Digital Services",
 ];
 
 export const NIGERIAN_STATES = [

@@ -25,10 +25,11 @@ import { SegmentedControl } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { MapCanvas } from "@/components/app/map-canvas";
 import { ADMIN_PILGRIMS } from "@/lib/data/comms";
-import { GROUP_MEMBERS, PILGRIM_GROUP, POIS } from "@/lib/data/map";
+import { GROUP_MEMBERS, POIS } from "@/lib/data/map";
 import { initialsOf } from "@/lib/format";
 import type { AnnouncementPriority, KycStatus, MemberStatus } from "@/lib/types";
 import { cn } from "@/lib/cn";
+import { useGroup } from "@/lib/catalog";
 
 type Filter = "all" | "attention" | "kyc" | "behind";
 
@@ -56,6 +57,7 @@ const TONES = [
 ];
 
 export default function GroupAdminPage() {
+  const PILGRIM_GROUP = useGroup();
   const { toast } = useToast();
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
-  BadgeCheck,
   CircleCheck,
   Eye,
   EyeOff,
@@ -15,9 +14,9 @@ import {
   Info,
   Landmark,
   Lock,
+  Mail,
   RefreshCcw,
   ShieldCheck,
-  Smartphone,
   Sparkles,
   Target,
   UserPlus,
@@ -38,8 +37,9 @@ import { useToast } from "@/components/ui/toast";
 import { OtpInput } from "./otp-input";
 import { UploadField, type UploadedFile } from "./upload-field";
 import { useApp } from "@/lib/store";
-import { HAJJ_PACKAGES } from "@/lib/data/packages";
-import { BANKS, NIGERIAN_STATES } from "@/lib/data/account";
+import { HAJJ_PACKAGES as SEED_PACKAGES } from "@/lib/data/packages";
+import { usePackages } from "@/lib/catalog";
+import { NIGERIAN_STATES } from "@/lib/data/account";
 import {
   DEPARTURE_DATES,
   FREQUENCY_LABEL,
@@ -55,9 +55,8 @@ const DEMO_OTP = "482016";
 
 const STEPS = [
   { id: "details", label: "Your details", icon: UserPlus },
-  { id: "verify", label: "Verify phone", icon: Smartphone },
-  { id: "identity", label: "Identity", icon: IdCard },
-  { id: "documents", label: "Documents", icon: BadgeCheck },
+  { id: "verify", label: "Verify email", icon: Mail },
+  { id: "identity", label: "Identity and documents", icon: IdCard },
   { id: "plan", label: "Your plan", icon: Target },
   { id: "review", label: "Review", icon: ShieldCheck },
 ] as const;
@@ -75,7 +74,6 @@ interface FormState {
   state: string;
   city: string;
   otp: string;
-  bvn: string;
   nin: string;
   passportNumber: string;
   passportPhoto: UploadedFile | null;
@@ -87,7 +85,6 @@ interface FormState {
   travelYear: TravelYear;
   frequency: PlanFrequency;
   amountPerCycle: number | null;
-  bankName: string;
   autoDebit: boolean;
   referralCode: string;
   twoFactor: boolean;
@@ -107,7 +104,6 @@ const INITIAL: FormState = {
   state: "",
   city: "",
   otp: "",
-  bvn: "",
   nin: "",
   passportNumber: "",
   passportPhoto: null,
@@ -115,11 +111,10 @@ const INITIAL: FormState = {
   beneficiary: "self",
   beneficiaryName: "",
   relationship: "Parent",
-  packageId: HAJJ_PACKAGES[0].id,
+  packageId: SEED_PACKAGES[0].id,
   travelYear: 2027,
   frequency: "monthly",
   amountPerCycle: null,
-  bankName: BANKS[0],
   autoDebit: true,
   referralCode: "",
   twoFactor: true,
@@ -150,6 +145,7 @@ function passwordScore(pw: string): { score: number; label: string; tone: string
 }
 
 export function RegisterWizard() {
+  const { packages: HAJJ_PACKAGES } = usePackages();
   const router = useRouter();
   const { addPlan, updateUser, login } = useApp();
   const { toast } = useToast();
@@ -210,13 +206,9 @@ export function RegisterWizard() {
     }
 
     if (id === "identity") {
-      if (!/^\d{11}$/.test(form.bvn)) e.bvn = "A BVN is exactly 11 digits.";
       if (!/^\d{11}$/.test(form.nin)) e.nin = "A NIN is exactly 11 digits.";
       if (!/^[A-Za-z]\d{8}$/.test(form.passportNumber.trim()))
         e.passportNumber = "Format is one letter followed by 8 digits, e.g. B10428765.";
-    }
-
-    if (id === "documents") {
       if (!form.passportPhoto) e.passportPhoto = "Upload a recent passport photograph.";
       if (!form.passportDataPage)
         e.passportDataPage = "Upload the data page of your international passport.";
@@ -276,7 +268,6 @@ export function RegisterWizard() {
         twoFactorEnabled: form.twoFactor,
         biometricEnabled: form.biometric,
         kyc: {
-          bvn: form.bvn,
           nin: form.nin,
           passportNumber: form.passportNumber.trim().toUpperCase(),
           passportPhotoUploaded: true,
@@ -296,7 +287,6 @@ export function RegisterWizard() {
         travelYear: form.travelYear,
         frequency: form.frequency,
         amountPerCycle: contribution,
-        bankName: form.bankName,
         autoDebit: form.autoDebit,
       });
       login();
@@ -406,7 +396,6 @@ export function RegisterWizard() {
               label="Phone number"
               required
               error={errors.phone}
-              hint="Must be the number registered against your BVN — withdrawals are confirmed here."
               htmlFor="r-phone"
             >
               <TextInput
@@ -493,14 +482,15 @@ export function RegisterWizard() {
           <>
             <p className="text-sm leading-relaxed text-muted">
               We sent a 6-digit code to{" "}
-              <strong className="text-ink">{form.phone || "your phone"}</strong>. Enter it
-              below to confirm the number belongs to you.
+              <strong className="text-ink">{form.email || "your email"}</strong>. Enter it
+              below to confirm the address belongs to you. Check your spam folder if it
+              has not arrived within a minute.
             </p>
 
             <div className="flex items-start gap-3 rounded-2xl border border-gold-500/30 bg-gold-50/70 p-4 dark:bg-gold-950/30">
               <Info className="mt-0.5 size-4 shrink-0 text-gold-700 dark:text-gold-400" />
               <p className="text-[0.8125rem] leading-relaxed text-ink/80">
-                No SMS is actually sent in this demo. Use the code{" "}
+                No email is actually sent in this demo. Use the code{" "}
                 <strong className="tabular text-ink">{DEMO_OTP}</strong>.
               </p>
             </div>
@@ -531,7 +521,7 @@ export function RegisterWizard() {
                 onClick={() => setStepIndex(0)}
                 className="text-sm font-medium text-muted underline underline-offset-2 hover:text-ink"
               >
-                Change phone number
+                Change email address
               </button>
             </div>
           </>
@@ -543,24 +533,6 @@ export function RegisterWizard() {
               Nigerian regulation requires verified identity before an account can hold
               funds. These details are checked once and encrypted at rest.
             </p>
-
-            <Field
-              label="Bank Verification Number (BVN)"
-              required
-              error={errors.bvn}
-              hint="Dial *565*0# on the phone linked to your bank account to retrieve it."
-              htmlFor="r-bvn"
-            >
-              <TextInput
-                id="r-bvn"
-                inputMode="numeric"
-                maxLength={11}
-                value={form.bvn}
-                onChange={(e) => set("bvn", e.target.value.replace(/\D/g, ""))}
-                placeholder="22137458190"
-                invalid={Boolean(errors.bvn)}
-              />
-            </Field>
 
             <Field
               label="National Identity Number (NIN)"
@@ -600,18 +572,13 @@ export function RegisterWizard() {
             <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface-muted/60 p-4">
               <Lock className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                Your BVN and NIN are validated through VerifyMe and stored encrypted. They
+                Your NIN and passport are validated through VerifyMe and stored encrypted. They
                 are never shared with vendors, travel operators or other pilgrims.
               </p>
             </div>
-          </>
-        ) : null}
 
-        {step.id === "documents" ? (
-          <>
-            <p className="text-sm leading-relaxed text-muted">
-              Two documents complete your KYC. Clear photographs taken on a phone are
-              perfectly acceptable, as long as every corner is visible.
+            <p className="pt-2 text-[0.8125rem] font-semibold text-ink">
+              Two photos. A clear phone photo is fine, as long as every corner is visible.
             </p>
 
             <UploadField
@@ -810,24 +777,12 @@ export function RegisterWizard() {
               />
             </Field>
 
-            <Field label="Funding bank" htmlFor="r-bank">
-              <Select
-                id="r-bank"
-                value={form.bankName}
-                onChange={(e) => set("bankName", e.target.value)}
-              >
-                {BANKS.map((b) => (
-                  <option key={b}>{b}</option>
-                ))}
-              </Select>
-            </Field>
-
             <div className="rounded-2xl border border-line bg-surface p-4">
               <Switch
                 checked={form.autoDebit}
                 onChange={(v) => set("autoDebit", v)}
-                label="Set up a standing order"
-                description="We collect automatically on the 28th. You will always be told before and after each attempt."
+                label="Pay automatically with Paystack"
+                description="Paystack charges your card on the 28th of each cycle. You will always be told before and after each attempt."
               />
             </div>
           </>
@@ -877,7 +832,6 @@ export function RegisterWizard() {
                 </button>
               </div>
               <dl className="px-5 py-2">
-                <DataRow label="BVN" value={form.bvn ? maskId(form.bvn) : "—"} />
                 <DataRow label="NIN" value={form.nin ? maskId(form.nin) : "—"} />
                 <DataRow label="Passport" value={form.passportNumber || "—"} />
                 <DataRow
@@ -896,7 +850,7 @@ export function RegisterWizard() {
                 <p className="text-[0.8125rem] font-bold text-ink">Your plan</p>
                 <button
                   type="button"
-                  onClick={() => setStepIndex(4)}
+                  onClick={() => setStepIndex(3)}
                   className="text-xs font-semibold text-forest-800 hover:underline dark:text-gold-300"
                 >
                   Edit
@@ -930,10 +884,9 @@ export function RegisterWizard() {
                     </span>
                   }
                 />
-                <DataRow label="Funding bank" value={form.bankName} />
                 <DataRow
-                  label="Standing order"
-                  value={form.autoDebit ? "Enabled · 28th monthly" : "Manual deposits"}
+                  label="Automatic payment"
+                  value={form.autoDebit ? "Paystack · 28th of each cycle" : "Pay as you go via Paystack"}
                 />
               </dl>
             </div>
@@ -944,7 +897,7 @@ export function RegisterWizard() {
                 checked={form.twoFactor}
                 onChange={(v) => set("twoFactor", v)}
                 label="Two-factor authentication"
-                description="An OTP is required for sign-in on a new device and for every withdrawal."
+                description="An OTP is required for sign-in on a new device."
               />
               <Switch
                 checked={form.biometric}
@@ -1009,9 +962,8 @@ export function RegisterWizard() {
             <div className="flex items-start gap-3 rounded-2xl border border-forest-700/30 bg-forest-50 p-4 dark:bg-forest-950/50">
               <Landmark className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                On activation you receive a dedicated virtual account in your own name.
-                Every naira you transfer to it is reconciled to this plan within ten
-                minutes.
+                Every payment into this plan goes through Paystack: card, bank transfer
+                or USSD. It shows on your tracker as soon as Paystack confirms it.
               </p>
             </div>
           </>

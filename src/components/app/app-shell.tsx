@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bell,
-  ChevronRight,
   LogOut,
   Menu,
   Moon,
@@ -13,6 +12,7 @@ import {
   RotateCcw,
   Search,
   ShoppingCart,
+  ShieldCheck,
   Siren,
   Sun,
   X,
@@ -22,6 +22,7 @@ import { Avatar } from "@/components/ui/misc";
 import { IconButton } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import { useApp, useCartSummary } from "@/lib/store";
+import { useOps } from "@/lib/ops/store";
 import { cn } from "@/lib/cn";
 import {
   ALL_NAV_ITEMS,
@@ -44,6 +45,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     useApp();
   const { resolved, toggle } = useTheme();
   const { itemCount } = useCartSummary();
+  const { isAdminEmail, currentAdmin } = useOps();
+  /* Shown to everyone until a backend can check admin membership on the server.
+     Restore `isAdminEmail(user.email)` here to limit it to the admin team again. */
+  const showAdmin = true;
+  const prefillAdminEmail = isAdminEmail(user.email);
+  const adminHref = currentAdmin
+    ? "/ops"
+    : prefillAdminEmail
+      ? `/ops/login?email=${encodeURIComponent(user.email)}`
+      : "/ops/login";
 
   const openOrders = orders.filter(
     (o) => !["delivered", "cancelled"].includes(o.status),
@@ -115,12 +126,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const sidebarContent = (
     <>
-      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
-        {NAV_GROUPS.map((group) => (
-          <div key={group.title}>
-            <p className="mb-1.5 px-3 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
-              {group.title}
-            </p>
+      <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-5">
+        {NAV_GROUPS.map((group, gi) => (
+          <div key={group.title ?? gi}>
+            {group.title ? (
+              <p className="mb-1.5 px-3 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
+                {group.title}
+              </p>
+            ) : null}
             <ul className="space-y-0.5">
               {group.items.map((item) => {
                 const active = isActive(pathname, item);
@@ -131,7 +144,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+                        "group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition",
                         active
                           ? "bg-forest-800 text-white shadow-[0_8px_20px_-12px_rgba(1,68,33,0.8)]"
                           : item.href === "/app/sos"
@@ -161,36 +174,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         ))}
 
-        <div>
-          <p className="mb-1.5 px-3 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
-            Switch portal
-          </p>
-          <ul className="space-y-0.5">
-            {PORTAL_LINKS.map((item) => {
-              const active = isActive(pathname, item);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
-                      active
-                        ? "bg-gold-500 text-forest-950"
-                        : "text-ink/75 hover:bg-surface-muted hover:text-ink",
-                    )}
-                  >
-                    <item.icon className="size-[1.15rem] shrink-0" />
-                    <span className="truncate">{item.label}</span>
-                    <ChevronRight className="ml-auto size-4 opacity-40" />
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
       </nav>
 
       <div className="border-t border-line p-3">
+        {showAdmin ? (
+          <Link
+            href={adminHref}
+            className="mb-2 flex items-center justify-center gap-2 rounded-xl bg-forest-950 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-forest-900 dark:bg-gold-500 dark:text-forest-950 dark:hover:bg-gold-400"
+          >
+            <ShieldCheck className="size-4" />
+            Go to admin
+          </Link>
+        ) : null}
         <div className="flex items-center gap-3 rounded-xl px-2 py-2">
           <Avatar initials={user.initials} tone={user.avatarTone} size="sm" />
           <div className="min-w-0 flex-1">
@@ -200,6 +195,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </p>
             <p className="truncate text-xs text-muted">{user.email}</p>
           </div>
+        </div>
+        <div className="mt-1 flex gap-1">
+          {PORTAL_LINKS.map((item) => {
+            const active = isActive(pathname, item);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-xs font-medium transition",
+                  active
+                    ? "bg-gold-500 text-forest-950"
+                    : "text-muted hover:bg-surface-muted hover:text-ink",
+                )}
+              >
+                <item.icon className="size-3.5" />
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
         <div className="mt-1 flex gap-1">
           <button
@@ -390,7 +405,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="safe-bottom absolute inset-x-0 bottom-0 max-h-[80vh] animate-[slide-up_0.28s_cubic-bezier(0.22,1,0.36,1)] overflow-y-auto rounded-t-3xl border-t border-line bg-surface p-5">
             <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-line-strong" />
             <div className="space-y-5">
-              {NAV_GROUPS.map((group) => (
+              {showAdmin ? (
+                <Link
+                  href={adminHref}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-forest-950 px-3 py-3 text-sm font-semibold text-white dark:bg-gold-500 dark:text-forest-950"
+                >
+                  <ShieldCheck className="size-4" />
+                  Go to admin
+                </Link>
+              ) : null}
+              {NAV_GROUPS.filter((group) => group.title).map((group) => (
                 <div key={group.title}>
                   <p className="mb-2 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
                     {group.title}

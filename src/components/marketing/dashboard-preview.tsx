@@ -93,7 +93,7 @@ export function DashboardPreview() {
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { label: "Departure in", value: "261 days", detail: "20 Apr 2027" },
-                  { label: "Monthly plan", value: "₦385,000", detail: "Auto-debit on" },
+                  { label: "Monthly plan", value: "₦385,000", detail: "Auto-pay via Paystack" },
                   { label: "This month", value: "₦426,360", detail: "2 deposits" },
                   { label: "Group", value: "Al-Amanah", detail: "48 pilgrims" },
                 ].map((s) => (

@@ -23,14 +23,14 @@ export default function PrivacyPage() {
       <ul>
         <li>Name, date of birth, gender, state and city of residence</li>
         <li>Phone number and email address</li>
-        <li>Bank Verification Number (BVN) and National Identity Number (NIN)</li>
+        <li>National Identity Number (NIN)</li>
         <li>International passport data page and passport photograph</li>
       </ul>
 
       <h3>Financial data</h3>
       <ul>
-        <li>Savings plan details, contributions, balances and withdrawal history</li>
-        <li>Virtual account number and settlement bank details</li>
+        <li>Savings plan details, contributions and balances</li>
+        <li>Paystack payment references (never your full card details)</li>
         <li>Marketplace orders and escrow transactions</li>
       </ul>
 
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Group membership, camp and room assignment, and pilgrim tag code</li>
         <li>Location, only while you have location sharing switched on</li>
-        <li>Itinerary progress, checklist state, journal entries and gallery uploads</li>
+        <li>Itinerary progress and checklist state</li>
         <li>SOS alerts, including position and the category of emergency</li>
       </ul>
 
@@ -49,8 +49,8 @@ export default function PrivacyPage() {
           verified identity before an account can hold funds.
         </li>
         <li>
-          <strong>To operate your savings plan</strong> — reconciling deposits, calculating
-          progress and processing withdrawals.
+          <strong>To operate your savings plan</strong> — reconciling deposits and
+          calculating progress.
         </li>
         <li>
           <strong>To keep you safe</strong> — routing SOS alerts, enabling Find Me inside
@@ -69,12 +69,12 @@ export default function PrivacyPage() {
       <h2>3. Who we share it with</h2>
       <ul>
         <li>
-          <strong>KYC providers</strong> (VerifyMe, SmileID) — to validate your BVN and NIN.
+          <strong>KYC providers</strong> (VerifyMe, SmileID) — to validate your NIN and passport.
           They receive only what is needed for the check.
         </li>
         <li>
-          <strong>Payment partners</strong> (Paystack, Flutterwave, Moniepoint) and our
-          custody bank — to operate your virtual account and settle transactions.
+          <strong>Paystack</strong>, our only payment processor, and our custody bank — to
+          process your payments and settle them into your plan.
         </li>
         <li>
           <strong>Your group admin and operator</strong> — your name, tag code, welfare
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
         </li>
         <li>
           <strong>Marketplace vendors</strong> — your delivery location and order details
-          only. Vendors never receive your BVN, NIN or savings information.
+          only. Vendors never receive your NIN or savings information.
         </li>
         <li>
           <strong>NAHCON and State Pilgrims Boards</strong> — your compliance pack, and only
@@ -107,7 +107,6 @@ export default function PrivacyPage() {
       <ul>
         <li>Identity and financial records: seven years after account closure, as required by law.</li>
         <li>Location history: thirty days after the end of your pilgrimage.</li>
-        <li>Journal entries and gallery uploads: until you delete them or close your account.</li>
         <li>Support conversations: two years.</li>
       </ul>
 
@@ -116,7 +115,6 @@ export default function PrivacyPage() {
         <li>Encryption in transit (TLS 1.3) and at rest (AES-256).</li>
         <li>End-to-end encryption on group messaging and location sharing.</li>
         <li>Two-factor authentication, biometric unlock and device binding.</li>
-        <li>Withdrawals require an OTP sent to your BVN-registered phone number.</li>
         <li>Role-based internal access with audit logging on every identity record.</li>
       </ul>
 
@@ -124,7 +122,7 @@ export default function PrivacyPage() {
       <p>
         You may request access to your data, correction of anything inaccurate, deletion
         where we have no legal obligation to retain it, a portable export, or restriction
-        of certain processing. You may also withdraw consent for optional processing such
+        of certain processing. You may also revoke consent for optional processing such
         as location sharing and marketing messages.
       </p>
       <p>

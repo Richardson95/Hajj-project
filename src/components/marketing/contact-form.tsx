@@ -5,10 +5,12 @@ import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Field, Select, TextArea, TextInput } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
+import { useOps } from "@/lib/ops/store";
 
 const TOPICS = [
   "Opening a savings plan",
   "An existing plan or deposit",
+  "I can no longer travel for Hajj",
   "KYC / verification",
   "Sponsoring a family member",
   "Applying to sell as a vendor",
@@ -25,6 +27,7 @@ interface Errors {
 
 export function ContactForm() {
   const { toast } = useToast();
+  const { createTicket } = useOps();
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -56,11 +59,18 @@ export function ContactForm() {
     if (!validate()) return;
     setSending(true);
     window.setTimeout(() => {
+      const ticket = createTicket({
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        topic: values.topic,
+        message: values.message,
+      });
       setSending(false);
       setValues({ name: "", email: "", phone: "", topic: TOPICS[0], message: "" });
       toast({
         title: "Message received",
-        description: "A HajjPath agent will reply within one business day, insha'Allah.",
+        description: `Reference ${ticket.id}. A HajjPath agent will reply within one business day, insha'Allah.`,
       });
     }, 800);
   }

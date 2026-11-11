@@ -1,13 +1,13 @@
 "use client";
 
-import { CalendarDays, Landmark, Pause, Pencil, Play, Plus, Repeat } from "lucide-react";
+import { CalendarDays, Pause, Pencil, Play, Plus, Repeat } from "lucide-react";
 import { Card, CardBody, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progress";
 import { useApp } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
-import { packageById } from "@/lib/data/packages";
+import { usePackages } from "@/lib/catalog";
 import {
   DEPARTURE_DATES,
   FREQUENCY_SUFFIX,
@@ -29,6 +29,7 @@ export function PlanCard({
   onEdit: (plan: SavingsPlan) => void;
   onDeposit: (plan: SavingsPlan) => void;
 }) {
+  const { packageById } = usePackages();
   const { plans, updatePlan } = useApp();
   const { toast } = useToast();
 
@@ -132,12 +133,8 @@ export function PlanCard({
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
           <span className="flex items-center gap-1.5">
-            <Landmark className="size-3.5" />
-            {plan.bankName}
-          </span>
-          <span className="flex items-center gap-1.5">
             <Repeat className="size-3.5" />
-            {plan.autoDebit ? "Standing order active" : "Manual deposits"}
+            {plan.autoDebit ? "Automatic Paystack payment" : "Pay as you go via Paystack"}
           </span>
           <span className="flex items-center gap-1.5">
             <CalendarDays className="size-3.5" />

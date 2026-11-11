@@ -1,44 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Banknote, Copy, CreditCard, Landmark, Smartphone } from "lucide-react";
+import { CreditCard, Landmark, Lock, Smartphone } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Field, RadioCard, Select, TextInput } from "@/components/ui/field";
+import { Field, Select, TextInput } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
 import { useApp } from "@/lib/store";
-import { VIRTUAL_ACCOUNT } from "@/lib/data/account";
-import { packageById } from "@/lib/data/packages";
+import { usePackages } from "@/lib/catalog";
 import { naira } from "@/lib/format";
-import type { Transaction } from "@/lib/types";
-
-const CHANNELS: {
-  id: Transaction["channel"];
-  label: string;
-  detail: string;
-  icon: React.ComponentType<{ className?: string }>;
-}[] = [
-  {
-    id: "Virtual Account",
-    label: "Bank transfer",
-    detail: "Send to your dedicated HajjPath account number.",
-    icon: Landmark,
-  },
-  {
-    id: "Card",
-    label: "Debit card",
-    detail: "Pay instantly with a Nigerian debit card.",
-    icon: CreditCard,
-  },
-  {
-    id: "USSD",
-    label: "USSD",
-    detail: "Dial a short code from any phone, no data needed.",
-    icon: Smartphone,
-  },
-];
 
 const QUICK = [25_000, 50_000, 100_000, 250_000, 500_000];
+
+/** What Paystack's checkout offers once it opens. Shown for reassurance only. */
+const PAYSTACK_METHODS = [
+  { label: "Card", icon: CreditCard },
+  { label: "Bank transfer", icon: Landmark },
+  { label: "USSD", icon: Smartphone },
+];
 
 export function DepositModal({
   open,
@@ -61,6 +40,7 @@ function DepositForm({
   onClose: () => void;
   planId?: string;
 }) {
+  const { packageById } = usePackages();
   const { plans, deposit } = useApp();
   const { toast } = useToast();
 
@@ -72,7 +52,6 @@ function DepositForm({
 
   const [selectedPlan, setSelectedPlan] = useState(planId ?? fallbackId);
   const [amount, setAmount] = useState<number | null>(null);
-  const [channel, setChannel] = useState<Transaction["channel"]>("Virtual Account");
   const [error, setError] = useState<string | undefined>();
   const [busy, setBusy] = useState(false);
 
@@ -80,22 +59,24 @@ function DepositForm({
   const target = plan ? packageById(plan.packageId).priceNGN : 0;
   const remaining = plan ? Math.max(0, target - plan.balance) : 0;
 
-  function confirm() {
+  function pay() {
     if (!plan) return;
     if (!amount || amount < 1000) {
       setError("The minimum deposit is ₦1,000.");
       return;
     }
     setBusy(true);
+    /* Production: open Paystack checkout here and credit the plan only when
+       Paystack's webhook confirms the charge on the server. */
     window.setTimeout(() => {
-      deposit(plan.id, amount, channel);
+      deposit(plan.id, amount, "Paystack");
       setBusy(false);
       toast({
         title: `${naira(amount)} added to your plan`,
-        description: `${plan.beneficiaryName} · ${channel}. Your tracker has been updated.`,
+        description: `${plan.beneficiaryName} · paid with Paystack. Your tracker has been updated.`,
       });
       onClose();
-    }, 700);
+    }, 900);
   }
 
   return (
@@ -103,14 +84,17 @@ function DepositForm({
       open={true}
       onClose={onClose}
       title="Add to your Hajj savings"
-      description="Deposits reconcile to your plan within ten minutes."
+      description="All payments go through Paystack's secure checkout."
       footer={
         <>
           <Button variant="ghost" onClick={onClose} disabled={busy}>
             Cancel
           </Button>
-          <Button onClick={confirm} disabled={busy || !plan}>
-            {busy ? "Processing…" : `Deposit ${amount ? naira(amount) : ""}`}
+          <Button onClick={pay} disabled={busy || !plan}>
+            <Lock className="size-4" />
+            {busy
+              ? "Opening Paystack…"
+              : `Pay ${amount ? `${naira(amount)} ` : ""}with Paystack`}
           </Button>
         </>
       }
@@ -186,68 +170,30 @@ function DepositForm({
           ) : null}
         </div>
 
-        <div className="space-y-2.5">
-          <p className="text-[0.8125rem] font-medium text-ink">How would you like to pay?</p>
-          {CHANNELS.map((c) => (
-            <RadioCard
-              key={c.id}
-              checked={channel === c.id}
-              onSelect={() => setChannel(c.id)}
-              title={
-                <span className="flex items-center gap-2">
-                  <c.icon className="size-4 text-forest-700 dark:text-gold-400" />
-                  {c.label}
-                </span>
-              }
-              description={c.detail}
-            />
-          ))}
-        </div>
-
-        {channel === "Virtual Account" ? (
-          <div className="rounded-2xl border border-line bg-surface-muted p-4">
-            <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
-              Your dedicated account
-            </p>
-            <div className="mt-2 flex items-center gap-3">
-              <Banknote className="size-5 shrink-0 text-forest-700 dark:text-gold-400" />
-              <div className="min-w-0 flex-1">
-                <p className="tabular text-lg font-extrabold tracking-wide text-ink">
-                  {VIRTUAL_ACCOUNT.accountNumber}
-                </p>
-                <p className="truncate text-xs text-muted">
-                  {VIRTUAL_ACCOUNT.bankName} · {VIRTUAL_ACCOUNT.accountName}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  navigator.clipboard?.writeText(VIRTUAL_ACCOUNT.accountNumber);
-                  toast({ title: "Account number copied", tone: "info" });
-                }}
-                className="rounded-lg border border-line bg-surface p-2 text-muted transition hover:text-ink"
-                aria-label="Copy account number"
+        <div className="rounded-2xl border border-line bg-surface-muted p-4">
+          <p className="flex items-center gap-2 text-sm font-semibold text-ink">
+            <Lock className="size-4 text-forest-700 dark:text-gold-400" />
+            Paid securely with Paystack
+          </p>
+          <p className="mt-1.5 text-xs leading-relaxed text-muted">
+            Paystack&apos;s checkout opens next. Choose how to pay there:
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {PAYSTACK_METHODS.map((m) => (
+              <span
+                key={m.label}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-xs font-medium text-ink"
               >
-                <Copy className="size-4" />
-              </button>
-            </div>
+                <m.icon className="size-3.5 text-forest-700 dark:text-gold-400" />
+                {m.label}
+              </span>
+            ))}
           </div>
-        ) : null}
-
-        {channel === "USSD" ? (
-          <div className="rounded-2xl border border-line bg-surface-muted p-4 text-center">
-            <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
-              Dial from your registered number
-            </p>
-            <p className="tabular mt-2 text-2xl font-extrabold text-ink">
-              *737*50*{amount ? Math.round(amount / 1000) : "0"}*
-              {VIRTUAL_ACCOUNT.accountNumber.slice(-4)}#
-            </p>
-            <p className="mt-2 text-xs text-muted">
-              Works on any phone, with or without data.
-            </p>
-          </div>
-        ) : null}
+          <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted">
+            HajjPath never sees or stores your card details. In this demo no real payment
+            is taken.
+          </p>
+        </div>
       </div>
     </Modal>
   );

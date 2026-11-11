@@ -3,14 +3,12 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
-  Camera,
   ChevronRight,
   Clock,
   Compass,
   Languages,
   MapPin,
   Megaphone,
-  NotebookPen,
   ScanQrCode,
   ShieldCheck,
   Siren,
@@ -358,18 +356,8 @@ export default function CompanionPage() {
 
       {/* Post-journey strip */}
       <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4">
           {[
-            {
-              icon: NotebookPen,
-              title: "Journal as you go",
-              body: "Write reflections at each stage while the memory is still sharp. Keep them private or share them.",
-            },
-            {
-              icon: Camera,
-              title: "Gallery by stage",
-              body: "Photographs and video tagged by location and rite, preserved long after the phone is replaced.",
-            },
             {
               icon: ShieldCheck,
               title: "Encrypted throughout",

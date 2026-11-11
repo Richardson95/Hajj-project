@@ -37,7 +37,7 @@ content.
 
 - **Sign in** at `/auth/login` with any valid email or 11-digit Nigerian phone number and
   any 6+ character password. There is a one-click "fill demo credentials" button.
-- **Register** at `/auth/register` to walk the full 6-step KYC onboarding. The phone
+- **Register** at `/auth/register` to walk the full 5-step KYC onboarding. The email
   verification step uses the code **`482016`**.
 - State lives in `localStorage` under `hajjpath.state.v2`. **Reset demo data** from the
   sidebar or from Profile → Session & demo data.
@@ -50,7 +50,7 @@ content.
 
 | Route             | Contents                                                                       |
 | ----------------- | ------------------------------------------------------------------------------ |
-| `/`               | Hero, three pillars, savings features, live plan estimator, in-Makkah modules, post-Hajj, personas, six-step journey, compliance, testimonials, FAQ, CTA |
+| `/`               | Hero, three pillars, live plan estimator, in-Makkah modules, compliance, testimonials, top FAQs, CTA |
 | `/how-it-works`   | Eight-stage timeline with durations, requirements checklist, estimator          |
 | `/packages`       | Three Hajj packages, full comparison table, contribution figures per frequency  |
 | `/companion`      | The six on-the-ground modules, map legend, languages, offline behaviour         |
@@ -63,8 +63,8 @@ content.
 ### Authentication
 
 - `/auth/login` — validated sign-in, password visibility toggle, biometric option
-- `/auth/register` — six-step wizard: details → phone OTP → identity (BVN/NIN/passport)
-  → document upload → savings plan → review, consents and activation
+- `/auth/register` — five-step wizard: details → email OTP → identity and document
+  photos → savings plan → review, consents and activation
 - `/auth/forgot-password` — reset request with success state
 
 ### The application (`/app`)
@@ -72,7 +72,7 @@ content.
 | Route                        | Module                                                                     |
 | ---------------------------- | -------------------------------------------------------------------------- |
 | `/app`                       | Dashboard — goal ring, plan health, countdown, savings trajectory chart, itinerary preview, activity, broadcasts, checklist, group |
-| `/app/savings`               | Virtual account, plan cards, deposits, pause/resume, ledger with filters, CSV export, withdrawal flow |
+| `/app/savings`               | Paystack payments, plan cards, pause/resume, ledger with filters, CSV export |
 | `/app/family`                | Household overview and sponsored plans for parents, spouses and children     |
 | `/app/referrals`             | Referral code, share sheet, reward ledger, apply credit to a plan            |
 | `/app/notifications`         | Filterable notification centre                                              |
@@ -87,13 +87,40 @@ content.
 | `/app/marketplace/[id]`      | Product detail, vendor profile, delivery zones, escrow explainer             |
 | `/app/marketplace/cart`      | Quantities, drop-off selection, escrow checkout                             |
 | `/app/marketplace/orders`    | Order tracker, delivery confirmation, dispute flow                          |
-| `/app/gallery`               | Memories by stage with lightbox and composer                                |
-| `/app/journal`               | Reflection entries, moods, privacy, Al-Hajji badge card, writing prompts     |
-| `/app/profile`               | Identity record, security toggles, languages, appearance, notifications      |
+| `/app/profile`               | Identity record, Al-Hajji badge, security toggles, languages, appearance, notifications      |
 | `/app/vendor`                | Vendor portal — orders, settlement, performance, catalogue                   |
 | `/app/admin`                 | Group admin — live positions, 10-pilgrim manifest, broadcasts, CSV export    |
 
 ---
+
+### Operations console (`/ops`)
+
+A separate console for HajjPath staff, with its own sign-in at `/ops/login`
+(demo: `admin@hajjpath.ng` / `admin2027`). Until the backend exists, every pilgrim
+account sees a **Go to admin** button in the sidebar; only admin-team emails can
+actually sign in to the console.
+
+| Route           | What staff do there                                                          |
+| --------------- | ---------------------------------------------------------------------------- |
+| `/ops`          | Platform totals, a prioritised "needs attention" queue, admin activity log    |
+| `/ops/users`    | Search every pilgrim; approve or reject NIN/passport verification             |
+| `/ops/plans`    | Pause, resume or move the travel year of any savings plan                     |
+| `/ops/support`  | Contact-form inbox: reply, assign, close; "cannot travel" requests shown first |
+| `/ops/vendors`  | Marketplace: admins post, edit, hide and delete every product; add/edit vendors; applications; escrow disputes |
+| `/ops/content`  | Package fares, tour itinerary, packing checklist, group details, FAQ, announcements |
+| `/ops/sos`      | Live SOS alerts across all groups: assign a responder, mark safe              |
+| `/ops/team`     | Add or remove admins (super admins only)                                      |
+
+Changes reach the pilgrim side where both run in the same browser: KYC decisions, plan
+changes and SOS responses apply to the demo pilgrim account, contact-form messages
+arrive in the inbox, FAQ edits show on the public site, announcements show in the app,
+and the marketplace, package fares, itinerary, checklist and group details all read from
+the console. Pages rendered at build time (`/packages`, `/companion`, `/about`, homepage
+testimonials) pick up console edits only once a backend serves the data.
+
+**Demo only:** admin accounts, passwords and sessions live in `localStorage`
+(`hajjpath.ops.v1`). Production must move authentication and every role check to the
+server.
 
 ## Architecture
 
@@ -172,8 +199,8 @@ This build is a complete, working front end. Before going live you would add:
 
 - A real API and database behind `src/lib/store.tsx` (PostgreSQL is the natural fit).
 - Server-side sessions and authentication — the current auth is client-side for the demo.
-- Live integrations: Paystack/Flutterwave/Moniepoint virtual accounts, VerifyMe or SmileID
-  for BVN/NIN, and a push provider for reminders.
+- Live integrations: Paystack checkout and recurring charges (the only payment channel), VerifyMe or SmileID
+  for NIN, and a push provider for reminders.
 - Real device GPS for Find Me, replacing the seeded coordinates.
 - Recorded audio narration files per language, alongside the browser speech fallback.
 

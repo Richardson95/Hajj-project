@@ -18,12 +18,14 @@ import { ProgressBar } from "@/components/ui/progress";
 import { SegmentedControl } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { useApp } from "@/lib/store";
-import { CHECKLIST, CHECKLIST_GROUPS } from "@/lib/data/guide";
+import { CHECKLIST_GROUPS } from "@/lib/data/guide";
+import { useChecklist } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 
 type Filter = "all" | "todo" | "done";
 
 export default function ChecklistPage() {
+  const CHECKLIST = useChecklist();
   const { checklistDone, toggleChecklist } = useApp();
   const { toast } = useToast();
   const [filter, setFilter] = useState<Filter>("all");
@@ -45,7 +47,7 @@ export default function ChecklistPage() {
         ).length;
         return { group, items, total, done };
       }).filter((g) => g.items.length > 0),
-    [filter, checklistDone],
+    [CHECKLIST, filter, checklistDone],
   );
 
   function exportList() {

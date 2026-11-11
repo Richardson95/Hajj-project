@@ -75,7 +75,7 @@ const AUDIENCES: {
     points: [
       "Multiple plans with independent goals",
       "Beneficiaries see their own tracker",
-      "Transparent ledger, withdrawable any time",
+      "Transparent ledger of every contribution",
     ],
   },
   {
@@ -107,7 +107,7 @@ const AUDIENCES: {
     body: "HajjPath does not allocate seats. It prepares pilgrims who arrive at the Board already verified, already funded and already documented.",
     points: [
       "Compliance packs formatted for submission",
-      "Verified BVN, NIN and passport on file",
+      "Verified NIN and passport on file",
       "Complete, auditable savings history",
     ],
   },

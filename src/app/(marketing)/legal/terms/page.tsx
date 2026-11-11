@@ -36,7 +36,7 @@ export default function TermsPage() {
       <ul>
         <li>You must be at least 18 years old and a Nigerian citizen or resident.</li>
         <li>
-          You must provide accurate identity information including your BVN, NIN and
+          You must provide accurate identity information including your NIN and
           international passport details.
         </li>
         <li>
@@ -67,17 +67,14 @@ export default function TermsPage() {
           Fares shown for Hajj packages are indicative and reconciled against the gazetted
           NAHCON figure each season. Differences are refunded or invoiced before departure.
         </li>
+        <li>
+          If you cannot complete your savings or can no longer travel for Hajj, contact
+          HajjPath support through the contact page, by email at salam@hajjpath.ng or on
+          0800 425 5728. Our team will review your plan and advise you on the next steps.
+        </li>
       </ul>
 
-      <h2>4. Withdrawals</h2>
-      <p>
-        Your savings belong to you. Withdrawal requests are paid to the bank account tied
-        to your BVN, normally within two business days. Fees already earned on completed
-        quarters are retained. Withdrawals require an OTP sent to the phone number
-        registered against your BVN.
-      </p>
-
-      <h2>5. Marketplace and escrow</h2>
+      <h2>4. Marketplace and escrow</h2>
       <ul>
         <li>
           HajjPath is a marketplace facilitator. Vendors are independent businesses
@@ -99,7 +96,7 @@ export default function TermsPage() {
         </li>
       </ul>
 
-      <h2>6. Safety features</h2>
+      <h2>5. Safety features</h2>
       <p>
         Find Me, live location sharing and the SOS button are support tools, not emergency
         services. In a genuine emergency in the Kingdom you must also contact Saudi Red
@@ -107,7 +104,7 @@ export default function TermsPage() {
         coverage, GPS accuracy or response times in the Mashaer.
       </p>
 
-      <h2>7. Acceptable use</h2>
+      <h2>6. Acceptable use</h2>
       <ul>
         <li>Do not impersonate another person or submit identity documents that are not yours.</li>
         <li>Do not use HajjPath to launder funds or to finance anything unlawful.</li>
@@ -118,7 +115,7 @@ export default function TermsPage() {
         <li>Do not attempt to interfere with the platform, its data or other users.</li>
       </ul>
 
-      <h2>8. Suspension and closure</h2>
+      <h2>7. Suspension and closure</h2>
       <p>
         We may suspend an account where we reasonably suspect fraud, impersonation or
         misuse. Where an account is suspended, the balance remains yours and is returned
@@ -126,7 +123,7 @@ export default function TermsPage() {
         account at any time.
       </p>
 
-      <h2>9. Liability</h2>
+      <h2>8. Liability</h2>
       <p>
         HajjPath is not liable for losses arising from events outside our reasonable
         control, including changes to Saudi regulations, airlift delays, NAHCON quota
@@ -134,14 +131,14 @@ export default function TermsPage() {
         does not limit liability that cannot lawfully be limited.
       </p>
 
-      <h2>10. Changes and governing law</h2>
+      <h2>9. Changes and governing law</h2>
       <p>
         We will give at least 30 days&apos; notice before any material change to these
         terms. They are governed by the laws of the Federal Republic of Nigeria, and
         disputes are subject to the jurisdiction of the courts of Lagos State.
       </p>
 
-      <h2>11. Contact</h2>
+      <h2>10. Contact</h2>
       <p>
         Questions about these terms can be sent to{" "}
         <a href="mailto:legal@hajjpath.ng">legal@hajjpath.ng</a> or to HajjPath

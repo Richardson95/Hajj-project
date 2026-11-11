@@ -32,7 +32,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
   {
     id: "ann-03",
     title: "Second instalment window opens 5 August",
-    body: "Pilgrims on the Baytullah Standard package can pay the second instalment from 5 to 30 August. Deposits made through your HajjPath virtual account are reconciled automatically within ten minutes.",
+    body: "Pilgrims on the Baytullah Standard package can pay the second instalment from 5 to 30 August. Payments made through Paystack reflect on your plan as soon as Paystack confirms them.",
     author: "HajjPath Operations",
     authorRole: "HajjPath",
     priority: "info",
@@ -79,7 +79,7 @@ export const NOTIFICATIONS: AppNotification[] = [
   {
     id: "ntf-01",
     title: "Contribution received — ₦385,000",
-    body: "Your July standing order cleared. You are now 61.9% of the way to your Hajj goal.",
+    body: "Your July automatic Paystack payment went through. You are now 61.9% of the way to your Hajj goal.",
     kind: "savings",
     date: "2026-07-28T07:04:00.000Z",
     read: false,

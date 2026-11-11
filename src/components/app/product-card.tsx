@@ -6,7 +6,7 @@ import { Icon } from "@/components/icon";
 import { Pill } from "@/components/ui/badge";
 import { useApp } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
-import { vendorById } from "@/lib/data/marketplace";
+import { useCatalog } from "@/lib/catalog";
 import { naira, riyal } from "@/lib/format";
 import type { Product } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -14,6 +14,7 @@ import { cn } from "@/lib/cn";
 export function ProductCard({ product }: { product: Product }) {
   const { addToCart, savedProducts, toggleSaved } = useApp();
   const { toast } = useToast();
+  const { vendorById } = useCatalog();
   const vendor = vendorById(product.vendorId);
   const saved = savedProducts.includes(product.id);
 
