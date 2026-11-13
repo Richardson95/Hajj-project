@@ -82,7 +82,7 @@ export default function HomePage() {
               A savings plan that fits your income, and a companion for every rite once you
               land.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex gap-3 *:flex-1 sm:*:flex-none">
               <ButtonLink href="/auth/register" size="lg">
                 Start saving
                 <ArrowRight className="size-4" />

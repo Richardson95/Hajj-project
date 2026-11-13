@@ -90,7 +90,7 @@ export default function AboutPage() {
           <div className="mt-10">
             <Testimonials />
           </div>
-          <div className="mt-12 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-12 flex gap-3 *:flex-1 sm:*:flex-none">
             <ButtonLink href="/auth/register" size="lg">
               Create an account
               <ArrowRight className="size-4" />

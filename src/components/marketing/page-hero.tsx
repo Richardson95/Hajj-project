@@ -43,7 +43,7 @@ export function PageHero({
             {description}
           </p>
         ) : null}
-        {children ? <div className="mt-8 flex flex-col gap-3 sm:flex-row">{children}</div> : null}
+        {children ? <div className="mt-8 flex gap-3 *:flex-1 sm:*:flex-none">{children}</div> : null}
       </div>
     </section>
   );
