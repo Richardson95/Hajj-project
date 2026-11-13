@@ -35,16 +35,15 @@ export function ForgotPasswordForm() {
         <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-forest-50 text-forest-800 dark:bg-forest-950 dark:text-gold-300">
           <MailCheck className="size-6" />
         </span>
-        <h1 className="mt-6 text-2xl font-extrabold tracking-tight text-ink">
+        <h1 className="mt-6 text-2xl font-semibold tracking-tight text-ink">
           Check your inbox
         </h1>
         <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
           If an account exists for <strong className="text-ink">{identifier}</strong>, a
-          reset link is on its way. It expires in thirty minutes.
+          reset link is on its way.
         </p>
         <p className="mx-auto mt-4 max-w-sm text-xs leading-relaxed text-muted">
-          For your security, signing in on a new device after a reset still requires a
-          one-time code sent to your registered phone number.
+          New devices still need a one-time code.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <ButtonLink href="/auth/login">Back to sign in</ButtonLink>
@@ -66,12 +65,11 @@ export function ForgotPasswordForm() {
         Back to sign in
       </Link>
 
-      <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">
+      <h1 className="mt-6 text-3xl font-semibold tracking-tight text-ink">
         Reset your password
       </h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
-        Tell us the email address or phone number on your account and we will send a reset
-        link.
+        We&apos;ll send you a reset link.
       </p>
 
       <form onSubmit={submit} noValidate className="mt-7 space-y-5">

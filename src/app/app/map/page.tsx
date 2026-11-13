@@ -131,9 +131,7 @@ function MapPageInner() {
 
               <p className="flex items-start gap-2 text-xs leading-relaxed text-muted">
                 <Info className="mt-0.5 size-3.5 shrink-0 text-forest-700 dark:text-gold-400" />
-                A schematic of the Mashaer, not a survey map. Positions show relative
-                geography between Makkah, Mina, Muzdalifah and Arafat so you can orient
-                yourself quickly; walking times are measured from your assigned camp.
+                Schematic, not to scale. Walking times are from your camp.
               </p>
             </CardBody>
           </Card>

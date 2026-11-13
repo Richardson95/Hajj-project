@@ -19,7 +19,7 @@ export function ProductCard({ product }: { product: Product }) {
   const saved = savedProducts.includes(product.id);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition duration-300 hover:-translate-y-1 hover:border-forest-800/25 hover:shadow-[0_22px_50px_-36px_rgba(1,68,33,0.7)]">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition duration-300 hover:border-forest-800/25">
       <Link
         href={`/app/marketplace/${product.id}`}
         className={cn(
@@ -27,7 +27,6 @@ export function ProductCard({ product }: { product: Product }) {
           product.tone,
         )}
       >
-        <div className="pattern-islamic absolute inset-0 opacity-40" />
         <Icon name={product.icon} className="relative size-14 opacity-90" />
         {product.compareAtSAR ? (
           <span className="absolute top-2.5 left-2.5 rounded-lg bg-gold-500 px-2 py-1 text-[0.625rem] font-bold text-forest-950">
@@ -83,7 +82,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="mt-3 flex items-end justify-between gap-2 border-t border-line pt-3">
           <div className="min-w-0">
-            <p className="tabular text-base font-extrabold text-ink">
+            <p className="tabular text-base font-semibold text-ink">
               {riyal(product.priceSAR)}
             </p>
             <p className="tabular truncate text-[0.6875rem] text-muted">

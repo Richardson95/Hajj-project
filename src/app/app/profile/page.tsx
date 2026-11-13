@@ -88,17 +88,15 @@ export default function ProfilePage() {
     <>
       <PageHeader
         title="Profile & security"
-        description="Your identity, your preferences and the controls that protect your savings."
       />
 
       {/* Identity card */}
       <Card className="overflow-hidden">
         <div className="relative bg-forest-900 p-6 text-white sm:p-7">
-          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-40" />
           <div className="relative flex flex-wrap items-center gap-5">
             <Avatar initials={user.initials} tone={user.avatarTone} size="xl" />
             <div className="min-w-0 flex-1">
-              <h2 className="text-2xl font-extrabold">
+              <h2 className="text-2xl font-semibold">
                 {user.honorific ? `${user.honorific} ` : ""}
                 {user.firstName} {user.lastName}
               </h2>
@@ -134,16 +132,15 @@ export default function ProfilePage() {
       {/* Pilgrimage completion badge */}
       <Card className="mt-5 overflow-hidden">
         <div className="relative bg-linear-to-br from-gold-500 via-gold-600 to-forest-900 p-6 text-white sm:p-7">
-          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-35" />
           <div className="relative flex flex-wrap items-center gap-5">
             <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 backdrop-blur-sm">
               <Mosque className="size-8" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold tracking-[0.16em] text-white/70 uppercase">
+              <p className="text-xs font-medium text-white/70">
                 Pilgrimage completion badge
               </p>
-              <p className="mt-1.5 text-2xl font-extrabold">
+              <p className="mt-1.5 text-2xl font-semibold">
                 {user.hajjCompleted
                   ? `${user.honorific ?? "Al-Hajji"} ${user.firstName} ${user.lastName}`
                   : "Awaiting your return"}
@@ -175,8 +172,7 @@ export default function ProfilePage() {
               <div className="mb-4 flex items-start gap-3 rounded-xl border border-amber-500/40 bg-amber-50/60 p-3.5 dark:bg-amber-950/25">
                 <TriangleAlert className="mt-0.5 size-4 shrink-0 text-amber-600" />
                 <p className="text-xs leading-relaxed text-muted">
-                  Your documents are with our verification partner. This usually completes
-                  within one working day. You can keep funding your plan in the meantime.
+                  Usually within one working day.
                 </p>
               </div>
             ) : null}
@@ -225,8 +221,7 @@ export default function ProfilePage() {
             </dl>
 
             <p className="mt-4 text-xs leading-relaxed text-muted">
-              These details are encrypted at rest and never shared with vendors, travel
-              operators or other pilgrims.
+              Encrypted. Never shared with vendors or operators.
             </p>
           </CardBody>
         </Card>
@@ -235,7 +230,6 @@ export default function ProfilePage() {
         <Card>
           <CardHeader
             title="Security"
-            description="The controls that stand between your savings and everyone else."
             icon={<ShieldCheck className="size-4" />}
           />
           <CardBody className="space-y-5">
@@ -258,7 +252,7 @@ export default function ProfilePage() {
                 toast({ title: v ? "Biometric unlock enabled" : "Biometric unlock disabled", tone: "info" });
               }}
               label="Biometric unlock"
-              description="Use Face ID or a fingerprint to open HajjPath on this device."
+              description="Face ID or fingerprint."
             />
 
             <div className="space-y-3 border-t border-line pt-5">
@@ -296,8 +290,7 @@ export default function ProfilePage() {
             <div className="flex items-start gap-3 rounded-xl bg-surface-muted p-3.5">
               <FingerprintPattern className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                Signing in on a new device always requires an OTP to your registered
-                number — even if someone has your password.
+                New devices always need an OTP.
               </p>
             </div>
           </CardBody>
@@ -307,7 +300,6 @@ export default function ProfilePage() {
         <Card className="lg:col-span-2">
           <CardHeader
             title="Preferences"
-            description="Language and appearance."
             icon={<Languages className="size-4" />}
           />
           <CardBody className="space-y-5">
@@ -336,7 +328,7 @@ export default function ProfilePage() {
                 })}
               </div>
               <p className="mt-2 text-xs leading-relaxed text-muted">
-                Guide audio and support calls default to your first selected language.
+                Guide audio uses your first language.
               </p>
             </div>
 
@@ -365,7 +357,6 @@ export default function ProfilePage() {
       <Card className="mt-5">
         <CardHeader
           title="Account"
-          description="Everything tied to this HajjPath profile."
           icon={<Globe className="size-4" />}
         />
         <CardBody>
@@ -431,7 +422,7 @@ export default function ProfilePage() {
         open={editOpen}
         onClose={() => setEditOpen(false)}
         title="Edit your profile"
-        description="Your name must continue to match your international passport."
+        description="Must match your passport."
         footer={
           <>
             <Button variant="ghost" onClick={() => setEditOpen(false)}>

@@ -75,7 +75,7 @@ export function MapCanvas({
       {ZONES.map((z) => (
         <span
           key={z.id}
-          className="pointer-events-none absolute -translate-x-1/2 text-[0.5rem] font-bold tracking-[0.16em] text-forest-800/45 uppercase sm:text-[0.625rem] dark:text-forest-200/40"
+          className="pointer-events-none absolute -translate-x-1/2 text-[0.5rem] font-medium text-forest-800/45 sm:text-[0.625rem] dark:text-forest-200/40"
           style={{ left: `${z.cx}%`, top: `${z.cy - z.ry - 3}%` }}
         >
           {z.label}

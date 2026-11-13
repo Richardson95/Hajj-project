@@ -76,7 +76,7 @@ function Packages() {
             <CardBody>
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="text-xs font-bold tracking-wider text-gold-700 uppercase dark:text-gold-400">
+                  <p className="text-xs font-medium text-gold-700 dark:text-gold-400">
                     {p.tier}
                   </p>
                   <p className="mt-1 text-base font-bold text-ink">{p.name}</p>
@@ -85,7 +85,7 @@ function Packages() {
                   <Pencil className="size-4" />
                 </Button>
               </div>
-              <p className="tabular mt-3 text-2xl font-extrabold text-ink">{naira(p.priceNGN)}</p>
+              <p className="tabular mt-3 text-2xl font-semibold text-ink">{naira(p.priceNGN)}</p>
               <p className="mt-1 text-xs text-muted">{p.operator}</p>
               {p.highlight ? <Badge tone="gold" className="mt-3">{p.highlight}</Badge> : null}
             </CardBody>

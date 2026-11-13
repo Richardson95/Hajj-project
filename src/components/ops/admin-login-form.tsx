@@ -47,18 +47,17 @@ export function AdminLoginForm() {
   }
 
   return (
-    <div className="rounded-3xl border border-line bg-surface p-6 shadow-2xl sm:p-8">
+    <div className="rounded-2xl border border-line bg-surface p-6 shadow-2xl sm:p-8">
       <Logo href="/" />
-      <span className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gold-50 px-2.5 py-1 text-[0.6875rem] font-bold tracking-[0.12em] text-gold-800 uppercase dark:bg-gold-950 dark:text-gold-300">
+      <span className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gold-50 px-2.5 py-1 text-[0.6875rem] font-medium text-gold-800 dark:bg-gold-950 dark:text-gold-300">
         <ShieldCheck className="size-3.5" />
         Admin access only
       </span>
-      <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-ink">
+      <h1 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
         Operations console
       </h1>
       <p className="mt-1.5 text-sm leading-relaxed text-muted">
-        Sign in with the admin account HajjPath gave you. This is separate from your
-        pilgrim account.
+        Admin accounts only.
       </p>
 
       <form onSubmit={submit} noValidate className="mt-6 space-y-4">

@@ -306,10 +306,10 @@ export function RegisterWizard() {
       <div className="mb-7">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-bold tracking-[0.16em] text-gold-600 uppercase dark:text-gold-400">
+            <p className="text-xs font-medium text-gold-600 dark:text-gold-400">
               Step {stepIndex + 1} of {STEPS.length}
             </p>
-            <h1 className="mt-1.5 text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
               {step.label}
             </h1>
           </div>
@@ -325,8 +325,7 @@ export function RegisterWizard() {
         {step.id === "details" ? (
           <>
             <p className="text-sm leading-relaxed text-muted">
-              Use your name exactly as it appears on your international passport — it must
-              match for verification to pass.
+              As shown on your passport.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">
@@ -483,8 +482,7 @@ export function RegisterWizard() {
             <p className="text-sm leading-relaxed text-muted">
               We sent a 6-digit code to{" "}
               <strong className="text-ink">{form.email || "your email"}</strong>. Enter it
-              below to confirm the address belongs to you. Check your spam folder if it
-              has not arrived within a minute.
+              below.
             </p>
 
             <div className="flex items-start gap-3 rounded-2xl border border-gold-500/30 bg-gold-50/70 p-4 dark:bg-gold-950/30">
@@ -530,8 +528,7 @@ export function RegisterWizard() {
         {step.id === "identity" ? (
           <>
             <p className="text-sm leading-relaxed text-muted">
-              Nigerian regulation requires verified identity before an account can hold
-              funds. These details are checked once and encrypted at rest.
+              Checked once and encrypted.
             </p>
 
             <Field
@@ -572,8 +569,7 @@ export function RegisterWizard() {
             <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface-muted/60 p-4">
               <Lock className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                Your NIN and passport are validated through VerifyMe and stored encrypted. They
-                are never shared with vendors, travel operators or other pilgrims.
+                Never shared with vendors or operators.
               </p>
             </div>
 
@@ -583,7 +579,7 @@ export function RegisterWizard() {
 
             <UploadField
               label="Passport photograph"
-              description="Recent, plain background, face clearly visible. JPG or PNG, up to 5MB."
+              description="Plain background. JPG or PNG, max 5MB."
               accept="image/png,image/jpeg"
               value={form.passportPhoto}
               onChange={(f) => set("passportPhoto", f)}
@@ -592,7 +588,7 @@ export function RegisterWizard() {
 
             <UploadField
               label="Passport data page"
-              description="The page carrying your photograph, passport number and expiry date. JPG, PNG or PDF."
+              description="The photo page. JPG, PNG or PDF."
               value={form.passportDataPage}
               onChange={(f) => set("passportDataPage", f)}
               error={errors.passportDataPage}
@@ -622,8 +618,7 @@ export function RegisterWizard() {
         {step.id === "plan" ? (
           <>
             <p className="text-sm leading-relaxed text-muted">
-              Choose who is travelling, which package, and how often you want to
-              contribute. Everything here can be changed later at no cost.
+              You can change this later.
             </p>
 
             <div className="space-y-2.5">
@@ -744,7 +739,7 @@ export function RegisterWizard() {
                 <p className="text-[0.8125rem] font-semibold text-ink">
                   Suggested contribution
                 </p>
-                <p suppressHydrationWarning className="tabular text-lg font-extrabold text-ink">
+                <p suppressHydrationWarning className="tabular text-lg font-semibold text-ink">
                   {naira(suggested)}
                   <span className="text-sm font-medium text-muted">
                     {FREQUENCY_SUFFIX[form.frequency]}
@@ -782,7 +777,7 @@ export function RegisterWizard() {
                 checked={form.autoDebit}
                 onChange={(v) => set("autoDebit", v)}
                 label="Pay automatically with Paystack"
-                description="Paystack charges your card on the 28th of each cycle. You will always be told before and after each attempt."
+                description="Charged on the 28th of each cycle."
               />
             </div>
           </>
@@ -791,8 +786,7 @@ export function RegisterWizard() {
         {step.id === "review" ? (
           <>
             <p className="text-sm leading-relaxed text-muted">
-              Check everything below, set your security preferences, and activate your
-              account.
+              Review and activate your account.
             </p>
 
             <div className="rounded-2xl border border-line bg-surface">
@@ -903,7 +897,7 @@ export function RegisterWizard() {
                 checked={form.biometric}
                 onChange={(v) => set("biometric", v)}
                 label="Biometric unlock"
-                description="Use Face ID or a fingerprint to open HajjPath on this device."
+                description="Face ID or fingerprint."
               />
             </div>
 
@@ -940,7 +934,7 @@ export function RegisterWizard() {
                     </Link>
                   </>
                 }
-                description="Including that HajjPath does not allocate Hajj seats — NAHCON and the State Boards do."
+                description="NAHCON and State Boards allocate seats, not HajjPath."
                 checked={form.acceptTerms}
                 onChange={(e) => set("acceptTerms", e.target.checked)}
               />
@@ -950,7 +944,7 @@ export function RegisterWizard() {
 
               <Checkbox
                 label="I understand the Shariah-compliant structure"
-                description="Deposits are held in non-interest custody and may be placed in Mudarabah pools where returns are shared as profit, not guaranteed."
+                description="Non-interest custody. Any profit is shared, not guaranteed."
                 checked={form.acceptShariah}
                 onChange={(e) => set("acceptShariah", e.target.checked)}
               />
@@ -962,8 +956,7 @@ export function RegisterWizard() {
             <div className="flex items-start gap-3 rounded-2xl border border-forest-700/30 bg-forest-50 p-4 dark:bg-forest-950/50">
               <Landmark className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
               <p className="text-xs leading-relaxed text-muted">
-                Every payment into this plan goes through Paystack: card, bank transfer
-                or USSD. It shows on your tracker as soon as Paystack confirms it.
+                Payments go through Paystack: card, transfer or USSD.
               </p>
             </div>
           </>

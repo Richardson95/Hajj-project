@@ -96,7 +96,7 @@ export default function SosPage() {
     <>
       <PageHeader
         title="Emergency SOS"
-        description="One press reaches your contacts, your group admin, the nearest medic and the HajjPath desk — with your exact position attached."
+        description="Sends your position to your contacts, group admin and our desk."
       />
 
       {active.length > 0 ? (
@@ -128,7 +128,6 @@ export default function SosPage() {
           {/* Trigger */}
           <Card className="overflow-hidden">
             <div className="relative bg-rose-700 p-6 text-white sm:p-7">
-              <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-30" />
               <div className="relative">
                 <div className="flex items-center gap-3">
                   <span className="grid size-12 place-items-center rounded-2xl bg-white/15">
@@ -186,7 +185,7 @@ export default function SosPage() {
 
               {selected ? (
                 <div className="rounded-2xl border border-line bg-surface-muted p-4">
-                  <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+                  <p className="text-[0.6875rem] font-medium text-muted">
                     This alert will reach
                   </p>
                   <p className="mt-1 text-sm font-semibold text-ink">{selected.dispatch}</p>
@@ -225,7 +224,6 @@ export default function SosPage() {
           <Card>
             <CardHeader
               title="Alert history"
-              description="Every SOS you have raised, and how it was resolved."
               icon={<Clock className="size-4" />}
             />
             {sosEvents.length === 0 ? (
@@ -233,7 +231,6 @@ export default function SosPage() {
                 <EmptyState
                   icon={<ShieldCheck className="size-6" />}
                   title="No alerts raised"
-                  description="We hope it stays that way. The button is here if you ever need it."
                 />
               </CardBody>
             ) : (
@@ -304,7 +301,7 @@ export default function SosPage() {
               <CardBody>
                 <EmptyState
                   title="No contacts yet"
-                  description="Add at least one person who should be told immediately."
+                  description="Add at least one person."
                   action={
                     <Button size="sm" onClick={() => setContactOpen(true)}>
                       Add a contact
@@ -348,7 +345,6 @@ export default function SosPage() {
           <Card>
             <CardHeader
               title="Direct emergency numbers"
-              description="Always call these as well in a genuine emergency."
               icon={<Phone className="size-4" />}
             />
             <ul className="divide-y divide-line">
@@ -388,8 +384,7 @@ export default function SosPage() {
                 </div>
               </div>
               <p className="text-xs leading-relaxed text-muted">
-                Agents speak English, Hausa and Yoruba, and can reach your group admin,
-                your operator and Saudi emergency services on your behalf.
+                English, Hausa and Yoruba.
               </p>
               <p className="flex items-center gap-2 text-xs text-muted">
                 <MapPin className="size-3.5" />
@@ -460,7 +455,6 @@ export default function SosPage() {
         open={contactOpen}
         onClose={() => setContactOpen(false)}
         title="Add an emergency contact"
-        description="They will be called and messaged the moment you raise an SOS."
         size="sm"
         footer={
           <>

@@ -176,7 +176,7 @@ function DepositForm({
             Paid securely with Paystack
           </p>
           <p className="mt-1.5 text-xs leading-relaxed text-muted">
-            Paystack&apos;s checkout opens next. Choose how to pay there:
+            Choose how to pay on the next screen:
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {PAYSTACK_METHODS.map((m) => (
@@ -190,8 +190,7 @@ function DepositForm({
             ))}
           </div>
           <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted">
-            HajjPath never sees or stores your card details. In this demo no real payment
-            is taken.
+            We never see your card details. Demo only: no real payment is taken.
           </p>
         </div>
       </div>

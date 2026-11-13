@@ -28,7 +28,7 @@ export default function GlobalError({
             <TriangleAlert className="size-8" />
           </span>
 
-          <h1 className="mt-7 text-3xl font-extrabold tracking-tight text-ink">
+          <h1 className="mt-7 text-3xl font-semibold tracking-tight text-ink">
             Something went wrong
           </h1>
           <p className="mt-3 text-base leading-relaxed text-muted">

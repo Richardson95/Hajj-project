@@ -5,16 +5,13 @@ import {
   BadgeCheck,
   ChevronRight,
   Clock,
-  Coins,
   Heart,
   Package,
   Search,
   ShieldCheck,
   ShoppingCart,
   Star,
-  Store,
-  Truck,
-} from "lucide-react";
+  Store } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { EmptyState, PageHeader } from "@/components/ui/misc";
@@ -74,7 +71,7 @@ export default function MarketplacePage() {
     <>
       <PageHeader
         title="Makkah marketplace"
-        description="Verified vendors in Makkah and Madinah, delivering to your hotel, Aziziyah or your Mina tent."
+        description="Verified vendors. Delivered to your hotel or tent."
         action={
           <ButtonLink href="/app/marketplace/cart">
             <ShoppingCart className="size-4" />
@@ -95,11 +92,9 @@ export default function MarketplacePage() {
             <ShieldCheck className="size-5" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-ink">Every order is escrow protected</p>
+            <p className="text-sm font-semibold text-ink">Escrow on every order</p>
             <p className="mt-0.5 text-xs leading-relaxed text-muted">
-              Your payment is held by HajjPath and released to the vendor only after you
-              confirm delivery. Vendors are physically inspected and re-verified each
-              season.
+              Paid to the vendor only after you confirm delivery.
             </p>
           </div>
           {itemCount > 0 ? (
@@ -274,36 +269,6 @@ export default function MarketplacePage() {
         </CardBody>
       </Card>
 
-      {/* Delivery info */}
-      <div className="mt-5 grid gap-4 sm:grid-cols-3">
-        {[
-          {
-            icon: Truck,
-            title: "Delivery to where you are",
-            body: "Hotel rooms in Makkah and Madinah, Aziziyah flats, and directly to your Mina tent during Tashriq.",
-          },
-          {
-            icon: ShieldCheck,
-            title: "Escrow settlement",
-            body: "Money leaves escrow only when you confirm delivery, or 72 hours after an undisputed delivery.",
-          },
-          {
-            icon: Coins,
-            title: "Dual currency",
-            body: "Every price is shown in Saudi Riyal and the Naira equivalent so you always know what you are spending.",
-          },
-        ].map((f) => (
-          <Card key={f.title}>
-            <CardBody>
-              <span className="grid size-10 place-items-center rounded-xl bg-forest-50 text-forest-800 dark:bg-forest-950 dark:text-gold-300">
-                <f.icon className="size-5" />
-              </span>
-              <h3 className="mt-4 text-[0.9375rem] font-bold text-ink">{f.title}</h3>
-              <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{f.body}</p>
-            </CardBody>
-          </Card>
-        ))}
-      </div>
     </>
   );
 }

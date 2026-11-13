@@ -39,22 +39,10 @@ export function SavingsCalculator() {
   const feasible = result.cycles > 0;
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_2px_4px_-1px_rgba(1,68,33,0.06),0_24px_60px_-30px_rgba(1,68,33,0.35)]">
+    <div className="overflow-hidden rounded-2xl border border-line bg-surface">
       <div className="grid lg:grid-cols-[1.1fr_1fr]">
         {/* Controls */}
         <div className="space-y-6 p-6 sm:p-8">
-          <div>
-            <p className="text-xs font-bold tracking-[0.16em] text-gold-600 uppercase dark:text-gold-400">
-              Plan estimator
-            </p>
-            <h3 className="mt-2 text-2xl font-bold text-ink">
-              What would your Hajj plan look like?
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              Pick a package and a travel year. We work backwards from the departure date
-              to the contribution that gets you there.
-            </p>
-          </div>
 
           <div className="space-y-2.5">
             <p className="text-[0.8125rem] font-semibold text-ink">Choose your package</p>
@@ -138,11 +126,9 @@ export function SavingsCalculator() {
 
         {/* Result */}
         <div className="relative overflow-hidden bg-forest-900 p-6 text-white sm:p-8">
-          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-50" />
-          <div className="pointer-events-none absolute -right-16 -bottom-16 size-64 rounded-full bg-gold-500/15 blur-3xl" />
 
           <div className="relative flex h-full flex-col">
-            <p className="text-xs font-bold tracking-[0.16em] text-gold-400 uppercase">
+            <p className="text-sm text-white/70">
               Your contribution
             </p>
 
@@ -151,7 +137,7 @@ export function SavingsCalculator() {
                 <p className="mt-4 flex items-baseline gap-1.5">
                   <span
                     suppressHydrationWarning
-                    className="tabular text-4xl font-extrabold tracking-tight sm:text-[2.75rem]"
+                    className="tabular text-4xl font-semibold tracking-tight sm:text-[2.75rem]"
                   >
                     {naira(result.perCycle)}
                   </span>

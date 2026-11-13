@@ -72,7 +72,7 @@ export function OpsTable({
     <div className={cn("overflow-x-auto", className)}>
       <table className="w-full min-w-[640px] text-left text-sm">
         <thead>
-          <tr className="border-b border-line text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+          <tr className="border-b border-line text-[0.6875rem] font-medium text-muted">
             {head.map((h, i) => (
               <th key={i} scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">
                 {h}

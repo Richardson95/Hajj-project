@@ -74,7 +74,7 @@ export default function ReferralsPage() {
     <>
       <PageHeader
         title="Referrals"
-        description="Guide someone else towards the House of Allah, and earn towards your own journey."
+        description="Earn credit for every friend who starts saving."
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -110,15 +110,13 @@ export default function ReferralsPage() {
       {/* Code card */}
       <Card className="mt-5 overflow-hidden">
         <div className="relative bg-forest-900 p-6 text-white sm:p-8">
-          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-40" />
-          <div className="pointer-events-none absolute -right-16 -bottom-20 size-64 rounded-full bg-gold-500/15 blur-3xl" />
 
           <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="text-xs font-bold tracking-[0.16em] text-gold-400 uppercase">
+              <p className="text-xs font-medium text-gold-400">
                 Your referral code
               </p>
-              <p className="tabular mt-4 text-3xl font-extrabold tracking-[0.12em] sm:text-4xl">
+              <p className="tabular mt-4 text-3xl font-semibold tracking-[0.12em] sm:text-4xl">
                 {user.referralCode}
               </p>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-white/65">
@@ -155,10 +153,10 @@ export default function ReferralsPage() {
             </div>
 
             <div className="rounded-2xl border border-white/15 bg-white/5 p-5 lg:w-64">
-              <p className="text-[0.6875rem] font-semibold tracking-wider text-white/50 uppercase">
+              <p className="text-[0.6875rem] font-medium text-white/50">
                 Wallet credit available
               </p>
-              <p className="tabular mt-2 text-3xl font-extrabold">{naira(earned)}</p>
+              <p className="tabular mt-2 text-3xl font-semibold">{naira(earned)}</p>
               <Button
                 variant="gold"
                 size="sm"
@@ -213,7 +211,6 @@ export default function ReferralsPage() {
             <EmptyState
               icon={<UserPlus className="size-6" />}
               title="No referrals yet"
-              description="Share your code and your first reward will appear here."
             />
           </CardBody>
         ) : (
@@ -254,10 +251,7 @@ export default function ReferralsPage() {
         <CardBody className="flex flex-wrap items-center gap-4">
           <Badge tone="neutral">Terms</Badge>
           <p className="min-w-0 flex-1 text-xs leading-relaxed text-muted">
-            Rewards are credited once the referred pilgrim passes KYC and their first
-            contribution clears. Self-referrals and duplicate accounts are reversed. Wallet
-            credit can be applied to any plan on your account but cannot be converted to
-            cash.
+            Credited after your friend is verified and makes a first payment. Credit applies to plans only.
           </p>
         </CardBody>
       </Card>

@@ -132,7 +132,7 @@ function GuardedShell({
   const sidebar = (
     <>
       <div className="px-5 pt-1 pb-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-400/15 px-2.5 py-1 text-[0.625rem] font-bold tracking-[0.14em] text-gold-300 uppercase">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-400/15 px-2.5 py-1 text-[0.625rem] font-medium text-gold-300">
           <ShieldCheck className="size-3" />
           Operations console
         </span>

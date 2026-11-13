@@ -85,7 +85,7 @@ export default function CartPage() {
         <EmptyState
           icon={<ShoppingCart className="size-6" />}
           title="Your cart is empty"
-          description="Ihram sets, rehydration salts and a certified ram are the three most ordered items before Dhul-Hijjah."
+          
           action={
             <ButtonLink href="/app/marketplace">
               <ShoppingBag className="size-4" />
@@ -259,7 +259,7 @@ export default function CartPage() {
               <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3">
                 <span className="text-sm font-semibold text-ink">Total</span>
                 <div className="text-right">
-                  <p className="tabular text-xl font-extrabold text-ink">
+                  <p className="tabular text-xl font-semibold text-ink">
                     {riyal(totalSAR)}
                   </p>
                   <p className="tabular text-xs text-muted">
@@ -274,8 +274,7 @@ export default function CartPage() {
 
               <p className="flex items-start gap-2 text-xs leading-relaxed text-muted">
                 <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-forest-700 dark:text-gold-400" />
-                Your money is held by HajjPath and released to the vendor only after you
-                confirm delivery in the app.
+                Released to the vendor when you confirm delivery.
               </p>
             </CardBody>
           </Card>
@@ -284,9 +283,7 @@ export default function CartPage() {
             <CardBody className="space-y-3 text-xs leading-relaxed text-muted">
               <p className="text-[0.8125rem] font-bold text-ink">Before you pay</p>
               <p>
-                Livestock and sacrifice orders are performed at the appointed ritual time
-                and cannot be cancelled after 8 Dhul-Hijjah. Everything else can be
-                cancelled free of charge until the vendor dispatches.
+                Livestock orders can&apos;t be cancelled after 8 Dhul-Hijjah. Anything else can be cancelled until dispatch.
               </p>
               <p>
                 Prices are quoted in Saudi Riyal. The Naira figure is indicative at{" "}

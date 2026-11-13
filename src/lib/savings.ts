@@ -142,25 +142,3 @@ export const PLAN_HEALTH_COPY: Record<
     tone: "danger",
   },
 };
-
-/** Month-by-month savings curve used by the dashboard chart. */
-export function buildSavingsCurve(
-  plan: Pick<SavingsPlan, "balance" | "amountPerCycle" | "frequency" | "travelYear" | "startDate">,
-  months = 12,
-  from: Date = new Date(),
-): { label: string; actual: number | null; projected: number }[] {
-  const perMonth =
-    plan.amountPerCycle * { weekly: 4.33, monthly: 1, quarterly: 1 / 3 }[plan.frequency];
-  const points: { label: string; actual: number | null; projected: number }[] = [];
-  const past = 6;
-  for (let i = -past; i < months - past; i++) {
-    const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth() + i, 1));
-    const value = Math.max(0, plan.balance + perMonth * i);
-    points.push({
-      label: d.toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" }),
-      actual: i <= 0 ? Math.round(value) : null,
-      projected: Math.round(value),
-    });
-  }
-  return points;
-}

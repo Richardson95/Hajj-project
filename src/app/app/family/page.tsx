@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Globe, Heart, Plus, ShieldCheck, Users } from "lucide-react";
+import { Heart, Plus, ShieldCheck, Users } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EmptyState, PageHeader, Stat } from "@/components/ui/misc";
@@ -46,7 +46,7 @@ export default function FamilyPage() {
     <>
       <PageHeader
         title="Family plans"
-        description="Save for a parent, a spouse or a child under your own verified account — from anywhere in the world."
+        description="Save for a parent, spouse or child, from anywhere."
         action={
           <Button
             onClick={() => {
@@ -133,30 +133,9 @@ export default function FamilyPage() {
         </CardBody>
       </Card>
 
-      {/* Diaspora note */}
-      <Card className="mt-5 border-gold-500/30 bg-gold-50/50 dark:bg-gold-950/25">
-        <CardBody className="flex flex-wrap items-center gap-4">
-          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-gold-500 text-forest-950">
-            <Globe className="size-5" />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-ink">Sponsoring from abroad</p>
-            <p className="mt-0.5 text-xs leading-relaxed text-muted">
-              Fund a beneficiary&apos;s plan from any country with an international card on
-              Paystack&apos;s checkout — the payment lands on their plan as soon as Paystack
-              confirms it. The beneficiary can watch their own tracker fill on their own
-              phone, without ever seeing your other plans.
-            </p>
-          </div>
-        </CardBody>
-      </Card>
-
       {/* Sponsored plan cards */}
       <section className="mt-8">
-        <h2 className="text-lg font-bold text-ink">Sponsored plans</h2>
-        <p className="mt-0.5 mb-4 text-sm text-muted">
-          Manage each beneficiary&apos;s package, travel year and contribution separately.
-        </p>
+        <h2 className="mb-4 text-lg font-semibold text-ink">Sponsored plans</h2>
 
         {sponsored.length === 0 ? (
           <EmptyState

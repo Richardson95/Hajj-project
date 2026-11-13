@@ -130,7 +130,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {NAV_GROUPS.map((group, gi) => (
           <div key={group.title ?? gi}>
             {group.title ? (
-              <p className="mb-1.5 px-3 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
+              <p className="mb-1.5 px-3 text-[0.625rem] font-medium text-muted">
                 {group.title}
               </p>
             ) : null}
@@ -416,7 +416,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               ) : null}
               {NAV_GROUPS.filter((group) => group.title).map((group) => (
                 <div key={group.title}>
-                  <p className="mb-2 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
+                  <p className="mb-2 text-[0.625rem] font-medium text-muted">
                     {group.title}
                   </p>
                   <div className="grid grid-cols-3 gap-2">
@@ -436,7 +436,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
               ))}
               <div>
-                <p className="mb-2 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
+                <p className="mb-2 text-[0.625rem] font-medium text-muted">
                   Switch portal
                 </p>
                 <div className="grid grid-cols-2 gap-2">

@@ -249,7 +249,7 @@ function PlanEditorForm({
             <p className="text-[0.8125rem] font-semibold text-ink">
               Suggested contribution
             </p>
-            <p suppressHydrationWarning className="tabular text-lg font-extrabold text-ink">
+            <p suppressHydrationWarning className="tabular text-lg font-semibold text-ink">
               {naira(suggested)}
               <span className="text-sm font-medium text-muted">
                 {FREQUENCY_SUFFIX[frequency]}
@@ -283,7 +283,7 @@ function PlanEditorForm({
             checked={autoDebit}
             onChange={setAutoDebit}
             label="Automatic Paystack payment"
-            description="Paystack charges your saved card on the 28th of each cycle. You are told before and after every attempt."
+            description="Charged on the 28th of each cycle."
           />
         </div>
       </div>

@@ -156,7 +156,7 @@ export default function GroupAdminPage() {
                 {needAttention} pilgrim{needAttention > 1 ? "s" : ""} requesting assistance
               </p>
               <p className="mt-0.5 text-xs leading-relaxed text-muted">
-                Open Find Me to see live positions and dispatch the nearest medic.
+                See live positions in Find Me.
               </p>
             </div>
             <ButtonLink href="/app/find-me" variant="danger" size="sm">
@@ -284,7 +284,6 @@ export default function GroupAdminPage() {
             <CardBody>
               <EmptyState
                 title="No pilgrims match"
-                description="Try clearing the filter or searching a different name."
               />
             </CardBody>
           ) : (
@@ -356,7 +355,7 @@ export default function GroupAdminPage() {
             ["Emergency line", PILGRIM_GROUP.emergencyLine],
           ].map(([label, value]) => (
             <div key={label} className="rounded-2xl bg-surface-muted p-4">
-              <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+              <p className="text-[0.6875rem] font-medium text-muted">
                 {label}
               </p>
               <p className="mt-1 text-[0.8125rem] font-bold text-ink">{value}</p>
@@ -430,9 +429,7 @@ export default function GroupAdminPage() {
           <div className="flex items-start gap-3 rounded-xl border border-line bg-surface-muted p-3.5">
             <Megaphone className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
             <p className="text-xs leading-relaxed text-muted">
-              Critical notices are pinned to the top of every pilgrim&apos;s announcements
-              page and pushed as a notification. They remain readable offline once
-              delivered.
+              Critical notices are pinned and pushed to every phone.
             </p>
           </div>
         </div>

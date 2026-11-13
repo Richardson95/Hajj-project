@@ -68,19 +68,17 @@ export default function VendorPortalPage() {
     <>
       <PageHeader
         title="Vendor portal"
-        description="Orders, catalogue and settlement for your Makkah storefront."
       />
 
       {/* Vendor header */}
       <Card className="mb-5 overflow-hidden">
         <div className={cn("relative bg-linear-to-br p-6 text-white sm:p-7", VENDOR.tone)}>
-          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-35" />
           <div className="relative flex flex-wrap items-center gap-5">
-            <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 text-xl font-extrabold backdrop-blur-sm">
+            <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 text-xl font-semibold backdrop-blur-sm">
               {VENDOR.name.slice(0, 2).toUpperCase()}
             </span>
             <div className="min-w-0 flex-1">
-              <h2 className="flex flex-wrap items-center gap-2 text-2xl font-extrabold">
+              <h2 className="flex flex-wrap items-center gap-2 text-2xl font-semibold">
                 {VENDOR.name}
                 {VENDOR.verified ? <BadgeCheck className="size-5" /> : null}
               </h2>
@@ -253,7 +251,7 @@ export default function VendorPortalPage() {
               </div>
               <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3">
                 <span className="text-sm font-semibold text-ink">Net payout</span>
-                <span className="tabular text-lg font-extrabold text-ink">
+                <span className="tabular text-lg font-semibold text-ink">
                   {riyal(payout)}
                 </span>
               </div>
@@ -270,8 +268,7 @@ export default function VendorPortalPage() {
                 Request payout
               </Button>
               <p className="text-xs leading-relaxed text-muted">
-                Only funds from confirmed deliveries are eligible. Orders still in escrow
-                appear here once the buyer confirms.
+                Confirmed deliveries only.
               </p>
             </CardBody>
           </Card>
@@ -279,7 +276,6 @@ export default function VendorPortalPage() {
           <Card>
             <CardHeader
               title="Performance"
-              description="How buyers rate your storefront."
               icon={<Users className="size-4" />}
             />
             <CardBody className="space-y-4">
@@ -288,8 +284,7 @@ export default function VendorPortalPage() {
               <ProgressBar value={92} label="Response within 15 min" showValue tone="gold" />
               <p className="flex items-start gap-2 text-xs leading-relaxed text-muted">
                 <Clock className="mt-0.5 size-3.5 shrink-0 text-forest-700 dark:text-gold-400" />
-                Ratings below 4.0 trigger a support review rather than an instant
-                delisting — an agent will call you first.
+                Below 4.0, we call you before any review.
               </p>
             </CardBody>
           </Card>
@@ -300,7 +295,7 @@ export default function VendorPortalPage() {
       <Card className="mt-5">
         <CardHeader
           title="Your catalogue"
-          description={`${catalogue.length} products listed for you by HajjPath. To add or change an item, contact your HajjPath account manager.`}
+          description={`${catalogue.length} products · listed by HajjPath`}
           icon={<Store className="size-4" />}
         />
         <CardBody className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

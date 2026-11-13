@@ -6,16 +6,14 @@ import {
   Download,
   Funnel,
   Headset,
-  Info,
   Landmark,
   Lock,
   Plus,
   Search,
   ShieldCheck,
-  Wallet,
-} from "lucide-react";
+  Wallet } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
-import { Badge, Pill } from "@/components/ui/badge";
+import { Pill } from "@/components/ui/badge";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { EmptyState, PageHeader, Stat } from "@/components/ui/misc";
 import { SegmentedControl } from "@/components/ui/tabs";
@@ -24,10 +22,9 @@ import { useToast } from "@/components/ui/toast";
 import { DepositModal } from "@/components/app/deposit-modal";
 import { PlanCard } from "@/components/app/plan-card";
 import { PlanEditorModal } from "@/components/app/plan-editor-modal";
-import { SavingsChart } from "@/components/app/savings-chart";
 import { useApp } from "@/lib/store";
 import { usePackages } from "@/lib/catalog";
-import { buildSavingsCurve, progressPct } from "@/lib/savings";
+import { progressPct } from "@/lib/savings";
 import { formatDateTime, naira } from "@/lib/format";
 import type { SavingsPlan, TransactionType } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -47,8 +44,7 @@ const TYPE_LABEL: Record<TransactionType, string> = {
   "auto-debit": "Automatic payment",
   "referral-bonus": "Referral bonus",
   "profit-share": "Profit share",
-  fee: "Fee",
-};
+  fee: "Fee" };
 
 export default function SavingsPage() {
   const { packageById } = usePackages();
@@ -78,8 +74,6 @@ export default function SavingsPage() {
     .filter((t) => t.status === "successful" && ["profit-share", "referral-bonus"].includes(t.type))
     .reduce((s, t) => s + t.amount, 0);
 
-  const primary = plans.find((p) => p.isPrimary) ?? plans[0];
-  const curve = useMemo(() => (primary ? buildSavingsCurve(primary, 12) : []), [primary]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -127,7 +121,6 @@ export default function SavingsPage() {
     <>
       <PageHeader
         title="Savings & plans"
-        description="Every plan, every naira, and the account that funds them."
         action={
           <>
             <Button
@@ -184,84 +177,30 @@ export default function SavingsPage() {
       </div>
 
       {/* Paying in */}
-      <Card className="mt-5 overflow-hidden">
-        <div className="grid lg:grid-cols-[1.2fr_1fr]">
-          <div className="relative bg-forest-900 p-6 text-white sm:p-7">
-            <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-40" />
-            <div className="relative">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-bold tracking-[0.16em] text-gold-400 uppercase">
-                  Paying into your plan
-                </p>
-                <Badge tone="gold">Paystack</Badge>
-              </div>
-
-              <p className="mt-5 text-2xl font-extrabold sm:text-3xl">
-                Every payment goes through Paystack
-              </p>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-white/65">
-                Pay by card, bank transfer or USSD on Paystack&apos;s secure checkout, or
-                let Paystack charge your card automatically each cycle.
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                <Button
-                  variant="gold"
-                  size="sm"
-                  onClick={() => {
-                    setDepositPlan(undefined);
-                    setDepositOpen(true);
-                  }}
-                >
-                  <Lock className="size-3.5" />
-                  Pay with Paystack
-                </Button>
-              </div>
-            </div>
+      <Card className="mt-5">
+        <CardBody className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium text-ink">Pay with Paystack</p>
+            <p className="mt-0.5 text-sm text-muted">Card, bank transfer or USSD.</p>
           </div>
-
-          <CardBody className="space-y-4">
-            <div className="flex items-start gap-3 rounded-xl bg-surface-muted p-3.5">
-              <Info className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
-              <p className="text-xs leading-relaxed text-muted">
-                Payments show on your plan as soon as Paystack confirms them. Sponsors abroad
-                can pay with an international card on the same checkout.
-              </p>
-            </div>
-            <div className="flex items-start gap-3 rounded-xl bg-surface-muted p-3.5">
-              <ShieldCheck className="mt-0.5 size-4 shrink-0 text-forest-700 dark:text-gold-400" />
-              <p className="text-xs leading-relaxed text-muted">
-                Funds sit in a ring-fenced trust account, separate from HajjPath&apos;s own
-                money and reconciled daily against the ledger below.
-              </p>
-            </div>
-            <div className="rounded-xl border border-line p-3.5">
-              <p className="text-xs font-semibold text-ink">Can no longer travel?</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted">
-                If you cannot complete your savings or go for Hajj anymore, message our
-                support team and they will guide you on your plan.
-              </p>
-              <ButtonLink href="/contact" variant="outline" size="sm" block className="mt-3">
-                <Headset className="size-3.5" />
-                Contact support
-              </ButtonLink>
-            </div>
-          </CardBody>
+          <Button
+            onClick={() => {
+              setDepositPlan(undefined);
+              setDepositOpen(true);
+            }}
+          >
+            <Lock className="size-3.5" />
+            Pay now
+          </Button>
+        </CardBody>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-5 py-3 text-sm">
+          <span className="text-muted">Can no longer travel?</span>
+          <ButtonLink href="/contact" variant="ghost" size="sm">
+            <Headset className="size-3.5" />
+            Contact support
+          </ButtonLink>
         </div>
       </Card>
-
-      {/* Chart */}
-      {curve.length > 0 && primary ? (
-        <Card className="mt-5">
-          <CardHeader
-            title={`Trajectory — ${primary.beneficiaryName}`}
-            description="Contributions to date, and the projection at the current plan."
-          />
-          <CardBody>
-            <SavingsChart points={curve} goal={packageById(primary.packageId).priceNGN} />
-          </CardBody>
-        </Card>
-      ) : null}
 
       {/* Plans */}
       <section className="mt-8">
@@ -289,7 +228,6 @@ export default function SavingsPage() {
           <EmptyState
             icon={<Wallet className="size-6" />}
             title="No savings plans yet"
-            description="Create your first plan to start building towards the journey."
             action={
               <Button
                 onClick={() => {
@@ -358,7 +296,6 @@ export default function SavingsPage() {
           {filtered.length === 0 ? (
             <EmptyState
               title="No matching transactions"
-              description="Try a different filter or clear your search."
             />
           ) : (
             <>
@@ -372,7 +309,7 @@ export default function SavingsPage() {
                           <th
                             key={h}
                             className={cn(
-                              "px-3 py-2.5 text-left text-[0.6875rem] font-bold tracking-wider text-muted uppercase",
+                              "px-3 py-2.5 text-left text-[0.6875rem] font-medium text-muted",
                               h === "Amount" && "text-right",
                             )}
                           >

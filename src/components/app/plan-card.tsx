@@ -77,7 +77,7 @@ export function PlanCard({
 
         <div>
           <div className="flex items-baseline justify-between gap-3">
-            <p className="tabular text-2xl font-extrabold tracking-tight text-ink">
+            <p className="tabular text-2xl font-semibold tracking-tight text-ink">
               {naira(plan.balance)}
             </p>
             <p className="tabular text-sm text-muted">of {naira(pkg.priceNGN)}</p>
@@ -95,7 +95,7 @@ export function PlanCard({
 
         <dl className="grid grid-cols-2 gap-4 border-t border-line pt-4 sm:grid-cols-4">
           <div>
-            <dt className="text-[0.625rem] font-semibold tracking-wider text-muted uppercase">
+            <dt className="text-[0.625rem] font-medium text-muted">
               Contribution
             </dt>
             <dd className="tabular mt-0.5 text-sm font-bold text-ink">
@@ -106,7 +106,7 @@ export function PlanCard({
             </dd>
           </div>
           <div>
-            <dt className="text-[0.625rem] font-semibold tracking-wider text-muted uppercase">
+            <dt className="text-[0.625rem] font-medium text-muted">
               Needed
             </dt>
             <dd suppressHydrationWarning className="tabular mt-0.5 text-sm font-bold text-ink">
@@ -114,7 +114,7 @@ export function PlanCard({
             </dd>
           </div>
           <div>
-            <dt className="text-[0.625rem] font-semibold tracking-wider text-muted uppercase">
+            <dt className="text-[0.625rem] font-medium text-muted">
               Departs
             </dt>
             <dd className="mt-0.5 text-sm font-bold text-ink">
@@ -122,7 +122,7 @@ export function PlanCard({
             </dd>
           </div>
           <div>
-            <dt className="text-[0.625rem] font-semibold tracking-wider text-muted uppercase">
+            <dt className="text-[0.625rem] font-medium text-muted">
               Countdown
             </dt>
             <dd suppressHydrationWarning className="tabular mt-0.5 text-sm font-bold text-ink">

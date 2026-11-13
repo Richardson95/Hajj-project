@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -20,6 +21,7 @@ import { ProgressBar } from "@/components/ui/progress";
 import { useToast } from "@/components/ui/toast";
 import { AudioNarration } from "./audio-narration";
 import type { GuideChapter } from "@/lib/types";
+import { CHAPTER_PHOTOS } from "@/lib/data/photos";
 import { cn } from "@/lib/cn";
 
 export function ChapterView({
@@ -34,6 +36,7 @@ export function ChapterView({
   const { toast } = useToast();
   const [read, setRead] = useState<string[]>([]);
 
+  const photo = CHAPTER_PHOTOS[chapter.slug];
   const pct = Math.round((read.length / chapter.steps.length) * 100);
 
   function toggle(id: string) {
@@ -59,9 +62,21 @@ export function ChapterView({
 
       {/* Header */}
       <Card className="mt-4 overflow-hidden">
-        <div className="relative bg-forest-900 p-6 text-white sm:p-8">
-          <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-40" />
-          <div className="pointer-events-none absolute -right-16 -bottom-20 size-60 rounded-full bg-gold-500/15 blur-3xl" />
+        <div className="relative isolate bg-forest-900 p-6 text-white sm:p-8">
+          {photo ? (
+            <>
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                priority
+                sizes="(min-width: 1024px) 70vw, 100vw"
+                className="-z-10 object-cover"
+                style={{ objectPosition: photo.position }}
+              />
+              <div className="absolute inset-0 -z-10 bg-linear-to-t from-black/85 via-black/55 to-black/30" />
+            </>
+          ) : null}
 
           <div className="relative">
             <div className="flex flex-wrap items-center gap-2">
@@ -76,7 +91,7 @@ export function ChapterView({
               </span>
             </div>
 
-            <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
               {chapter.title}
             </h1>
             <p
@@ -104,10 +119,7 @@ export function ChapterView({
 
       {/* Steps */}
       <section className="mt-6">
-        <h2 className="text-lg font-bold text-ink">How to perform it</h2>
-        <p className="mt-0.5 mb-4 text-sm text-muted">
-          Follow the steps in order. Tick each one as you understand it.
-        </p>
+        <h2 className="mb-4 text-lg font-semibold text-ink">Steps</h2>
 
         <ol className="space-y-4">
           {chapter.steps.map((step) => {
@@ -185,10 +197,7 @@ export function ChapterView({
 
       {/* Du'ās */}
       <section id="duas" className="mt-8 scroll-mt-24">
-        <h2 className="text-lg font-bold text-ink">Du&apos;ās for this rite</h2>
-        <p className="mt-0.5 mb-4 text-sm text-muted">
-          Arabic, transliteration and meaning — memorise what you can, read the rest.
-        </p>
+        <h2 className="mb-4 text-lg font-semibold text-ink">Du&apos;ās</h2>
 
         <div className="space-y-4">
           {chapter.duas.map((d) => (
@@ -221,7 +230,7 @@ export function ChapterView({
                   {d.arabic}
                 </p>
                 <div>
-                  <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+                  <p className="text-[0.6875rem] font-medium text-muted">
                     Transliteration
                   </p>
                   <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted italic">
@@ -229,7 +238,7 @@ export function ChapterView({
                   </p>
                 </div>
                 <div>
-                  <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+                  <p className="text-[0.6875rem] font-medium text-muted">
                     Translation
                   </p>
                   <p className="mt-1 text-[0.9375rem] leading-relaxed text-ink/85">
@@ -272,7 +281,7 @@ export function ChapterView({
           >
             <ArrowLeft className="size-4 shrink-0" />
             <span className="min-w-0">
-              <span className="block text-[0.6875rem] tracking-wider text-muted uppercase">
+              <span className="block text-[0.6875rem] text-muted">
                 Previous
               </span>
               <span className="block truncate text-sm font-semibold">
@@ -290,7 +299,7 @@ export function ChapterView({
             className="h-auto justify-end px-5 py-4 text-right sm:col-start-2"
           >
             <span className="min-w-0">
-              <span className="block text-[0.6875rem] tracking-wider text-muted uppercase">
+              <span className="block text-[0.6875rem] text-muted">
                 Next
               </span>
               <span className="block truncate text-sm font-semibold">{next.title}</span>

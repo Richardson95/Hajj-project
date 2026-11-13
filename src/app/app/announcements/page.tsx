@@ -7,10 +7,8 @@ import {
   Pin,
   Search,
   Share2,
-  TriangleAlert,
-  Users,
-} from "lucide-react";
-import { Card, CardBody, CardHeader } from "@/components/ui/card";
+  TriangleAlert } from "lucide-react";
+import { Card, CardBody } from "@/components/ui/card";
 import { Badge, Pill } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, EmptyState, PageHeader, Stat } from "@/components/ui/misc";
@@ -21,7 +19,6 @@ import { useAllAnnouncements } from "@/lib/ops/published";
 import { formatDateTime, initialsOf, relativeTime } from "@/lib/format";
 import type { AnnouncementPriority } from "@/lib/types";
 import { cn } from "@/lib/cn";
-import { useGroup } from "@/lib/catalog";
 
 type Filter = "all" | AnnouncementPriority;
 
@@ -32,18 +29,14 @@ const PRIORITY_META: Record<
   critical: {
     label: "Critical",
     tone: "danger",
-    ring: "border-rose-500/40 bg-rose-50/50 dark:bg-rose-950/25",
-  },
+    ring: "border-rose-500/40 bg-rose-50/50 dark:bg-rose-950/25" },
   important: {
     label: "Important",
     tone: "warning",
-    ring: "border-amber-500/40 bg-amber-50/40 dark:bg-amber-950/20",
-  },
-  info: { label: "Information", tone: "info", ring: "" },
-};
+    ring: "border-amber-500/40 bg-amber-50/40 dark:bg-amber-950/20" },
+  info: { label: "Information", tone: "info", ring: "" } };
 
 export default function AnnouncementsPage() {
-  const PILGRIM_GROUP = useGroup();
   const { toast } = useToast();
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
@@ -71,7 +64,7 @@ export default function AnnouncementsPage() {
     <>
       <PageHeader
         title="Announcements"
-        description="Broadcasts from NAHCON, your operator and your group admin — pinned by priority, readable offline."
+        description="From NAHCON, your operator and your group admin."
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -210,34 +203,6 @@ export default function AnnouncementsPage() {
         </div>
       )}
 
-      <Card className="mt-6">
-        <CardHeader
-          title="Who can broadcast to you"
-          description="Only verified authorities appear here — there is no open posting."
-          icon={<Users className="size-4" />}
-        />
-        <CardBody className="grid gap-4 sm:grid-cols-3">
-          {[
-            {
-              title: "NAHCON",
-              body: "National directives on health requirements, fares, airlift schedules and Saudi regulation changes.",
-            },
-            {
-              title: PILGRIM_GROUP.operator,
-              body: "Your licensed operator — camp allocations, transport timings and group logistics.",
-            },
-            {
-              title: `${PILGRIM_GROUP.adminName}, Group Admin`,
-              body: "Day-to-day instructions for the 48 pilgrims in your group while you are in the Kingdom.",
-            },
-          ].map((s) => (
-            <div key={s.title} className="rounded-2xl bg-surface-muted p-4">
-              <p className="text-[0.8125rem] font-bold text-ink">{s.title}</p>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted">{s.body}</p>
-            </div>
-          ))}
-        </CardBody>
-      </Card>
     </>
   );
 }

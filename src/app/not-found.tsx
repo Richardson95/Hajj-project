@@ -7,8 +7,6 @@ import { Kaaba } from "@/components/brand-icons";
 export default function NotFound() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-forest-950 text-white">
-      <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-45" />
-      <div className="pointer-events-none absolute top-1/4 left-1/2 size-128 -translate-x-1/2 rounded-full bg-forest-700/25 blur-[110px]" />
 
       <header className="relative px-4 py-6 sm:px-8">
         <Logo invert href="/" />
@@ -20,10 +18,10 @@ export default function NotFound() {
             <Kaaba className="size-8" />
           </span>
 
-          <p className="tabular mt-8 text-6xl font-extrabold tracking-tight text-white/15 sm:text-7xl">
+          <p className="tabular mt-8 text-6xl font-semibold tracking-tight text-white/15 sm:text-7xl">
             404
           </p>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
             This path leads nowhere
           </h1>
           <p className="mt-4 text-base leading-relaxed text-white/65">

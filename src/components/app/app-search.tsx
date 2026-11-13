@@ -181,7 +181,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
               return (
                 <div key={r.id}>
                   {showGroup ? (
-                    <p className="px-3 pt-3 pb-1 text-[0.625rem] font-bold tracking-[0.14em] text-muted uppercase">
+                    <p className="px-3 pt-3 pb-1 text-[0.625rem] font-medium text-muted">
                       {r.group}
                     </p>
                   ) : null}

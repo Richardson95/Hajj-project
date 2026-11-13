@@ -90,51 +90,27 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "I had been promising myself Hajj since 2009. Setting ₦95,000 aside every week felt small enough to actually do — and eighteen months later the app told me I was eligible to apply. I cried in my shop.",
+      "₦95,000 a week felt small enough to actually do. Eighteen months later I was eligible to apply.",
     name: "Halimah Adetunji",
-    role: "Trader · Ikeja, Lagos",
+    role: "Trader, Lagos",
     initials: "HA",
     tone: "from-gold-500 to-gold-700",
   },
   {
     quote:
-      "I live in Manchester and my mother lives in Kano. I fund her plan from here and she watches the tracker fill up on her own phone. She calls me every month to tell me the number.",
+      "I fund my mother's plan from Manchester. She watches the tracker fill up on her own phone in Kano.",
     name: "Abdulganiyu Salami",
-    role: "Diaspora sponsor · United Kingdom",
+    role: "Sponsor, United Kingdom",
     initials: "AS",
     tone: "from-forest-600 to-forest-800",
   },
   {
     quote:
-      "Forty-eight pilgrims, one screen. I can see who is still in the tent, who is at the Jamarat and who needs help — before they think to call me. Last season we lost nobody, not even for an hour.",
-    name: "Alhaji Kabiru Sule",
-    role: "Group Admin · Al-Amanah Travels",
-    initials: "KS",
-    tone: "from-forest-700 to-forest-900",
-  },
-  {
-    quote:
-      "My shop is forty minutes from the Haram, so pilgrims never found me. Now I take twenty orders a day and the money is guaranteed by escrow. Business has tripled since 2024.",
-    name: "Yusuf Al-Barakah",
-    role: "Vendor · Ibrahim Al-Khalil Street, Makkah",
-    initials: "YA",
-    tone: "from-amber-600 to-amber-800",
-  },
-  {
-    quote:
-      "The audio guide in Hausa changed everything for my father. He is seventy-three and could never follow the English booklets. He performed every rite without once asking me what to do next.",
+      "The Hausa audio guide meant my father, seventy-three, did every rite without asking what came next.",
     name: "Fatimah Oyelaran",
-    role: "Pilgrim · Ilorin, Kwara",
+    role: "Pilgrim, Ilorin",
     initials: "FO",
     tone: "from-teal-600 to-teal-800",
-  },
-  {
-    quote:
-      "I collapsed from the heat near the Jamarat and pressed the SOS button. A medic reached me in under four minutes because she could see exactly where I was standing.",
-    name: "Musa Bello",
-    role: "Pilgrim · Kaduna",
-    initials: "MB",
-    tone: "from-sky-600 to-sky-800",
   },
 ];
 
@@ -147,30 +123,19 @@ export const IMPACT_STATS = [
 
 export const COMPLIANCE_POINTS = [
   {
-    title: "Shariah-screened by design",
-    body: "Non-interest custody accounts and Mudarabah profit-sharing pools, reviewed annually by an independent Shariah advisory board.",
+    title: "Shariah-reviewed",
+    body: "Non-interest custody, reviewed each year by an independent board.",
   },
   {
-    title: "Funds held in trust, never on our books",
-    body: "Balances sit in a ring-fenced trust account with a licensed Nigerian bank and are reconciled daily against the ledger you see in the app.",
+    title: "Held in trust",
+    body: "Kept apart from company money at a licensed bank and reconciled daily.",
   },
   {
-    title: "Verified identity on every account",
-    body: "NIN and passport validation through a licensed KYC provider means the person saving, the person travelling and the person on the manifest are the same person.",
+    title: "Verified identity",
+    body: "NIN and passport checked once, encrypted, never shared with vendors.",
   },
   {
-    title: "Encrypted location and messaging",
-    body: "Find Me positions and group chats are end-to-end encrypted, visible only inside your group code, and purged thirty days after you return.",
+    title: "Private location",
+    body: "Visible only to your group and deleted 30 days after you return.",
   },
-];
-
-export const PARTNER_LOGOS = [
-  "NAHCON",
-  "State Pilgrims Boards",
-  "Jaiz Bank",
-  "Lotus Bank",
-  "TAJBank",
-  "Paystack",
-  "VerifyMe",
-  "Adahi",
 ];

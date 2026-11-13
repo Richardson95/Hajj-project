@@ -68,7 +68,7 @@ export function Stat({
       )}
     >
       <div className="flex items-start justify-between gap-3">
-        <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+        <p className="text-[0.6875rem] font-medium text-muted">
           {label}
         </p>
         {icon ? (
@@ -86,13 +86,11 @@ export function Stat({
 }
 
 export function SectionHeading({
-  eyebrow,
   title,
   description,
   align = "left",
   className,
 }: {
-  eyebrow?: string;
   title: React.ReactNode;
   description?: React.ReactNode;
   align?: "left" | "center";
@@ -106,14 +104,11 @@ export function SectionHeading({
         className,
       )}
     >
-      {eyebrow ? (
-        <p className="mb-3 text-xs font-bold tracking-[0.18em] text-gold-600 uppercase dark:text-gold-400">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className="text-3xl leading-[1.15] font-bold text-ink sm:text-4xl">{title}</h2>
+      <h2 className="text-2xl leading-tight font-semibold tracking-tight text-ink sm:text-3xl">
+        {title}
+      </h2>
       {description ? (
-        <p className="mt-4 text-base leading-relaxed text-muted">{description}</p>
+        <p className="mt-3 text-base leading-relaxed text-muted">{description}</p>
       ) : null}
     </div>
   );
@@ -205,7 +200,7 @@ export function Divider({
   return (
     <div className={cn("flex items-center gap-3", className)}>
       <span className="h-px flex-1 bg-line" />
-      <span className="text-xs font-medium tracking-wide text-muted uppercase">
+      <span className="text-xs font-medium text-muted">
         {label}
       </span>
       <span className="h-px flex-1 bg-line" />

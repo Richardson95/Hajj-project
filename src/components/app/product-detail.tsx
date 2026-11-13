@@ -61,11 +61,10 @@ export function ProductDetail({
         <div className="space-y-4">
           <div
             className={cn(
-              "relative grid aspect-square place-items-center overflow-hidden rounded-3xl bg-linear-to-br text-white",
+              "relative grid aspect-square place-items-center overflow-hidden rounded-2xl bg-linear-to-br text-white",
               product.tone,
             )}
           >
-            <div className="pattern-islamic absolute inset-0 opacity-40" />
             <Icon name={product.icon} className="relative size-32 opacity-90" />
             {product.compareAtSAR ? (
               <span className="absolute top-4 left-4 rounded-xl bg-gold-500 px-3 py-1.5 text-xs font-bold text-forest-950">
@@ -92,7 +91,7 @@ export function ProductDetail({
                 className="rounded-2xl border border-line bg-surface p-3.5 text-center"
               >
                 <s.icon className="mx-auto size-4 text-forest-700 dark:text-gold-400" />
-                <p className="mt-2 text-[0.625rem] tracking-wider text-muted uppercase">
+                <p className="mt-2 text-[0.625rem] text-muted">
                   {s.label}
                 </p>
                 <p className="mt-0.5 text-[0.8125rem] font-bold text-ink">{s.value}</p>
@@ -112,7 +111,7 @@ export function ProductDetail({
             ))}
           </div>
 
-          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             {product.name}
           </h1>
 
@@ -137,7 +136,7 @@ export function ProductDetail({
           </div>
 
           <div className="mt-6 flex items-end gap-3">
-            <p className="tabular text-4xl font-extrabold tracking-tight text-ink">
+            <p className="tabular text-4xl font-semibold tracking-tight text-ink">
               {riyal(product.priceSAR)}
             </p>
             {product.compareAtSAR ? (
@@ -296,11 +295,8 @@ export function ProductDetail({
             <ShieldCheck className="size-5" />
           </span>
           <p className="min-w-0 flex-1 text-xs leading-relaxed text-muted">
-            <strong className="text-ink">How escrow works.</strong> When you pay, HajjPath
-            holds the money. The vendor sees a confirmed order and dispatches. You confirm
-            delivery in the app and the vendor is paid within 48 hours. If something is
-            wrong, raise a dispute and HajjPath reviews it within one business day —
-            refunds come from the escrow float, not from a negotiation at your hotel door.
+            <strong className="text-ink">Escrow.</strong> The vendor is paid only after you
+            confirm delivery. Disputes are reviewed within one business day.
           </p>
         </CardBody>
       </Card>

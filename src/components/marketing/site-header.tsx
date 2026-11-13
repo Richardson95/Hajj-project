@@ -13,7 +13,7 @@ import { cn } from "@/lib/cn";
 
 const NAV = [
   { href: "/how-it-works", label: "How it works" },
-  { href: "/packages", label: "Plans & packages" },
+  { href: "/packages", label: "Packages" },
   { href: "/companion", label: "In Makkah" },
   { href: "/vendors", label: "For vendors" },
   { href: "/about", label: "About" },

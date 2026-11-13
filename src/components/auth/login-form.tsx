@@ -62,26 +62,24 @@ export function LoginForm() {
 
   return (
     <div>
-      <h1 className="text-3xl font-extrabold tracking-tight text-ink">Welcome back</h1>
+      <h1 className="text-3xl font-semibold tracking-tight text-ink">Welcome back</h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
-        Sign in to check your progress, top up your plan and pick up where your itinerary
-        left off.
+        Sign in to your account.
       </p>
 
       <div className="mt-6 flex items-start gap-3 rounded-2xl border border-gold-500/30 bg-gold-50/70 p-4 dark:bg-gold-950/30">
         <Info className="mt-0.5 size-4 shrink-0 text-gold-700 dark:text-gold-400" />
         <div className="min-w-0 text-[0.8125rem] leading-relaxed text-ink/80">
-          <p className="font-semibold text-ink">This is a live demo</p>
+          <p className="font-semibold text-ink">Demo</p>
           <p className="mt-0.5">
-            Any valid email or 11-digit phone number and a 6+ character password will sign
-            you in as Ibrahim Adetunji.
+            Any email and a 6+ character password works.
           </p>
           <button
             type="button"
             onClick={fillDemo}
             className="mt-2 font-semibold text-forest-800 underline underline-offset-2 dark:text-gold-300"
           >
-            Fill the demo credentials
+            Fill demo details
           </button>
         </div>
       </div>

@@ -20,7 +20,6 @@ import { Button, ButtonLink } from "@/components/ui/button";
 import { Stat } from "@/components/ui/misc";
 import { ProgressBar, ProgressRing } from "@/components/ui/progress";
 import { DepositModal } from "@/components/app/deposit-modal";
-import { SavingsChart } from "@/components/app/savings-chart";
 import { Kaaba } from "@/components/brand-icons";
 import { useApp } from "@/lib/store";
 import { useChecklist, useItinerary, usePackages } from "@/lib/catalog";
@@ -31,7 +30,6 @@ import {
   DEPARTURE_DATES,
   FREQUENCY_SUFFIX,
   PLAN_HEALTH_COPY,
-  buildSavingsCurve,
   countdownTo,
   cyclesRemaining,
   planHealth,
@@ -67,7 +65,6 @@ export default function DashboardPage() {
     ? requiredPerCycle(target, primary.balance, primary.frequency, departure)
     : 0;
 
-  const curve = primary ? buildSavingsCurve(primary, 12) : [];
 
   const thisMonth = useMemo(() => {
     const now = new Date();
@@ -129,11 +126,10 @@ export default function DashboardPage() {
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold text-ink">
-                Your identity documents are being reviewed
+                Verifying your identity
               </p>
               <p className="mt-0.5 text-xs leading-relaxed text-muted">
-                Verification usually completes within one working day. You can fund your
-                plan in the meantime.
+                Usually within one working day. You can still add money.
               </p>
             </div>
             <ButtonLink href="/app/profile" variant="outline" size="sm">
@@ -169,24 +165,22 @@ export default function DashboardPage() {
       <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
         <Card className="overflow-hidden">
           <div className="relative bg-forest-900 p-6 text-white sm:p-7">
-            <div className="pattern-islamic pointer-events-none absolute inset-0 opacity-40" />
-            <div className="pointer-events-none absolute -right-12 -bottom-16 size-56 rounded-full bg-gold-500/15 blur-3xl" />
 
             <div className="relative flex flex-col items-center gap-7 sm:flex-row sm:items-center">
               <ProgressRing value={pct} size={168} stroke={13} trackClassName="stroke-white/12">
                 <div className="text-center">
-                  <p className="tabular text-3xl font-extrabold">{pct.toFixed(1)}%</p>
-                  <p className="text-[0.625rem] tracking-[0.14em] text-white/55 uppercase">
+                  <p className="tabular text-3xl font-semibold">{pct.toFixed(1)}%</p>
+                  <p className="text-[0.625rem] text-white/55">
                     funded
                   </p>
                 </div>
               </ProgressRing>
 
               <div className="min-w-0 flex-1 text-center sm:text-left">
-                <p className="text-xs font-bold tracking-[0.16em] text-gold-400 uppercase">
+                <p className="text-xs font-medium text-gold-400">
                   Saved so far
                 </p>
-                <p className="tabular mt-2 text-4xl font-extrabold tracking-tight">
+                <p className="tabular mt-2 text-4xl font-semibold tracking-tight">
                   {primary ? naira(primary.balance) : naira(0)}
                 </p>
                 <p className="mt-1 text-sm text-white/60">
@@ -227,7 +221,7 @@ export default function DashboardPage() {
 
           <CardBody className="grid gap-4 sm:grid-cols-3">
             <div>
-              <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+              <p className="text-[0.6875rem] font-medium text-muted">
                 Contribution
               </p>
               <p className="tabular mt-1 text-lg font-bold text-ink">
@@ -238,7 +232,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div>
-              <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+              <p className="text-[0.6875rem] font-medium text-muted">
                 Needed per cycle
               </p>
               <p suppressHydrationWarning className="tabular mt-1 text-lg font-bold text-ink">
@@ -246,7 +240,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div>
-              <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+              <p className="text-[0.6875rem] font-medium text-muted">
                 Cycles remaining
               </p>
               <p suppressHydrationWarning className="tabular mt-1 text-lg font-bold text-ink">
@@ -278,36 +272,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Chart */}
-      <Card className="mt-5">
-        <CardHeader
-          title="Your savings trajectory"
-          description="Solid to today, dashed for the projection at your current plan."
-          icon={<ArrowUpRight className="size-4" />}
-          action={
-            <ButtonLink href="/app/savings" variant="ghost" size="sm">
-              Full ledger
-              <ChevronRight className="size-3.5" />
-            </ButtonLink>
-          }
-        />
-        <CardBody>
-          {curve.length > 0 ? (
-            <SavingsChart points={curve} goal={target} />
-          ) : (
-            <p className="py-10 text-center text-sm text-muted">
-              Create a plan to see your trajectory.
-            </p>
-          )}
-        </CardBody>
-      </Card>
-
       {/* Two-column lower section */}
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
         {/* Next in itinerary */}
         <Card>
           <CardHeader
-            title="Next in your itinerary"
+            title="Next up"
             description={`${nextDay.hijri} · ${nextDay.title}`}
             icon={<Kaaba className="size-4" />}
             action={
@@ -354,7 +324,6 @@ export default function DashboardPage() {
         <Card>
           <CardHeader
             title="Recent activity"
-            description="Every naira in and out of your plans."
             icon={<Wallet className="size-4" />}
             action={
               <ButtonLink href="/app/savings" variant="ghost" size="sm">
@@ -449,8 +418,7 @@ export default function DashboardPage() {
           <CardBody>
             <ProgressBar value={checklistPct} showValue label="Items packed" />
             <p className="mt-3 text-xs leading-relaxed text-muted">
-              {checklistDone.length} of {CHECKLIST.length} items ready. The Ihram-safe
-              toiletries and rehydration salts are the ones pilgrims most often forget.
+              {checklistDone.length} of {CHECKLIST.length} items ready.
             </p>
             <div className="mt-4 space-y-2">
               {CHECKLIST.filter((c) => !checklistDone.includes(c.id))

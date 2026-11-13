@@ -202,25 +202,6 @@ export default function ChecklistPage() {
         ))}
       </div>
 
-      <Card className="mt-6 border-gold-500/30 bg-gold-50/50 dark:bg-gold-950/25">
-        <CardBody className="flex flex-wrap items-start gap-4">
-          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-gold-500 text-forest-950">
-            <Info className="size-5" />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-ink">The three most-forgotten items</p>
-            <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
-              Unscented toiletries (scented products are forbidden in Ihram), oral
-              rehydration salts, and a small drawstring bag for your Jamarat pebbles.
-              Everything on this list is available from verified vendors in the marketplace
-              and can be delivered to your hotel or your tent.
-            </p>
-          </div>
-          <ButtonLink href="/app/marketplace" variant="outline" size="sm">
-            Open marketplace
-          </ButtonLink>
-        </CardBody>
-      </Card>
     </>
   );
 }

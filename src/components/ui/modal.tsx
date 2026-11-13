@@ -86,7 +86,7 @@ export function Modal({
         aria-modal="true"
         aria-label={typeof title === "string" ? title : undefined}
         className={cn(
-          "safe-bottom relative flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-surface shadow-2xl sm:rounded-3xl",
+          "safe-bottom relative flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-surface shadow-2xl sm:rounded-2xl",
           "animate-[slide-up_0.28s_cubic-bezier(0.22,1,0.36,1)] sm:animate-[scale-in_0.22s_cubic-bezier(0.22,1,0.36,1)]",
           width,
         )}

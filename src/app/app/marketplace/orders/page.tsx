@@ -146,7 +146,7 @@ export default function OrdersPage() {
                     </span>
                   }
                   action={
-                    <span className="tabular text-sm font-extrabold text-ink">
+                    <span className="tabular text-sm font-semibold text-ink">
                       {riyal(order.totalSAR)}
                     </span>
                   }

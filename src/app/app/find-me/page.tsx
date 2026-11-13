@@ -10,12 +10,10 @@ import {
   Phone,
   QrCode,
   Radio,
-  ScanLine,
   Search,
   ShieldCheck,
   Siren,
-  Users,
-} from "lucide-react";
+  Users } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge, Pill } from "@/components/ui/badge";
 import { Button, ButtonLink } from "@/components/ui/button";
@@ -38,8 +36,7 @@ const STATUS_META: Record<
   safe: { label: "Safe", tone: "positive" },
   moving: { label: "Moving", tone: "info" },
   resting: { label: "Resting", tone: "warning" },
-  assistance: { label: "Needs help", tone: "danger" },
-};
+  assistance: { label: "Needs help", tone: "danger" } };
 
 type Filter = "all" | MemberStatus;
 
@@ -78,7 +75,7 @@ export default function FindMePage() {
     <>
       <PageHeader
         title="Find Me"
-        description="Everyone in your group, on one map — and a tag that lets any stranger reunite you in seconds."
+        description="Your group on one map."
         action={
           <>
             <Button variant="outline" onClick={() => setTagOpen(true)}>
@@ -279,44 +276,12 @@ export default function FindMePage() {
         </Card>
       </div>
 
-      {/* How it works */}
-      <div className="mt-5 grid gap-4 md:grid-cols-3">
-        {[
-          {
-            icon: QrCode,
-            title: "A tag anyone can scan",
-            body: "Your lanyard carries a printed QR code. Whoever finds you scans it with any phone camera — no app required — and reaches your group admin instantly.",
-          },
-          {
-            icon: Radio,
-            title: "Bluetooth beacon backup",
-            body: "When the network drops, the tag still broadcasts. Any HajjPath user who walks past relays your last position to the group anonymously.",
-          },
-          {
-            icon: ScanLine,
-            title: "Scan someone else's tag",
-            body: "Found a lost pilgrim? Scan their tag and HajjPath connects you to their admin, shows their language and lists any medical note they chose to share.",
-          },
-        ].map((f) => (
-          <Card key={f.title}>
-            <CardBody>
-              <span className="grid size-10 place-items-center rounded-xl bg-forest-50 text-forest-800 dark:bg-forest-950 dark:text-gold-300">
-                <f.icon className="size-5" />
-              </span>
-              <h3 className="mt-4 text-[0.9375rem] font-bold text-ink">{f.title}</h3>
-              <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{f.body}</p>
-            </CardBody>
-          </Card>
-        ))}
-      </div>
-
       <Card className="mt-5">
         <CardBody className="flex flex-wrap items-center gap-4">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-ink">Not carrying a tag yet?</p>
             <p className="mt-0.5 text-xs leading-relaxed text-muted">
-              Waterproof QR and Bluetooth tags are available from verified vendors and
-              delivered to your hotel or tent within five hours.
+              Delivered to your hotel or tent.
             </p>
           </div>
           <ButtonLink href="/app/marketplace/prd-061" variant="outline" size="sm">
@@ -349,7 +314,7 @@ export default function FindMePage() {
             <QRCodeSVG value={tagUrl} size={176} level="M" marginSize={0} />
           </div>
           <div>
-            <p className="tabular text-xl font-extrabold tracking-[0.12em] text-ink">
+            <p className="tabular text-xl font-semibold tracking-[0.12em] text-ink">
               {user.tagCode}
             </p>
             <p className="mt-1 text-sm text-muted">
@@ -370,9 +335,7 @@ export default function FindMePage() {
             ))}
           </div>
           <p className="text-xs leading-relaxed text-muted">
-            Scanning this code opens a page with your group admin&apos;s contact details
-            and your preferred language. It never reveals your NIN, savings or home
-            address.
+            Shows your admin&apos;s contact and your language. Never your NIN, savings or address.
           </p>
         </div>
       </Modal>
@@ -406,11 +369,10 @@ export default function FindMePage() {
       >
         <div className="space-y-4">
           <p className="text-sm leading-relaxed text-muted">
-            Use this when you are separated from the group but not in danger. Everyone
-            receives your position and can come to you.
+            For when you&apos;re separated but safe.
           </p>
           <div className="rounded-2xl border border-line bg-surface-muted p-4">
-            <p className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">
+            <p className="text-[0.6875rem] font-medium text-muted">
               Your current position
             </p>
             <p className="mt-1 text-sm font-semibold text-ink">
@@ -422,8 +384,7 @@ export default function FindMePage() {
           </div>
           <p className="flex items-start gap-2 text-xs leading-relaxed text-muted">
             <Siren className="mt-0.5 size-3.5 shrink-0 text-rose-600" />
-            If this is a medical or safety emergency, use the SOS button instead — it
-            reaches responders, not just your group.
+            In an emergency, use SOS instead.
           </p>
           <ButtonLink href="/app/sos" variant="danger" size="sm" block>
             Open Emergency SOS

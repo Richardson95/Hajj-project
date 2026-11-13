@@ -115,7 +115,7 @@ export default function PlannerPage() {
     <>
       <PageHeader
         title="Hajj tour planner"
-        description="Your complete 1448 AH itinerary — every movement, every rite, with the obligation level marked."
+        description="1448 AH itinerary"
         action={
           <ButtonLink href="/app/guide" variant="outline">
             <BookOpen className="size-4" />
@@ -164,9 +164,7 @@ export default function PlannerPage() {
           />
           <p className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-muted">
             <Info className="mt-0.5 size-3.5 shrink-0 text-forest-700 dark:text-gold-400" />
-            Hijri dates are provisional until the crescent of Dhul-Hijjah is sighted. Your
-            group admin confirms the final schedule before you leave Nigeria, and the
-            itinerary updates automatically.
+            Dates are provisional until the moon is sighted.
           </p>
         </CardBody>
       </Card>
@@ -206,7 +204,7 @@ export default function PlannerPage() {
 
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="tabular text-[0.6875rem] font-bold tracking-wider text-muted uppercase">
+                    <span className="tabular text-[0.6875rem] font-medium text-muted">
                       Day {day.dayNumber}
                     </span>
                     <Badge tone="brand">{day.stage}</Badge>
@@ -314,10 +312,9 @@ export default function PlannerPage() {
         })}
       </div>
 
-      <Card className="mt-6 border-gold-500/30 bg-gold-50/50 dark:bg-gold-950/25">
+      <Card className="mt-6">
         <CardHeader
-          title="Ritual obligation levels"
-          description="What happens if an act is missed."
+          title="Obligation levels"
           icon={<Info className="size-4" />}
         />
         <CardBody className="grid gap-4 sm:grid-cols-3">
@@ -325,17 +322,17 @@ export default function PlannerPage() {
             {
               tone: "danger" as const,
               label: "Fard",
-              body: "A pillar. If it is missed the Hajj is invalid and must be repeated.",
+              body: "Missing it invalidates the Hajj.",
             },
             {
               tone: "warning" as const,
               label: "Wajib",
-              body: "Obligatory. Missing it requires a compensatory sacrifice (dam), but the Hajj remains valid.",
+              body: "Missing it requires a sacrifice (dam).",
             },
             {
               tone: "neutral" as const,
               label: "Sunnah",
-              body: "Recommended. Following it earns reward; omitting it carries no penalty.",
+              body: "Recommended. No penalty if missed.",
             },
           ].map((o) => (
             <div key={o.label}>

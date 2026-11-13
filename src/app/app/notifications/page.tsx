@@ -113,7 +113,6 @@ export default function NotificationsPage() {
         <EmptyState
           icon={<Bell className="size-6" />}
           title="Nothing here"
-          description="Notifications about your savings, your group and your orders will appear here."
         />
       ) : (
         <div className="space-y-3">
